@@ -1,12 +1,14 @@
 import random
 import struct
+from dataclasses import dataclass
 from enum import IntEnum
 from logging import Logger
 from typing import Dict, Optional
 
 from . import Items, Locations
 from .pcsx2_interface.pine import Pine
-from .Rac3Addresses import ADDRESSES, CHECK_TYPE, COMPARE_TYPE, LOCATIONS
+from .Rac3Addresses import (ADDRESSES, CHECK_TYPE, COMPARE_TYPE, GADGET_LIST, LOCATIONS, RAC3_ITEM_DATA_TABLE,
+                            VIDCOMIC_LIST, WEAPON_LIST)
 
 
 class Dummy(IntEnum):
@@ -93,6 +95,15 @@ class GameInterface:
             return False
 
 
+@dataclass
+class UnlockData:
+    def __init__(self,
+                 status: int = 0,
+                 unlock_delay: int = 0):
+        self.status = status
+        self.unlock_delay = unlock_delay
+
+
 class Rac3Interface(GameInterface):
     ########################################
     # Mandatory functions                  #
@@ -110,9 +121,7 @@ class Rac3Interface(GameInterface):
     # Called at once when client started
     def init(self):
         self.init_variables()
-        self.remove_all_weapons()
-        self.remove_all_gadgets()
-        self.remove_all_planets()
+        self.remove_all_items()
 
     # Called in periodically
     def update(self):
@@ -124,7 +133,7 @@ class Rac3Interface(GameInterface):
         self.armor_cycler()
         self.verify_quick_select_and_last_used()
         # Proc Options
-        addr = ADDRESSES[self.current_game]["boltXPMultiplier"]
+        addr = ADDRESSES[self.current_game]["boltXPMultiplier"]  # TODO: Status
         addr = self.address_convert(addr)
         self._write8(addr, self.boltAndXPMultiplierValue)
         if self.weaponLevelLockFlag:
@@ -168,7 +177,7 @@ class Rac3Interface(GameInterface):
         target_location = next((loc for loc in LOCATIONS if loc["Id"] == ap_code), None)
         if not target_location:
             return False  # not found
-
+        # Todo: replace strings with constants
         # --- NEW: if this location has multiple checks ---
         if "Checks" in target_location:
             for check in target_location["Checks"]:
@@ -239,14 +248,13 @@ class Rac3Interface(GameInterface):
 
     def init_variables(self):
         # Unlock state variables/ArmorUpgrade variable
-        self.UnlockWeapons = {name: {"status": 0, "unlockDelay": 0} for name in
-                              ADDRESSES[self.current_game]["Weapons"].keys()}
-        self.UnlockGadgets = {name: {"status": 0, "unlockDelay": 0} for name in
-                              ADDRESSES[self.current_game]["Gadgets"].keys()}
-        self.UnlockVidComics = {"status": 0, "unlockDelay": 0}
-        self.UnlockPlanets = {name: {"status": 0, "unlockDelay": 0} for name in
+        self.UnlockWeapons = {name: UnlockData() for name in WEAPON_LIST}
+        self.UnlockGadgets = {name: UnlockData() for name in GADGET_LIST}
+        self.UnlockVidComics = UnlockData()
+        # Todo: Planet list
+        self.UnlockPlanets = {name: UnlockData() for name in
                               ADDRESSES[self.current_game]["PlanetValues"].keys()}
-        self.UnlockArmor = {"status": 0, "unlockDelay": 0}
+        self.UnlockArmor = UnlockData()
 
         # Proc options
         ### Bolt and XPMultiplier
@@ -275,81 +283,72 @@ class Rac3Interface(GameInterface):
     # TO-DO: fixing this syntax KEKW
 
     # initialization
-    def remove_all_weapons(self):
-        for dict_data in ADDRESSES[self.current_game]["Weapons"].values():
-            addr = dict_data["unlockAddress"]
-            addr = self.address_convert(addr)
-            self._write8(addr, 0)
-
-    def remove_all_gadgets(self):
-        for dict_data in ADDRESSES[self.current_game]["Gadgets"].values():
-            addr = dict_data["unlockAddress"]
-            addr = self.address_convert(addr)
-            self._write8(addr, 0)
-        for dict_data in ADDRESSES[self.current_game]["VidComics"].values():
-            addr = dict_data["unlockAddress"]
-            addr = self.address_convert(addr)
-            self._write8(addr, 0)
-
-    def remove_all_planets(self):
-        for addr in ADDRESSES[self.current_game]["PlanetSlots"]:
-            addr = self.address_convert(addr)
-            self._write32(addr, 0)
-        # Default Unlocked planets
-        self.UnlockPlanets["Veldin"]["status"] = 1
-        self.UnlockPlanets["Florana"]["status"] = 1
-        self.UnlockPlanets["Starship Phoenix"]["status"] = 1
-        self.UnlockPlanets["Museum"]["status"] = 1
+    def remove_all_items(self):
+        for name, dict_data in RAC3_ITEM_DATA_TABLE.items():
+            addr = dict_data.UNLOCK_ADDRESS
+            if name in WEAPON_LIST:
+                self._write8(addr, 0)
+            elif name in GADGET_LIST:
+                self._write8(addr, 0)
+            elif name in VIDCOMIC_LIST:
+                self._write8(addr, 0)
+            else:
+                self._write32(addr, 0)
+        # Todo: Replace strings with dataclass
+        self.UnlockPlanets["Veldin"].status = 1
+        self.UnlockPlanets["Florana"].status = 1
+        self.UnlockPlanets["Starship"].status = 1
+        self.UnlockPlanets["Museum"].status = 1
 
     # Logic Fixes
     def logic_fixes(self):
-        current_planet_addr = ADDRESSES[self.current_game]["CurrentPlanet"]
+        current_planet_addr = ADDRESSES[self.current_game]["CurrentPlanet"]  # Todo: Status
         current_planet_addr = self.address_convert(current_planet_addr)
         current_planet = self._read8(current_planet_addr)
 
         # Fix can't play Qwark VidComics in some case which first event is skipped
-        addr = ADDRESSES[self.current_game]["Missions"]["Take Qwark to Cage"]
+        addr = ADDRESSES[self.current_game]["Missions"]["Take Qwark to Cage"]  # Todo: Missions
         addr = self.address_convert(addr)
-        if current_planet == ADDRESSES[self.current_game]["PlanetValues"]["Starship Phoenix"]:
+        if current_planet == ADDRESSES[self.current_game]["PlanetValues"]["Starship Phoenix"]:  # TODO: Planets
             self._write8(addr, 1)
 
     # interval update function: Check unlock/lock status of items
     def weapon_cycler(self):
         for name, dict_data in self.UnlockWeapons.items():
-            unlock_status = dict_data["status"]
-            addr = ADDRESSES[self.current_game]["Weapons"][name]["unlockAddress"]
+            addr = RAC3_ITEM_DATA_TABLE[name].UNLOCK_ADDRESS
             addr = self.address_convert(addr)
 
             # self.logger.info(f"[WeaponCycler] {name}: status={unlock_status}, delay={self.UnlockWeapons[name][
             # 'unlockDelay']}, addr={hex(addr)}")
-            if unlock_status == 0:
-                self.UnlockWeapons[name]["unlockDelay"] += 1
-                if dict_data["unlockDelay"] > 1:
+            if dict_data.status == 0:
+                self.UnlockWeapons[name].unlock_delay += 1
+                if dict_data.unlock_delay > 1:
                     self._write8(addr, 0)
-                    self.UnlockWeapons[name]["unlockDelay"] = 0
+                    self.UnlockWeapons[name].unlock_delay = 0
             else:
                 self._write8(addr, 1)
 
-        addr = ADDRESSES[self.current_game]["CurrentEquipped"]
+        addr = ADDRESSES[self.current_game]["CurrentEquipped"]  # TODO: Status
         addr = self.address_convert(addr)
         current_equipped = self._read8(addr)
-        for weapon_name, weapon_data in ADDRESSES[self.current_game]["Weapons"].items():
-            if current_equipped == weapon_data["id"] and self.UnlockWeapons[weapon_name][
-                "status"] == 0:  # Not unlocked, but set case
-                self._write8(addr, 9)  # 9 is omniwrench
+        for weapon_name, weapon_data in RAC3_ITEM_DATA_TABLE.items():
+            if weapon_name in WEAPON_LIST:
+                if current_equipped == weapon_data.ID and self.UnlockWeapons[weapon_name].status == 0:  # Not unlocked,
+                    # but set case
+                    self._write8(addr, 9)  # 9 is omniwrench TODO: make this default to a previous weapon
 
     def gadget_cycler(self):
         for name, dict_data in self.UnlockGadgets.items():
-            unlock_status = dict_data["status"]
-            addr = ADDRESSES[self.current_game]["Gadgets"][name]["unlockAddress"]
+            unlock_status = dict_data.status
+            addr = RAC3_ITEM_DATA_TABLE[name].UNLOCK_ADDRESS
             addr = self.address_convert(addr)
 
             if unlock_status == 0:
-                self.UnlockGadgets[name]["unlockDelay"] += 1
-                if dict_data["unlockDelay"] > 1:
+                self.UnlockGadgets[name].unlock_delay += 1
+                if dict_data.unlock_delay > 1:
                     val = self._read8(addr)
                     self._write8(addr, (val & 0xfe))
-                    self.UnlockGadgets[name]["unlockDelay"] = 0
+                    self.UnlockGadgets[name].unlock_delay = 0
             else:
                 # Get Gadget in event
                 if name in ["Hacker", "Hypershot", "Refractor", "Tyhrra-Guise", "Gravity-Boots", "Map-O-Matic",
@@ -363,7 +362,7 @@ class Rac3Interface(GameInterface):
         for idx, name in enumerate(self.UnlockPlanets.keys()):
             addr = ADDRESSES[self.current_game]["PlanetSlots"][idx]
             addr = self.address_convert(addr)
-            if self.UnlockPlanets[name]["status"] == 1:
+            if self.UnlockPlanets[name].status == 1:
                 self.logger.debug(f"{name} is available")
                 self._write8(addr, ADDRESSES[self.current_game]["PlanetValues"][name])
             else:
@@ -372,55 +371,58 @@ class Rac3Interface(GameInterface):
 
             # For avoiding Deadlock, Holostar is locked until Hacker and HyperShot is unlocked,
             if name == "Holostar Studios":
-                if self.UnlockGadgets["Hacker"]["status"] == 0 or self.UnlockGadgets["Hypershot"]["status"] == 0:
+                if self.UnlockGadgets["Hacker"].status == 0 or self.UnlockGadgets["Hypershot"].status == 0:
                     self._write8(addr, 0)
             if name == "Qwarks Hideout":
-                if self.UnlockGadgets["Refractor"]["status"] == 0 or self.UnlockGadgets["Hypershot"]["status"] == 0:
+                if self.UnlockGadgets["Refractor"].status == 0 or self.UnlockGadgets["Hypershot"].status == 0:
                     self._write8(addr, 0)
 
     def vidcomic_cycler(self):
-        unlock_status = self.UnlockVidComics["status"]
+        unlock_status = self.UnlockVidComics.status
         for name in range(5):
             if name + 1 > unlock_status:
                 break
-            addr = ADDRESSES[self.current_game]["VidComics"][f'Qwark VidComic {name + 1}']["unlockAddress"]
+            addr = RAC3_ITEM_DATA_TABLE[VIDCOMIC_LIST[name]].UNLOCK_ADDRESS
             addr = self.address_convert(addr)
             if self._read8(addr) == 0 and name + 1 == unlock_status:
                 unlock_delay_count = 1
                 if name == 2:
                     unlock_delay_count = 30  # WA for Annihilation Station Proceeding
-                self.UnlockVidComics["unlockDelay"] += 1
-                if self.UnlockVidComics["unlockDelay"] > unlock_delay_count:
+                self.UnlockVidComics.unlock_delay += 1
+                if self.UnlockVidComics.unlock_delay > unlock_delay_count:
                     self._write8(addr, 1)
-                    self.UnlockVidComics["unlockDelay"] = 0
+                    self.UnlockVidComics.unlock_delay = 0
                 break
 
     def armor_cycler(self):
-        addr = ADDRESSES[self.current_game]["ArmorVersion"]
+        addr = ADDRESSES[self.current_game]["ArmorVersion"]  # Todo: Add Armour to Items
         addr = self.address_convert(addr)
         current_armor_value = self._read8(addr)
 
-        if current_armor_value != self.UnlockArmor["status"]:
-            self.UnlockArmor["unlockDelay"] += 1
-            if self.UnlockArmor["unlockDelay"] > 1:
-                self._write8(addr, self.UnlockArmor["status"])
-                self.UnlockArmor["unlockDelay"] = 0
+        if current_armor_value != self.UnlockArmor.status:
+            self.UnlockArmor.unlock_delay += 1
+            if self.UnlockArmor.unlock_delay > 1:
+                self._write8(addr, self.UnlockArmor.status)
+                self.UnlockArmor.unlock_delay = 0
 
+    # Todo: status
     def verify_quick_select_and_last_used(self):
         _slots = ADDRESSES[self.current_game]["QuickSelectSlots"] + ADDRESSES[self.current_game]["LastUsed"]
         for addr in _slots:
             addr = self.address_convert(addr)
             slot_val = self._read8(addr)
-            for weapon_name, weapon_data in ADDRESSES[self.current_game]["Weapons"].items():
-                if slot_val == weapon_data["id"] and self.UnlockWeapons[weapon_name]["status"] == 0:
-                    # Not unlocked, but set case
-                    self._write8(addr, 0)
-                    continue
-            for gadget_name, gadget_data in ADDRESSES[self.current_game]["Gadgets"].items():
-                if slot_val == gadget_data["id"] and self.UnlockGadgets[gadget_name]["status"] == 0:
-                    # Not unlocked, but set case
-                    self._write8(addr, 0)
-                    continue
+            for name, data in RAC3_ITEM_DATA_TABLE.items():
+                if slot_val == data.ID:
+                    if name in WEAPON_LIST:
+                        if self.UnlockWeapons[name].status == 0:
+                            # Not unlocked, but set case
+                            self._write8(addr, 0)
+                            continue
+                    elif name in GADGET_LIST:
+                        if self.UnlockGadgets[name].status == 0:
+                            # Not unlocked, but set case
+                            self._write8(addr, 0)
+                            continue
 
     def weapon_exp_cycler(self):
         weapon_names = [name for name, data in self.UnlockWeapons.items()]
@@ -434,46 +436,46 @@ class Rac3Interface(GameInterface):
             # None of the above does anything
 
             # Check Current Weapon level and set Exp.
-            correct_version = self.UnlockWeapons[weapon_name]["status"]  # 1 ~ 5
+            correct_version = self.UnlockWeapons[weapon_name].status  # 1 ~ 5
             if correct_version != 0:
                 self.weapon_level_up(weapon_name, version=correct_version)
 
     # Equip the most recently collected weapon/gadget, update recent uses
-    def update_equip(self, type, name):
-        if ADDRESSES[self.current_game][type][name]["id"]:
-            self._write8(ADDRESSES[self.current_game]["LastUsed"][2],
+    def update_equip(self, name):
+        if RAC3_ITEM_DATA_TABLE[name].ID:
+            self._write8(ADDRESSES[self.current_game]["LastUsed"][2], # Todo: Status
                          self._read8(ADDRESSES[self.current_game]["LastUsed"][1]))
             self._write8(ADDRESSES[self.current_game]["LastUsed"][1],
                          self._read8(ADDRESSES[self.current_game]["LastUsed"][0]))
-            self._write8(ADDRESSES[self.current_game]["LastUsed"][0], ADDRESSES[self.current_game][type][name]["id"])
-            self._write8(ADDRESSES[self.current_game]["HoldingWeapon"], ADDRESSES[self.current_game][type][name]["id"])
+            self._write8(ADDRESSES[self.current_game]["LastUsed"][0], RAC3_ITEM_DATA_TABLE[name].ID)
+            self._write8(ADDRESSES[self.current_game]["HoldingWeapon"], RAC3_ITEM_DATA_TABLE[name].ID)
             for number in range(len(ADDRESSES[self.current_game]["QuickSelectSlots"])):
                 if not self._read8(ADDRESSES[self.current_game]["QuickSelectSlots"][number]):
                     self._write8(ADDRESSES[self.current_game]["QuickSelectSlots"][number],
-                                 ADDRESSES[self.current_game][type][name]["id"])
+                                 RAC3_ITEM_DATA_TABLE[name].ID)
                     break
             self.verify_quick_select_and_last_used()
 
     def received_weapon(self, ap_code):
         for name, item_data in Items.weapon_items.items():
             if item_data.ap_code == ap_code:
-                self.UnlockWeapons[name]["status"] = 1
-                self._write8(ADDRESSES[self.current_game]["Weapons"][name]["ammoAddress"],
-                             ADDRESSES[self.current_game]["Weapons"][name]["lv1Ammo"])
-                self.update_equip("Weapons", name)
+                self.UnlockWeapons[name].status = 1
+                self._write8(RAC3_ITEM_DATA_TABLE[name].AMMO_ADDRESS,
+                             RAC3_ITEM_DATA_TABLE[name].LV1_AMMO)
+                self.update_equip(name)
                 return
 
     def received_weapon_progressive(self, ap_code):
         for name, data in Items.progressive_weapons.items():
             if data.ap_code == ap_code:
-                weapon_name = name.replace("Progressive ", "")
-                self.UnlockWeapons[weapon_name]["status"] += 1
-                if self.UnlockWeapons[weapon_name]["status"] == 1:
-                    self._write8(ADDRESSES[self.current_game]["Weapons"][weapon_name]["ammoAddress"],
-                                 ADDRESSES[self.current_game]["Weapons"][weapon_name]["lv1Ammo"])
-                    self.update_equip("Weapons", weapon_name)
+                weapon_name = name.replace("Progressive ", "") # Todo: Standard<->Progressive conversion
+                self.UnlockWeapons[weapon_name].status += 1
+                if self.UnlockWeapons[weapon_name].status == 1:
+                    self._write8(RAC3_ITEM_DATA_TABLE[weapon_name].AMMO_ADDRESS,
+                                 RAC3_ITEM_DATA_TABLE[weapon_name].LV1_AMMO)
+                    self.update_equip(weapon_name)
                 return
-
+    # Todo: Locations
     def weapon_level_up(self, weapon_name, version=0):
         target_weapon_data = [data for data in LOCATIONS if f"{weapon_name}: V" in data["Name"]]
         exp_list = ["0"] + [data["CheckValue"] for data in target_weapon_data]  # Exp for v1~v5
@@ -491,25 +493,26 @@ class Rac3Interface(GameInterface):
     def received_gadget(self, ap_code):
         for name, item_data in Items.gadget_items.items():
             if item_data.ap_code == ap_code:
-                self.UnlockGadgets[name]["status"] = 1
-                self.update_equip("Gadgets", name)
+                self.UnlockGadgets[name].status = 1
+                self.update_equip(name)
 
     def received_planet(self, ap_code):
         for name, item_data in Items.post_planets.items():
             if item_data.ap_code == ap_code:
-                name = name.replace("Infobot: ", "")
-                self.UnlockPlanets[name]["status"] = 1
+                name = name.replace("Infobot: ", "") # Todo: Infobots
+                self.UnlockPlanets[name].status = 1
 
     def received_vidcomic(self):
-        self.UnlockVidComics["status"] += 1
-        if self.UnlockVidComics["status"] > 5:
-            self.UnlockVidComics["status"] = 5
+        self.UnlockVidComics.status += 1
+        if self.UnlockVidComics.status > 5:
+            self.UnlockVidComics.status = 5
 
     def received_armor(self):
-        self.UnlockArmor["status"] += 1
-        if self.UnlockArmor["status"] > 4:
-            self.UnlockArmor["status"] = 4
+        self.UnlockArmor.status += 1
+        if self.UnlockArmor.status > 4:
+            self.UnlockArmor.status = 4
 
+    # Todo: Other Items
     def received_others(self, ap_code):
         # Get Titanium Bolt
         if ap_code == Items.t_bolts["Titanium Bolt"].ap_code:
@@ -540,7 +543,7 @@ class Rac3Interface(GameInterface):
         # Little buggy, but it works in general.
         # ToDo Fix this function
         if ap_code == Items.junk_weapon_exp["Weapon EXP"].ap_code:  # Random Weapon Upgrade
-            unlocked_weapon_names = [name for name, data in self.UnlockWeapons.items() if data["status"] == 1]
+            unlocked_weapon_names = [name for name, data in self.UnlockWeapons.items() if data.status == 1]
             # Avoid LevelMax weapon
             for weapon_name in unlocked_weapon_names:
                 target_weapon_data = [data for data in LOCATIONS if f"{weapon_name}: V" in data["Name"]]
