@@ -11,11 +11,12 @@ config file.
 
 ## What does randomization do to this game?
 
-Weapons, Planets, Gadgets, Titanium bolts, Weapon upgrades are all randomized
+Weapons, Planets, Gadgets, Titanium bolts, Trophies, Weapon upgrades are all randomized
 
 ## What items and locations get shuffled?
 
-20 different weapons, 4 progressive upgrades per weapon are available, 10 different gadgets, 17 post-planet completions that unlock other planets, 4 progressive armors, 35 titanium bolts, and Bolts/Weapon EXP along with Inferno Mode and Jackpot get shuffled in as filler
+20 different weapons, 4 progressive upgrades per weapon are available, 10 different gadgets, 17 post-planet completions that unlock other planets, 4 progressive armors, 35 titanium bolts, 15 trophies, and Bolts/Weapon EXP along with Inferno Mode and Jackpot get shuffled in as filler.
+Addtional locations may be included through yaml options: Annihilation Nation missions, The Ranger missions, Phoenix VR missions, Sewer Crystals and Nanotech Levels.
 
 ## Which items can be in another player's world?
 
@@ -24,4 +25,4 @@ certain items to your own world.
 
 ## When the player receives an item, what happens?
 
-You will be able to visit the planets with whatever post-planet you receive, receiving Post Marcadia will unlock Aquatos for travel within Ratchet's Ship. Upon receiving a weapon it unlocks in ratchet's inventory, which will let you equip it and use to fire on enemy troops. Progressive upgrades will upgrade your weapons from V1 up to V5 increasing their firepower.
+You will be able to visit the planets with whatever post-planet you receive, receiving Post Marcadia will unlock Aquatos for travel within Ratchet's Ship. Upon receiving a weapon it unlocks in ratchet's inventory, which will let you equip it and use to fire on enemy troops. Progressive upgrades will upgrade your weapons from V1 up to V5 increasing their firepower. Receiving Inferno Mode and Jackpot Mode filler items acts like you just broke the corresponding crates. However, receiving Inferno Mode will not change your armor, but you will still receive the full effect.

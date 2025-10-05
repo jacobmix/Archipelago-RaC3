@@ -507,14 +507,16 @@ LOCATIONS = [
     {
         "Name": "Received Hacker",
         "Id": 50030016,
-        "Address": "0x00142CB4",
+        #"Address": "0x00142CB4",
+        "Address": "0x00142765",  # Same as VR Gadget Training mission completion
         "CheckType": 0,
         "AddressBit": 0
     },
     {
         "Name": "Received Hypershot",
         "Id": 50030017,
-        "Address": "0x00142CAB",
+        #"Address": "0x00142CAB",
+        "Address": "0x00142765",  # Same as VR Gadget Training mission completion
         "CheckType": 0,
         "AddressBit": 0
     },
@@ -2482,18 +2484,9 @@ LOCATIONS = [
     {
         "Name": "Escape Pod",
         "Id": 50170002,
-        "Checks": [
-            {
-                "Address": "0x00142CC2",  # Master Plan in inventory
-                "CheckType": 0,
-                "AddressBit": 0
-            },
-            {
-                "Address": "0x001D545C",  # Current planet
-                "CheckValue": "17",  # Crash Site
-                "CheckType": 0
-            }
-        ]
+        "Address": "0x00142C52",  # weird address but it's correct
+        "CheckType": 0,
+        "AddressBit": 2
     },
     {
         "Name": "Ratchet trophy",

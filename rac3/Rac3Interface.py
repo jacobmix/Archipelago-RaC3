@@ -314,6 +314,7 @@ class Rac3Interface(GameInterface):
 
     # interval update function: Check unlock/lock status of items
     def weapon_cycler(self):
+        self.logger.debug("---------WeaponCycler Start---------")
         for name, dict_data in self.UnlockWeapons.items():
             addr = RAC3_ITEM_DATA_TABLE[name].UNLOCK_ADDRESS
             addr = self.address_convert(addr)
@@ -325,8 +326,11 @@ class Rac3Interface(GameInterface):
                 if dict_data.unlock_delay > 1:
                     self._write8(addr, 0)
                     self.UnlockWeapons[name].unlock_delay = 0
+                self.logger.debug(f"{name} locked")
             else:
                 self._write8(addr, 1)
+                self.logger.debug(f"{name} is available")
+        self.logger.debug("---------WeaponCycler End---------")
 
         addr = ADDRESSES[self.current_game]["CurrentEquipped"]  # TODO: Status
         addr = self.address_convert(addr)
@@ -338,6 +342,7 @@ class Rac3Interface(GameInterface):
                     self._write8(addr, 9)  # 9 is omniwrench TODO: make this default to a previous weapon
 
     def gadget_cycler(self):
+        self.logger.debug("---------GadgetCycler Start---------")
         for name, dict_data in self.UnlockGadgets.items():
             unlock_status = dict_data.status
             addr = RAC3_ITEM_DATA_TABLE[name].UNLOCK_ADDRESS
@@ -349,6 +354,7 @@ class Rac3Interface(GameInterface):
                     val = self._read8(addr)
                     self._write8(addr, (val & 0xfe))
                     self.UnlockGadgets[name].unlock_delay = 0
+                self.logger.debug(f"{name} locked")
             else:
                 # Get Gadget in event
                 if name in ["Hacker", "Hypershot", "Refractor", "Tyhrra-Guise", "Gravity-Boots", "Map-O-Matic",
@@ -356,9 +362,12 @@ class Rac3Interface(GameInterface):
                     self._write8(addr, 2)  # 0x2=0b0010
                 # Get Gadget in field
                 else:
-                    self._write8(addr, 1)  # 0x1
+                    self._write8(addr, 1)  # 0x1=0b0001
+                self.logger.debug(f"{name} is available")
+        self.logger.debug("---------GadgetCycler End---------")
 
     def planet_cycler(self):
+        self.logger.debug("---------PlanetCycler Start---------")
         for idx, name in enumerate(self.UnlockPlanets.keys()):
             addr = ADDRESSES[self.current_game]["PlanetSlots"][idx]
             addr = self.address_convert(addr)
@@ -376,8 +385,10 @@ class Rac3Interface(GameInterface):
             if name == "Qwarks Hideout":
                 if self.UnlockGadgets["Refractor"].status == 0 or self.UnlockGadgets["Hypershot"].status == 0:
                     self._write8(addr, 0)
+        self.logger.debug("---------PlanetCycler End---------")
 
     def vidcomic_cycler(self):
+        self.logger.debug("---------VidComicCycler Start---------")
         unlock_status = self.UnlockVidComics.status
         for name in range(5):
             if name + 1 > unlock_status:
@@ -392,9 +403,16 @@ class Rac3Interface(GameInterface):
                 if self.UnlockVidComics.unlock_delay > unlock_delay_count:
                     self._write8(addr, 1)
                     self.UnlockVidComics.unlock_delay = 0
+                    self.logger.debug(f"Qwark VidComic {name + 1} is now available")
                 break
+            else:
+                is_available = self._read8(addr) == 1
+                self.logger.debug(f"Qwark VidComic {name + 1} is {'available' if is_available else 'locked'}")
+
+        self.logger.debug("---------VidComicCycler End---------")
 
     def armor_cycler(self):
+        self.logger.debug("---------ArmorCycler Start---------")
         addr = ADDRESSES[self.current_game]["ArmorVersion"]  # Todo: Add Armour to Items
         addr = self.address_convert(addr)
         current_armor_value = self._read8(addr)
@@ -404,6 +422,8 @@ class Rac3Interface(GameInterface):
             if self.UnlockArmor.unlock_delay > 1:
                 self._write8(addr, self.UnlockArmor.status)
                 self.UnlockArmor.unlock_delay = 0
+        self.logger.debug(f"Armor status: {self.UnlockArmor['status']}")
+        self.logger.debug("---------ArmorCycler End---------")
 
     # Todo: status
     def verify_quick_select_and_last_used(self):
