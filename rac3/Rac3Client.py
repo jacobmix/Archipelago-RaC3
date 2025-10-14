@@ -44,6 +44,14 @@ class CommandProcessor(ClientCommandProcessor):
         if isinstance(self.ctx, Rac3Context):
             self.ctx.game_interface.received_others(50000091)
 
+    def _cmd_rac3_info(self):
+        if isinstance(self.ctx, Rac3Context):
+            self.ctx.game_interface.dump_info(self.ctx)
+
+    def _cmd_force_update(self):
+        if isinstance(self.ctx, Rac3Context):
+            self.ctx.game_interface.update()
+
 
 class Rac3Context(CommonContext):
     # Client variables
@@ -62,6 +70,8 @@ class Rac3Context(CommonContext):
     death_link_enabled = False
     queued_deaths: int = 0
     location_table = None
+    current_planet: str = 'Galaxy'
+    main_menu: bool = True
 
     items_handling = 0b111  # This is mandatory
 

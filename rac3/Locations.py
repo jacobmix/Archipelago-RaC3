@@ -69,6 +69,14 @@ rac3_locations = {
     "Phoenix: Skill Point: Strive for Arcade Perfection": LocData(50030031, "Starship Phoenix"),
     "Phoenix: Skill Point: Beat Helga's Best VR Time": LocData(50030032, "Starship Phoenix"),
     "Phoenix: Skill Point: Monkeying Around": LocData(50030033, "Starship Phoenix"),
+    "Phoenix: Long Term Trophy: Titanium Collector": LocData(50030034, "Long Term Trophy"),
+    # All Titanium Bolts collected
+    "Phoenix: Long Term Trophy: Friend of the Rangers": LocData(50030035, "Long Term Trophy"),
+    # All optional Ranger missions completed
+    "Phoenix: Long Term Trophy: Annihilation Nation Champion": LocData(50030036, "Long Term Trophy"),
+    # All Arena completed
+    "Phoenix: Long Term Trophy: Skill Master": LocData(50030037, "Long Term Trophy"),  # All Skill Points collected
+
     # VidComics
     "Phoenix: Qwark VidComic 1 Clear": LocData(50310000, "Starship Phoenix"),
     "Phoenix: T-Bolt: VidComic 1 100%": LocData(50310001, "Starship Phoenix"),
@@ -87,18 +95,18 @@ rac3_locations = {
     "Phoenix: Skill Point: The Shaming of the Q - set a new record for qwark": LocData(50350003, "Starship Phoenix"),
 
     # ----- Planet Marcadia -----#
-    "Marcadia: Received Spitting Hydra": LocData(50040000, "Marcadia Region 1"),
-    "Marcadia: Received Refractor": LocData(50040001, "Marcadia Region 1"),
-    "Marcadia: T-Bolt: After Pool of Water": LocData(50040002, "Marcadia Region 1"),
-    "Marcadia: T-Bolt: Last Refractor Room": LocData(50040003, "Marcadia Region 2"),
-    "Marcadia: T-Bolt: Ceiling just before Al": LocData(50040004, "Marcadia Region 2"),
-    "Marcadia: Meet Al": LocData(50040005, "Marcadia Region 2"),
-    "Marcadia: Operation IRON SHIELD: Secure the Area": LocData(50040006, "Marcadia Region 1"),
-    "Marcadia: Operation IRON SHIELD: Air Assault": LocData(50040007, "Marcadia Region 1"),
-    "Marcadia: Operation IRON SHIELD: Turret Command": LocData(50040008, "Marcadia Region 1"),
-    "Marcadia: Operation IRON SHIELD: Under the Gun": LocData(50040009, "Marcadia Region 1"),
-    "Marcadia: Operation IRON SHIELD: Hit n' Run": LocData(50040010, "Marcadia Region 1"),
-    "Marcadia: Skill Point: Reflect on how to score": LocData(50040011, "Marcadia Region 2"),
+    "Marcadia: Received Spitting Hydra": LocData(50040000, "Marcadia"),
+    "Marcadia: Received Refractor": LocData(50040001, "Marcadia"),
+    "Marcadia: T-Bolt: After Pool of Water": LocData(50040002, "Marcadia"),
+    "Marcadia: T-Bolt: Last Refractor Room": LocData(50040003, "Marcadia"),
+    "Marcadia: T-Bolt: Ceiling just before Al": LocData(50040004, "Marcadia"),
+    "Marcadia: Meet Al": LocData(50040005, "Marcadia"),
+    "Marcadia: Operation IRON SHIELD: Secure the Area": LocData(50040006, "Marcadia"),
+    "Marcadia: Operation IRON SHIELD: Air Assault": LocData(50040007, "Marcadia"),
+    "Marcadia: Operation IRON SHIELD: Turret Command": LocData(50040008, "Marcadia"),
+    "Marcadia: Operation IRON SHIELD: Under the Gun": LocData(50040009, "Marcadia"),
+    "Marcadia: Operation IRON SHIELD: Hit n' Run": LocData(50040010, "Marcadia"),
+    "Marcadia: Skill Point: Reflect on how to score": LocData(50040011, "Marcadia"),
 
     # ----- Annihilation Nation -----#
     "Annihilation: Received Agents of Doom": LocData(50070000, "Annihilation Nation"),
@@ -189,11 +197,11 @@ rac3_locations = {
     "Daxx: Trophy: Ledge overlooking Ship": LocData(50050006, "Daxx"),  # Plumber Trophy
 
     # ----- Obani Gemini -----#
-    "Obani_Gemini: Received Disk-Blade Gun": LocData(50110000, "Obani Gemini"),
-    "Obani_Gemini: T-Bolt: Follow the Lava": LocData(50110001, "Obani Gemini"),
-    "Obani_Gemini: T-Bolt: Between the Twin Towers": LocData(50110002, "Obani Gemini"),
-    "Obani_Gemini: Infobot: Blackwater City": LocData(50110003, "Obani Gemini"),
-    "Obani_Gemini: Skill Point: Get to the belt": LocData(50110004, "Obani Gemini"),
+    "Obani Gemini: Received Disk-Blade Gun": LocData(50110000, "Obani Gemini"),
+    "Obani Gemini: T-Bolt: Follow the Lava": LocData(50110001, "Obani Gemini"),
+    "Obani Gemini: T-Bolt: Between the Twin Towers": LocData(50110002, "Obani Gemini"),
+    "Obani Gemini: Infobot: Blackwater City": LocData(50110003, "Obani Gemini"),
+    "Obani Gemini: Skill Point: Get to the belt": LocData(50110004, "Obani Gemini"),
 
     # ----- Planet Blackwater City -----#
     "Blackwater City: Received Gravity Boots": LocData(50120000, "Blackwater City"),
@@ -209,14 +217,14 @@ rac3_locations = {
     "Holostar: T-Bolt: Atop the Chairs": LocData(50130001, "Holostar Studios"),
     "Holostar: T-Bolt: Lot 42's Gravity Ramp": LocData(50130002, "Holostar Studios"),
     "Holostar: T-Bolt: Kamikaze Noids": LocData(50130003, "Holostar Studios"),
-    "Holostar: Skill Point: Feeling Lucky": LocData(50130005, "Holostar Studios"),
+    "Holostar: Skill Point: Feeling Lucky?": LocData(50130005, "Holostar Studios"),
     "Holostar: Trophy: After tall Elevator": LocData(50130006, "Holostar Studios"),  # Clank Trophy
 
     # ----- Skidd Cutscene -----#
     "Skidd is captured": LocData(50130004, "Skidd Cutscene"),  # Blackwater City and Holostar completed
 
     # ----- Obani Draco (lol) -----#
-    "Obani_Draco: Defeat Courtney Gears": LocData(50210000, "Obani Draco"),  # Infobot: Zeldrin Starport
+    "Obani Draco: Defeat Courtney Gears": LocData(50210000, "Obani Draco"),  # Infobot: Zeldrin Starport
 
     # ----- Zeldrin Starport -----#
     "Zeldrin Starport: Received Bolt Grabber V2": LocData(50100000, "Zeldrin Starport"),
@@ -279,7 +287,7 @@ rac3_locations = {
     # ----- Planet Command Center -----#
     "Command Center: T-Bolt: Behind the Forcefield": LocData(50220000, "Command Center"),
     "Command Center: Skill Point: Spread Your Germs": LocData(50220001, "Command Center"),
-    "Command Center: Trophy: Up a Ladder": LocData(50220001, "Command Center"),  # Lawrence Trophy
+    "Command Center: Trophy: Up a Ladder": LocData(50220002, "Command Center"),  # Lawrence Trophy
     "Command Center: Dr. Nefarious Defeated!": LocData(50200000, "Command Center"),
     "Command Center: Biobliterator Defeated!": LocData(50200001, "Command Center")
 }
@@ -389,13 +397,102 @@ weapon_upgrades = {
 }
 
 nanotech_milestones = {
-    "Nanotech Milestone: 11": LocData(50250011, "Veldin"),
+    "Nanotech Milestone: 11": LocData(50250011, "Nanotech Levels"),
+    "Nanotech Milestone: 12": LocData(50250012, "Nanotech Levels"),
+    "Nanotech Milestone: 13": LocData(50250013, "Nanotech Levels"),
+    "Nanotech Milestone: 14": LocData(50250014, "Nanotech Levels"),
+    "Nanotech Milestone: 15": LocData(50250015, "Nanotech Levels"),
+    "Nanotech Milestone: 16": LocData(50250016, "Nanotech Levels"),
+    "Nanotech Milestone: 17": LocData(50250017, "Nanotech Levels"),
+    "Nanotech Milestone: 18": LocData(50250018, "Nanotech Levels"),
+    "Nanotech Milestone: 19": LocData(50250019, "Nanotech Levels"),
+    "Nanotech Milestone: 20": LocData(50250020, "Nanotech Levels"),
+    "Nanotech Milestone: 21": LocData(50250021, "Nanotech Levels"),
+    "Nanotech Milestone: 22": LocData(50250022, "Nanotech Levels"),
+    "Nanotech Milestone: 23": LocData(50250023, "Nanotech Levels"),
+    "Nanotech Milestone: 24": LocData(50250024, "Nanotech Levels"),
+    "Nanotech Milestone: 25": LocData(50250025, "Nanotech Levels"),
+    "Nanotech Milestone: 26": LocData(50250026, "Nanotech Levels"),
+    "Nanotech Milestone: 27": LocData(50250027, "Nanotech Levels"),
+    "Nanotech Milestone: 28": LocData(50250028, "Nanotech Levels"),
+    "Nanotech Milestone: 29": LocData(50250029, "Nanotech Levels"),
+    "Nanotech Milestone: 30": LocData(50250030, "Nanotech Levels"),
+    "Nanotech Milestone: 31": LocData(50250031, "Nanotech Levels"),
+    "Nanotech Milestone: 32": LocData(50250032, "Nanotech Levels"),
+    "Nanotech Milestone: 33": LocData(50250033, "Nanotech Levels"),
+    "Nanotech Milestone: 34": LocData(50250034, "Nanotech Levels"),
+    "Nanotech Milestone: 35": LocData(50250035, "Nanotech Levels"),
+    "Nanotech Milestone: 36": LocData(50250036, "Nanotech Levels"),
+    "Nanotech Milestone: 37": LocData(50250037, "Nanotech Levels"),
+    "Nanotech Milestone: 38": LocData(50250038, "Nanotech Levels"),
+    "Nanotech Milestone: 39": LocData(50250039, "Nanotech Levels"),
+    "Nanotech Milestone: 40": LocData(50250040, "Nanotech Levels"),
+    "Nanotech Milestone: 41": LocData(50250041, "Nanotech Levels"),
+    "Nanotech Milestone: 42": LocData(50250042, "Nanotech Levels"),
+    "Nanotech Milestone: 43": LocData(50250043, "Nanotech Levels"),
+    "Nanotech Milestone: 44": LocData(50250044, "Nanotech Levels"),
+    "Nanotech Milestone: 45": LocData(50250045, "Nanotech Levels"),
+    "Nanotech Milestone: 46": LocData(50250046, "Nanotech Levels"),
+    "Nanotech Milestone: 47": LocData(50250047, "Nanotech Levels"),
+    "Nanotech Milestone: 48": LocData(50250048, "Nanotech Levels"),
+    "Nanotech Milestone: 49": LocData(50250049, "Nanotech Levels"),
+    "Nanotech Milestone: 50": LocData(50250050, "Nanotech Levels"),
+    "Nanotech Milestone: 51": LocData(50250051, "Nanotech Levels"),
+    "Nanotech Milestone: 52": LocData(50250052, "Nanotech Levels"),
+    "Nanotech Milestone: 53": LocData(50250053, "Nanotech Levels"),
+    "Nanotech Milestone: 54": LocData(50250054, "Nanotech Levels"),
+    "Nanotech Milestone: 55": LocData(50250055, "Nanotech Levels"),
+    "Nanotech Milestone: 56": LocData(50250056, "Nanotech Levels"),
+    "Nanotech Milestone: 57": LocData(50250057, "Nanotech Levels"),
+    "Nanotech Milestone: 58": LocData(50250058, "Nanotech Levels"),
+    "Nanotech Milestone: 59": LocData(50250059, "Nanotech Levels"),
+    "Nanotech Milestone: 60": LocData(50250060, "Nanotech Levels"),
+    "Nanotech Milestone: 61": LocData(50250061, "Nanotech Levels"),
+    "Nanotech Milestone: 62": LocData(50250062, "Nanotech Levels"),
+    "Nanotech Milestone: 63": LocData(50250063, "Nanotech Levels"),
+    "Nanotech Milestone: 64": LocData(50250064, "Nanotech Levels"),
+    "Nanotech Milestone: 65": LocData(50250065, "Nanotech Levels"),
+    "Nanotech Milestone: 66": LocData(50250066, "Nanotech Levels"),
+    "Nanotech Milestone: 67": LocData(50250067, "Nanotech Levels"),
+    "Nanotech Milestone: 68": LocData(50250068, "Nanotech Levels"),
+    "Nanotech Milestone: 69": LocData(50250069, "Nanotech Levels"),
+    "Nanotech Milestone: 70": LocData(50250070, "Nanotech Levels"),
+    "Nanotech Milestone: 71": LocData(50250071, "Nanotech Levels"),
+    "Nanotech Milestone: 72": LocData(50250072, "Nanotech Levels"),
+    "Nanotech Milestone: 73": LocData(50250073, "Nanotech Levels"),
+    "Nanotech Milestone: 74": LocData(50250074, "Nanotech Levels"),
+    "Nanotech Milestone: 75": LocData(50250075, "Nanotech Levels"),
+    "Nanotech Milestone: 76": LocData(50250076, "Nanotech Levels"),
+    "Nanotech Milestone: 77": LocData(50250077, "Nanotech Levels"),
+    "Nanotech Milestone: 78": LocData(50250078, "Nanotech Levels"),
+    "Nanotech Milestone: 79": LocData(50250079, "Nanotech Levels"),
+    "Nanotech Milestone: 80": LocData(50250080, "Nanotech Levels"),
+    "Nanotech Milestone: 81": LocData(50250081, "Nanotech Levels"),
+    "Nanotech Milestone: 82": LocData(50250082, "Nanotech Levels"),
+    "Nanotech Milestone: 83": LocData(50250083, "Nanotech Levels"),
+    "Nanotech Milestone: 84": LocData(50250084, "Nanotech Levels"),
+    "Nanotech Milestone: 85": LocData(50250085, "Nanotech Levels"),
+    "Nanotech Milestone: 86": LocData(50250086, "Nanotech Levels"),
+    "Nanotech Milestone: 87": LocData(50250087, "Nanotech Levels"),
+    "Nanotech Milestone: 88": LocData(50250088, "Nanotech Levels"),
+    "Nanotech Milestone: 89": LocData(50250089, "Nanotech Levels"),
+    "Nanotech Milestone: 90": LocData(50250090, "Nanotech Levels"),
+    "Nanotech Milestone: 91": LocData(50250091, "Nanotech Levels"),
+    "Nanotech Milestone: 92": LocData(50250092, "Nanotech Levels"),
+    "Nanotech Milestone: 93": LocData(50250093, "Nanotech Levels"),
+    "Nanotech Milestone: 94": LocData(50250094, "Nanotech Levels"),
+    "Nanotech Milestone: 95": LocData(50250095, "Nanotech Levels"),
+    "Nanotech Milestone: 96": LocData(50250096, "Nanotech Levels"),
+    "Nanotech Milestone: 97": LocData(50250097, "Nanotech Levels"),
+    "Nanotech Milestone: 98": LocData(50250098, "Nanotech Levels"),
+    "Nanotech Milestone: 99": LocData(50250099, "Nanotech Levels"),
+    "Nanotech Milestone: 100": LocData(50250100, "Nanotech Levels")
 }
 
 rac3_events = {  # Events have no ap_code
     "Cleared Veldin": EventData(None, "Veldin"),
     "Cleared Florana": EventData(None, "Florana"),
-    "Cleared Marcadia": EventData(None, "Marcadia Region 2"),
+    "Cleared Marcadia": EventData(None, "Marcadia"),
     "Cleared Annihilation Nation 1": EventData(None, "Annihilation Nation"),
     "Cleared Annihilation Nation 2": EventData(None, "Annihilation Nation 2"),
     "Cleared Aquatos": EventData(None, "Aquatos"),
@@ -409,13 +506,99 @@ location_table: dict[str, LocData] = {
     # **weapon_upgrades
 }
 
+weapons: list[str] = [
+    "Florana: Received Plasma Whip",
+    "Florana: Received N60 Storm",
+    "Phoenix: Received Suck Cannon",
+    "Phoenix: Received Infector",
+    "Marcadia: Received Spitting Hydra",
+    "Annihilation: Received Agents of Doom",
+    "Aquatos: Received Flux Rifle",
+    "Aquatos: Received Mini-Turret Glove",
+    "Aquatos: Received Lava Gun",
+    "Aquatos: Received Shield Charger",
+    "Aquatos: Received Bouncer",
+    "Aquatos: Received Plasma Coil",
+    "Tyhrranosis: Received Annihilator",
+    "Tyhrranosis: Received Holo-Shield Glove",
+    "Obani Gemini: Received Disk-Blade Gun",
+    "Holostar: Received Rift Inducer",
+    "Aridia: Received Qwack-O-Ray",
+]
+
+gadgets: list[str] = [
+    "Marcadia: Received Refractor",
+    "Annihilation: Received Tyhrra-Guise",
+    "Daxx: Received Charge Boots",
+    "Blackwater City: Received Gravity Boots",
+    "Zeldrin Starport: Received Bolt Grabber V2",
+    "Aridia: Received Warp Pad",
+    "Qwarks Hideout: Received Gadgetron PDA",
+]
+
+rangers: list[str] = [
+    "Marcadia: Operation IRON SHIELD: Secure the Area",
+    "Marcadia: Operation IRON SHIELD: Air Assault",
+    "Marcadia: Operation IRON SHIELD: Turret Command",
+    "Marcadia: Operation IRON SHIELD: Under the Gun",
+    "Marcadia: Operation IRON SHIELD: Hit n' Run",
+    "Marcadia: Received Refractor",
+    "Marcadia: Meet Al",
+    "Marcadia: Skill Point: Reflect on how to score",
+    "Marcadia: T-Bolt: Last Refractor Room",
+    "Marcadia: T-Bolt: Ceiling just before Al",
+    "Tyhrranosis: Operation ISLAND STRIKE: Assault on Kavu Island",
+    "Tyhrranosis: Operation ISLAND STRIKE: Dogfight over Kavu Island",
+    "Tyhrranosis: Operation ISLAND STRIKE: Operation Thunderbolt",
+    "Tyhrranosis: Operation ISLAND STRIKE: The Final Battle",
+    "Blackwater City: Received Gravity Boots",
+    "Blackwater City: Infobot: Holostar Studios",
+    "Blackwater City: Operation BLACK TIDE: The Battle of Blackwater City",
+    "Blackwater City: Operation BLACK TIDE: The Bridge",
+    "Blackwater City: Operation BLACK TIDE: Counterattack",
+    "Blackwater City: Skill Point: Bash the party",
+    "Metropolis: T-Bolt: Tall Tower (Hovership)",
+    "Metropolis: Operation URBAN STORM: Countdown",
+    "Metropolis: Operation URBAN STORM: Urban Combat",
+    "Metropolis: Operation URBAN STORM: Tower Attack",
+    "Metropolis: Operation URBAN STORM: Air Superiority",
+    "Metropolis: Operation URBAN STORM: Turret Command",
+    "Metropolis: Received Map-O-Matic",
+    "Aridia: Received Warp Pad",
+    "Aridia: T-Bolt: Under the Bridge (Assassination)",
+    "Aridia: T-Bolt: Behind the Base (X12 Endgame)",
+    "Aridia: Operation DEATH VALLEY: The Tunnels of Outpost X12",
+    "Aridia: Operation DEATH VALLEY: Ambush in Red Rock Valley",
+    "Aridia: Operation DEATH VALLEY: Assassination",
+    "Aridia: Operation DEATH VALLEY: Reclaim the Valley",
+    "Aridia: Operation DEATH VALLEY: X12 Endgame",
+    "Aridia: Skill Point: Go for hang time",
+    "Aridia: Skill Point: Zap back at ya'",
+    "Phoenix: Long Term Trophy: Friend of the Rangers"
+]
+
+unstable: list[str] = [
+    "Phoenix: Received Magna Plate Armor",
+    "Phoenix: Received Adamantine Armor",
+    "Phoenix: Received Aegis Mark V Armor",
+    "Phoenix: Received Infernox Armor",
+    "Phoenix: Meet Sasha on the Bridge",
+    "Phoenix: Return after winning Grand Prize Bout",
+    "Phoenix: Return after Aquatos Base",
+    "Phoenix: VR Training after Noid Queen",
+    "Phoenix: T-Bolt: VR Gadget Training",
+    "Phoenix: Received Hacker",
+    "Phoenix: Received Hypershot",
+    "Phoenix: VR: VR Gadget Training",
+    "Obani Gemini: Infobot: Blackwater City",
+    "Crash Site: Infobot: Aridia"
+]
+
 location_groups: dict[str, set[str]] = {
     "Veldin": set(loc for loc in location_table.keys() if location_table[loc].region == "Veldin"),
     "Florana": set(loc for loc in location_table.keys() if location_table[loc].region == "Florana"),
     "Starship Phoenix": set(loc for loc in location_table.keys() if location_table[loc].region == "Starship Phoenix"),
-    "Marcadia": set(loc for loc in location_table.keys() if
-                    location_table[loc].region == "Marcadia Region 1"
-                    or location_table[loc].region == "Marcadia Region 2"),
+    "Marcadia": set(loc for loc in location_table.keys() if location_table[loc].region == "Marcadia"),
     "Annihilation Nation": set(loc for loc in location_table.keys() if
                                location_table[loc].region == "Annihilation Nation"
                                or location_table[loc].region == "Annihilation Nation 2"),
@@ -437,15 +620,20 @@ location_groups: dict[str, set[str]] = {
     "Qwarks Hideout": set(loc for loc in location_table.keys() if location_table[loc].region == "Qwarks Hideout"),
     "Koros": set(loc for loc in location_table.keys() if location_table[loc].region == "Koros"),
     "Command Center": set(loc for loc in location_table.keys() if location_table[loc].region == "Command Center"),
-    "Skill Point": set(loc for loc in location_table.keys() if "Skill Point" in loc),
+    "Skill Point": set(loc for loc in location_table.keys() if "Skill" in loc),
     "T-Bolt": set(loc for loc in location_table.keys() if "T-Bolt" in loc),
     "Crystal": set(loc for loc in location_table.keys() if ("Sewer" in loc)
                    or (loc == "Aquatos: Skill Point: Hit the motherload")),
     "VidComic": set(loc for loc in location_table.keys() if "VidComic" in loc),
-    "Trophy": set(loc for loc in location_table.keys() if "Trophy" in loc),
-    "Rangers": set(loc for loc in location_table.keys() if "Operation" in loc),
+    "Trophy": set(loc for loc in location_table.keys() if "Trophy" in loc),  # All trophies including long term
+    "Long Term Trophy": set(loc for loc in location_table.keys() if "Long Term" in loc),  # Long Term trophies only
+    "Rangers": set(loc for loc in rangers),
     "Arena": set(loc for loc in location_table.keys() if
-                 (50070002 <= location_table[loc].ap_code < 50080000) or ("VR" in loc)),
+                 (50070002 <= location_table[loc].ap_code < 50080000) or ("VR" in loc) or ("Grand" in loc)),
+    "Nanotech": set(loc for loc in location_table.keys() if "Nanotech" in loc),
+    "Unstable": set(loc for loc in unstable),
+    "Weapons": set(loc for loc in weapons),
+    "Gadgets": set(loc for loc in gadgets)
 }
 
 

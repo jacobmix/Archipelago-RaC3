@@ -1,8 +1,8 @@
-from typing import Dict, List, TYPE_CHECKING
+import logging
+from typing import List, TYPE_CHECKING
 
 from BaseClasses import Item, ItemClassification
 
-from .Locations import get_total_locations
 from .Types import ItemData, GameItem
 
 if TYPE_CHECKING:
@@ -12,9 +12,6 @@ if TYPE_CHECKING:
 def create_itempool(world: "RaC3World") -> List[Item]:
     itempool: List[Item] = []
     options = world.options
-    junk_dict = junk_items
-    if not options.enable_weapon_level_as_item.value:
-        junk_dict.update(junk_weapon_exp)
 
     for name in item_table.keys():
         item_type: ItemClassification = item_table.get(name).classification
@@ -39,12 +36,14 @@ def create_itempool(world: "RaC3World") -> List[Item]:
         if name == "Progressive Armor":
             item_amount += options.extra_armor_upgrade.value
 
+        # Catch accidental duplicates
+        if item_amount > 1 and "Progressive" not in name:
+            logging.warning(f"multiple copies of {name} added to the item pool")
+
         itempool += create_multiple_items(world, name, item_amount, item_type)
 
     victory = create_item(world, "Biobliterator Defeated!")
     world.multiworld.get_location("Command Center: Biobliterator Defeated!", world.player).place_locked_item(victory)
-    itempool += create_junk_items(world, get_total_locations(world) - len(world.preplaced_items) - len(itempool) - 1,
-                                  junk_dict)
     return itempool
 
 
@@ -64,12 +63,15 @@ def create_item(world: "RaC3World", name: str) -> Item:
     return GameItem(name, data.classification, data.ap_code, world.player)
 
 
-def create_junk_items(world: "RaC3World", count: int, junk_dict: Dict[str, object]) -> List[Item]:
-    junk_pool: List[Item] = []
-    # For now, all junk has equal weights
-    for i in range(count):
-        junk_pool.append(world.create_item(world.random.choices(list(junk_dict.keys()), k=1)[0]))
-    return junk_pool
+def get_filler_item_selection(world: "RaC3World"):
+    frequencies = dict.fromkeys(junk_items.keys(), 1)
+    if not world.options.enable_weapon_level_as_item.value:
+        weapon_exp = dict.fromkeys(junk_weapon_exp, 1)
+        frequencies.update(weapon_exp)
+    # if world.options.traps_enabled:
+    #     traps = trap_items.copy()
+    #     frequencies.update(traps)
+    return [name for name, count in frequencies.items() for _ in range(count)]
 
 
 weapon_items = {

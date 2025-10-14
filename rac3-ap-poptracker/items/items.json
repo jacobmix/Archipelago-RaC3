@@ -157,7 +157,7 @@
      "decrement": 1,
     "initial_quantity": 0,
     "img": "images/items/weapon/MiniturretGlove.png",
-    "codes": "MegaTurretGlove"
+    "codes": "MiniTurretGlove"
   },
   {
     "name": "Lava Gun",
@@ -389,13 +389,13 @@
     "initial_stage_idx": 0,
     "stages": [
       {
-        "img": "images/items/planet/Aquatos.png",
+        "img": "images/items/planet/Tyhrranosis.png",
         "inherit_codes": false,
         "img_mods": "@disabled",
         "codes": ""
       },
       {
-        "img": "images/items/planet/Aquatos.png",
+        "img": "images/items/planet/Tyhrranosis.png",
         "codes": "Tyhrranosis"
       }
     ]

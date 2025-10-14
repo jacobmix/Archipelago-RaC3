@@ -1,19 +1,20 @@
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, ClassVar, Dict, Optional
 
-from BaseClasses import Item, ItemClassification, MultiWorld, Tutorial
+from BaseClasses import Item, MultiWorld, Tutorial
 from worlds.AutoWorld import CollectionState, WebWorld, World
 from worlds.LauncherComponents import Component, components, launch_subprocess, SuffixIdentifier, Type
 
-from .Items import (create_item, create_itempool, filter_item_names, gadget_items, item_table)
+from . import UniversalTracker
+from .Items import create_item, create_itempool, get_filler_item_selection, item_table
 from .Locations import get_level_locations, get_location_names, get_regions, get_total_locations, location_groups
 
-from .Rac3Options import EnableWeaponLevelAsItem, GAME_TITLE_FULL, RaC3Options
+from .Rac3Options import GAME_TITLE_FULL, RaC3Options
 from .Regions import create_regions
 from .Rules import set_rules
-from .Types import Multiplier, multiplier_to_name, GameItem, weapon_type_to_name, WeaponType
+from .Types import Multiplier
 
-rac3_logger = logging.getLogger("RatchetAndClank3")
+rac3_logger = logging.getLogger("Ratchet & Clank 3")
 rac3_logger.setLevel(logging.DEBUG)
 
 
@@ -52,9 +53,14 @@ class RaC3World(World):
     location_name_to_id = get_location_names()
     location_name_groups = location_groups
     preplaced_items: list[str] = []
+    filler_items: list[str] = []
     # Config for Universal Tracker
-    ut_can_gen_without_yaml = False
+
+    using_ut: bool  # so we can check if we're using UT only once
+    passthrough: dict[str, Any]
+    ut_can_gen_without_yaml = True
     disable_ut = False
+    tracker_world: ClassVar = UniversalTracker.tracker_world
 
     for region in get_regions():
         location_name_groups[region] = set(get_level_locations(region))
@@ -73,18 +79,35 @@ class RaC3World(World):
         rac3_logger.warning("INCOMPLETE WORLD! Slot '%s' may require send_location/send_item for completion!",
                             self.player_name)
         self.preplaced_items = []
+
+        # implement .yaml-less Universal Tracker support
+        UniversalTracker.setup_options_from_slot_data(self)
+
         starting_weapons = Items.starting_weapons(self, self.options.starting_weapons.value)
         starting_planets = ["Infobot: Florana", "Infobot: Starship Phoenix"]
+
         create_regions(self)
-        self.get_location("Veldin: First Ranger").place_locked_item(self.create_item(starting_weapons[0]))
-        self.get_location("Veldin: Second Ranger").place_locked_item(self.create_item(starting_weapons[1]))
+
+        if len(starting_weapons) > 0:
+            self.get_location("Veldin: First Ranger").place_locked_item(self.create_item(starting_weapons[0]))
+            if len(starting_weapons) > 1:
+                self.get_location("Veldin: Second Ranger").place_locked_item(self.create_item(starting_weapons[1]))
         self.get_location("Veldin: Save Veldin").place_locked_item(self.create_item(starting_planets[0]))
         self.get_location("Florana: Defeat Qwark").place_locked_item(self.create_item(starting_planets[1]))
         self.preplaced_items.extend(starting_weapons)
         self.preplaced_items.extend(starting_planets)
 
     def create_items(self):
-        self.multiworld.itempool += create_itempool(self)
+        itempool = create_itempool(self)
+        self.multiworld.itempool.extend(itempool)
+        filler = [self.create_filler() for _ in
+                  range(get_total_locations(self) - len(self.preplaced_items) - len(itempool) - 1)]
+        self.multiworld.itempool.extend(filler)
+
+    def get_filler_item_name(self) -> str:
+        if not len(self.filler_items):
+            self.filler_items = get_filler_item_selection(self)
+        return self.random.choice(self.filler_items)
 
     def set_rules(self):
         set_rules(self)
@@ -95,14 +118,16 @@ class RaC3World(World):
     def fill_slot_data(self) -> Dict[str, object]:
         slot_data: Dict[str, object] = {
             "options": {
-                "StartInventoryFromPool": self.options.start_inventory_from_pool.value,
-                "StartingWeapons": [self.preplaced_items[0], self.preplaced_items[1]],
-                "BoltAndXPMultiplier": multiplier_to_name[Multiplier(self.options.bolt_and_xp_multiplier)],
-                "EnableWeaponLevelAsItem": self.options.enable_weapon_level_as_item.value,
-                "ExtraArmorUpgrade": self.options.extra_armor_upgrade.value,
+                "start_inventory_from_pool": self.options.start_inventory_from_pool.value,
+                "starting_weapons": self.options.starting_weapons.value,
+                "bolt_and_xp_multiplier": self.options.bolt_and_xp_multiplier.value,
+                "enable_weapon_level_as_item": self.options.enable_weapon_level_as_item.value,
+                "extra_armor_upgrade": self.options.extra_armor_upgrade.value,
+                "skill_points": self.options.skill_points.value,
+                "trophies": self.options.trophies.value,
+                "titanium_bolts":self.options.titanium_bolts.value,
+                "nanotech_milestones":self.options.nanotech_milestones.value,
             },
-            "Seed": self.multiworld.seed_name,  # to verify the server's multiworld
-            "Slot": self.multiworld.player_name[self.player],  # to connect to server
             "TotalLocations": get_total_locations(self)
         }
 
