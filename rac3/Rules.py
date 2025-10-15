@@ -115,6 +115,8 @@ def set_rules_hard_location(world):
              lambda state: state.has("Progressive VidComic", world.player, 1))
     add_rule(world.get_location("Phoenix: Qwark VidComic 1 Clear"),
              lambda state: state.has("Progressive VidComic", world.player, 1))
+    add_rule(world.get_location("Phoenix: Qwark VidComic 2 Clear"),
+             lambda state: state.has("Progressive VidComic", world.player, 2))
     add_rule(world.get_location("Phoenix: Qwark VidComic 3 Clear"),
              lambda state: state.has("Progressive VidComic", world.player, 3))
     add_rule(world.get_location("Phoenix: Play VidComic 4"),
