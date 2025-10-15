@@ -8,6 +8,9 @@ from .Types import ItemData, GameItem
 if TYPE_CHECKING:
     from . import RaC3World
 
+rac3_logger = logging.getLogger("Ratchet & Clank 3")
+rac3_logger.setLevel(logging.DEBUG)
+
 
 def create_itempool(world: "RaC3World") -> List[Item]:
     itempool: List[Item] = []
@@ -38,7 +41,7 @@ def create_itempool(world: "RaC3World") -> List[Item]:
 
         # Catch accidental duplicates
         if item_amount > 1 and "Progressive" not in name:
-            logging.warning(f"multiple copies of {name} added to the item pool")
+            rac3_logger.warning(f"multiple copies of {name} added to the item pool")
 
         itempool += create_multiple_items(world, name, item_amount, item_type)
 

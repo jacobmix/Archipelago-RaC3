@@ -121,6 +121,8 @@ class Rac3Interface(GameInterface):
     # Called at once when client started
     def init(self):
         self.init_variables()
+
+    def file_load(self, locations):
         self.remove_all_items()
 
     # Called in periodically
@@ -157,7 +159,7 @@ class Rac3Interface(GameInterface):
         self.boltAndXPMultiplier = slot_data["options"]["bolt_and_xp_multiplier"]
         self.weaponLevelLockFlag = slot_data["options"]["enable_weapon_level_as_item"]
 
-    def new_planet(self):
+    def map_switch(self):
         planet = self._read8(self.addresses["CurrentPlanet"])   # Todo: Status
         if planet > 55 or not self._read8(self.addresses["MapCheck"]):
             planet = 0
@@ -390,7 +392,7 @@ class Rac3Interface(GameInterface):
                 if self.UnlockGadgets[RAC3ITEM.HACKER].status == 0 or self.UnlockGadgets[RAC3ITEM.HYPERSHOT].status == 0:
                     self._write8(addr, 0)
             if name == RAC3ITEM.QWARKS_HIDEOUT:
-                if self.UnlockGadgets[RAC3ITEM.REFRACTOR].status == 0 or self.UnlockGadgets[RAC3ITEM.HYPERSHOT].status == 0:
+                if self.UnlockGadgets[RAC3ITEM.REFRACTOR].status == 0:
                     self._write8(addr, 0)
         # self.logger.debug("---------PlanetCycler End---------")
 
@@ -398,11 +400,14 @@ class Rac3Interface(GameInterface):
         # self.logger.debug("---------VidComicCycler Start---------")
         unlock_status = self.UnlockVidComics.status
         for name in range(5):
-            if name + 1 > unlock_status:
-                break
             addr = RAC3_ITEM_DATA_TABLE[VIDCOMIC_LIST[name]].UNLOCK_ADDRESS
             addr = self.address_convert(addr)
-            if self._read8(addr) == 0 and name + 1 <= unlock_status:
+            read_value = self._read8(addr)
+            if name + 1 > unlock_status:
+                if read_value == 1:
+                    self._write8(addr, 0)  # Disable Vidcomics not unlocked yet
+                break
+            if read_value == 0 and name + 1 <= unlock_status:
                 unlock_delay_count = 1
                 if name == 2:
                     unlock_delay_count = 30  # WA for Annihilation Nation Proceeding
@@ -584,7 +589,7 @@ class Rac3Interface(GameInterface):
                 weapon_name = unlocked_weapon_names[weapon_num]
                 self.weapon_level_up(weapon_name)
 
-    def dump_info(self, ctx):
+    def dump_info(self, current_planet, slot_data):
         print(f'Weapons Tracker: {self.UnlockWeapons}')
         print(f'Gadgets Tracker: {self.UnlockGadgets}')
         print(f'VidComics Tracker: {self.UnlockVidComics}')
@@ -595,8 +600,8 @@ class Rac3Interface(GameInterface):
         for addr in self.addresses["PlanetSlots"]:
             print(f'Planet{count}: {planet_lookup[self._read8(addr)]}')
             count += 1
-        print(f'Current planet Tracked: {ctx.current_planet}')
-        print(f'Slot Data: {ctx.slot_data}')
+        print(f'Current planet Tracked: {current_planet}')
+        print(f'Slot Data: {slot_data}')
 
     def tracker_update(self):
         pass

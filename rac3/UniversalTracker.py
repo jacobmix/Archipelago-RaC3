@@ -1,7 +1,4 @@
-from logging import exception
 from typing import Any, TYPE_CHECKING
-
-from docutils.nodes import address
 
 from .Rac3Addresses import ADDRESSES, LOCATIONS
 
@@ -38,6 +35,7 @@ def map_page_index(data: Any) -> int:
 
 def poptracker_data() -> dict[str, int]:
     return {loc["Name"]: loc["Id"] for loc in LOCATIONS}
+
 
 tracker_world = {
     "map_page_maps": "maps/maps.json",
