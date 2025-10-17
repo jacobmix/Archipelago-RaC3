@@ -31,7 +31,7 @@ ADDRESSES = {
             "Flux Rifle": {"unlockAddress": 0x00142D0F, "id": 111, "ammoAddress": 0x001429AC, "lv1Ammo": 10, },
             "Annihilator": {"unlockAddress": 0x00142CDF, "id": 63, "ammoAddress": 0x001428EC, "lv1Ammo": 20, },
             "Holo-Shield Glove": {"unlockAddress": 0x00142D07, "id": 103, "ammoAddress": 0x0014298C, "lv1Ammo": 8, },
-            "Disk-Blade Gun": {"unlockAddress": 0x00142CEF, "id": 79, "ammoAddress": 0x0014292C, "lv1Ammo": 25, },
+            "Disc-Blade Gun": {"unlockAddress": 0x00142CEF, "id": 79, "ammoAddress": 0x0014292C, "lv1Ammo": 25, },
             "Rift Inducer": {"unlockAddress": 0x00142CFF, "id": 95, "ammoAddress": 0x0014296C, "lv1Ammo": 8, },
             "Qwack-O-Ray": {"unlockAddress": 0x00142D2F, "id": 143, "ammoAddress": 0x00000000, "lv1Ammo": 0, },
             "RY3N0": {"unlockAddress": 0x00142D37, "id": 151, "ammoAddress": 0x00142A4C, "lv1Ammo": 25, },
@@ -244,7 +244,7 @@ class RAC3ITEM:
     BOUNCER = "Bouncer"
     BOX_BREAKER = "Box Breaker"
     CHARGE_BOOTS = "Charge-Boots"
-    DISK_BLADE = "Disk-Blade Gun"
+    DISC_BLADE = "Disc-Blade Gun"
     FLUX_RIFLE = "Flux Rifle"
     GRAV_BOOTS = "Gravity-Boots"
     HACKER = "Hacker"
@@ -411,7 +411,7 @@ WEAPON_LIST: list[str] = [
     RAC3ITEM.FLUX_RIFLE,
     RAC3ITEM.ANNIHILATOR,
     RAC3ITEM.HOLO_SHIELD,
-    RAC3ITEM.DISK_BLADE,
+    RAC3ITEM.DISC_BLADE,
     RAC3ITEM.RIFT_INDUCER,
     RAC3ITEM.QWACK_O_RAY,
     RAC3ITEM.RY3N0,
@@ -1140,7 +1140,7 @@ LOCATIONS = [
         "AddressBit": 0
     },
     {
-        "Name": "Vendor/Received Disk Blade Gun",
+        "Name": "Vendor/Received Disc Blade Gun",
         "Id": 50110000,
         "Address": "0x00142CEF",
         "CheckType": 0,
@@ -1778,7 +1778,7 @@ LOCATIONS = [
         "CheckValue": 86400
     },
     {
-        "Name": "Disk-Blade Gun: V2",
+        "Name": "Disc-Blade Gun: V2",
         "Id": 50150044,
         "Address": "0x00142F1C",
         "CompareType": 1,
@@ -1786,7 +1786,7 @@ LOCATIONS = [
         "CheckValue": 22400
     },
     {
-        "Name": "Disk-Blade Gun: V3",
+        "Name": "Disc-Blade Gun: V3",
         "Id": 50150045,
         "Address": "0x00142F1C",
         "CompareType": 1,
@@ -1794,7 +1794,7 @@ LOCATIONS = [
         "CheckValue": 67200
     },
     {
-        "Name": "Disk-Blade Gun: V4",
+        "Name": "Disc-Blade Gun: V4",
         "Id": 50150046,
         "Address": "0x00142F1C",
         "CompareType": 1,
@@ -1802,7 +1802,7 @@ LOCATIONS = [
         "CheckValue": 195200
     },
     {
-        "Name": "Disk-Blade Gun: V5",
+        "Name": "Disc-Blade Gun: V5",
         "Id": 50150047,
         "Address": "0x00142F1C",
         "CompareType": 1,
@@ -4076,7 +4076,7 @@ LOCATIONS = [
         "AddressBit": 0
     },
     {
-        "Name": "Obani Gemini/Received Disk Blade Gun",
+        "Name": "Obani Gemini/Received Disc Blade Gun",
         "Id": 50110000,
         "Address": "0x00142CEF",
         "CheckType": 0,

@@ -197,7 +197,7 @@ rac3_locations = {
     "Daxx: Trophy: Ledge overlooking Ship": LocData(50050006, "Daxx"),  # Plumber Trophy
 
     # ----- Obani Gemini -----#
-    "Obani Gemini: Received Disk-Blade Gun": LocData(50110000, "Obani Gemini"),
+    "Obani Gemini: Received Disc-Blade Gun": LocData(50110000, "Obani Gemini"),
     "Obani Gemini: T-Bolt: Follow the Lava": LocData(50110001, "Obani Gemini"),
     "Obani Gemini: T-Bolt: Between the Twin Towers": LocData(50110002, "Obani Gemini"),
     "Obani Gemini: Infobot: Blackwater City": LocData(50110003, "Obani Gemini"),
@@ -349,10 +349,10 @@ weapon_upgrades = {
     "Holo-Shield Glove: V4": LocData(50150042, "Holo-Shield Glove Upgrades"),
     "Holo-Shield Glove: V5": LocData(50150043, "Holo-Shield Glove Upgrades"),
 
-    "Disk-Blade Gun: V2": LocData(50150044, "Disk-Blade Gun Upgrades"),
-    "Disk-Blade Gun: V3": LocData(50150045, "Disk-Blade Gun Upgrades"),
-    "Disk-Blade Gun: V4": LocData(50150046, "Disk-Blade Gun Upgrades"),
-    "Disk-Blade Gun: V5": LocData(50150047, "Disk-Blade Gun Upgrades"),
+    "Disc-Blade Gun: V2": LocData(50150044, "Disc-Blade Gun Upgrades"),
+    "Disc-Blade Gun: V3": LocData(50150045, "Disc-Blade Gun Upgrades"),
+    "Disc-Blade Gun: V4": LocData(50150046, "Disc-Blade Gun Upgrades"),
+    "Disc-Blade Gun: V5": LocData(50150047, "Disc-Blade Gun Upgrades"),
 
     "Rift Inducer: V2": LocData(50150048, "Rift Inducer Upgrades"),
     "Rift Inducer: V3": LocData(50150049, "Rift Inducer Upgrades"),
@@ -521,7 +521,7 @@ weapons: list[str] = [
     "Aquatos: Received Plasma Coil",
     "Tyhrranosis: Received Annihilator",
     "Tyhrranosis: Received Holo-Shield Glove",
-    "Obani Gemini: Received Disk-Blade Gun",
+    "Obani Gemini: Received Disc-Blade Gun",
     "Holostar: Received Rift Inducer",
     "Aridia: Received Qwack-O-Ray",
 ]

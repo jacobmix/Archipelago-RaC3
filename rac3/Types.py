@@ -63,7 +63,7 @@ weapon_type_to_name = {
     WeaponType.FR: "Flux Rifle",
     WeaponType.ANH: "Annihilator",
     WeaponType.HSG: "Holo-Shield Glove",
-    WeaponType.DBL: "Disk-Blade Gun",
+    WeaponType.DBL: "Disc-Blade Gun",
     WeaponType.RI: "Rift Inducer",
     WeaponType.QoR: "Qwack-O-Ray",
     WeaponType.RY3N0: "RY3N0",

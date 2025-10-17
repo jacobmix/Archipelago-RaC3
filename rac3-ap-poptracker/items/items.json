@@ -110,14 +110,14 @@
     "codes": "HoloShieldGlove"
   },
   {
-    "name": "Disk Blade Gun",
+    "name": "Disc Blade Gun",
     "type": "consumable",
     "max_quantity": 5,
     "increment": 1,
      "decrement": 1,
     "initial_quantity": 0,
-    "img": "images/items/weapon/DiskBladeGun.png",
-    "codes": "DiskBladeGun"
+    "img": "images/items/weapon/DiscBladeGun.png",
+    "codes": "DiscBladeGun"
   },
   {
     "name": "Rift Inducer",
