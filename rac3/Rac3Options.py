@@ -117,7 +117,7 @@ class TitaniumBolts(Choice):
     display_name = "Titanium Bolts"
     option_disabled = 0
     option_enabled = 1
-    default = 0
+    default = 1
 
 class NanotechMilestones(Choice):
     """

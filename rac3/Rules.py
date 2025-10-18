@@ -207,10 +207,6 @@ def set_rules_hard_location(world):
     # ----- Holostar Studios -----# # Nothing
     # "Holostar: T-Bolt: Lot 42's Gravity Ramp"
     # "Holostar: T-Bolt: Kamikaze Noids"
-    add_rule(world.get_location("Holostar: T-Bolt: Lot 42's Gravity Ramp"),
-             lambda state: state.has("Gravity-Boots", world.player))
-    add_rule(world.get_location("Holostar: T-Bolt: Kamikaze Noids"),
-             lambda state: state.has("Gravity-Boots", world.player))
 
     # ----- Obani Draco (lol) -----# # Nothing
 
@@ -293,6 +289,11 @@ def set_rules_hard_location(world):
                  lambda state: state.has("Hypershot", world.player))
         add_rule(world.get_location("Daxx: T-Bolt: Time Sensitive Door"),
                  lambda state: state.has_all(["Hypershot", "Charge-Boots", "Hacker"], world.player))
+        # Holostar Studios
+        add_rule(world.get_location("Holostar: T-Bolt: Lot 42's Gravity Ramp"),
+             lambda state: state.has("Gravity-Boots", world.player))
+        add_rule(world.get_location("Holostar: T-Bolt: Kamikaze Noids"),
+             lambda state: state.has("Gravity-Boots", world.player))
 
         # Obani Gemini
         add_rule(world.get_location("Obani Gemini: T-Bolt: Follow the Lava"),
