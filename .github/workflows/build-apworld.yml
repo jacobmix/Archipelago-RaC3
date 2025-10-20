@@ -15,8 +15,7 @@ jobs:
 
     outputs:
       branch: ${{ steps.branch.outputs.branch }}
-      proceed: ${{ steps.changes.outputs.proceed }}
-      skip_reason: ${{ steps.changes.outputs.skip_reason }}
+      should_build: ${{ steps.changes.outputs.should_build }}
 
     steps:
       - name: Determine branch to build
@@ -27,89 +26,61 @@ jobs:
           if [ -z "$branch" ]; then
             branch="${GITHUB_REF#refs/heads/}"
           fi
-          echo "branch=$branch" >> $GITHUB_OUTPUT
           echo "🏗️ Building branch: $branch"
+          echo "branch=$branch" >> $GITHUB_OUTPUT
 
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
           ref: ${{ steps.branch.outputs.branch }}
+          fetch-depth: 0
 
-      - name: Check for relevant changes
+      - name: Check if build should run (skip workflow/README-only changes)
         id: changes
         shell: bash
         run: |
           branch="${{ steps.branch.outputs.branch }}"
-          echo "🔍 Checking for relevant changes since last origin/${branch}..."
-          git fetch origin "${branch}"
+          event_name="${{ github.event_name }}"
 
-          current_commit=$(git rev-parse HEAD)
-
-          # Safely determine previous commit
-          if git rev-parse HEAD^ >/dev/null 2>&1; then
-            previous_commit=$(git rev-parse HEAD^)
-          else
-            echo "⚠️ No previous commit found (first commit on branch)."
-            previous_commit=""
-          fi
-
-          echo "Current commit:  $current_commit"
-          echo "Previous commit: ${previous_commit:-<none>}"
-
-          # Gather changed files safely
-          if [ -n "$previous_commit" ]; then
-            changed_files=$(git diff --name-only "$previous_commit" "$current_commit" || true)
-          else
-            changed_files=$(git show --pretty="" --name-only HEAD || true)
-          fi
-
-          echo "Changed files:"
-          echo "$changed_files"
-
-          # Ignore commits that only change workflow or README files
-          relevant_changes=false
-          skip_reason=""
-          for file in $changed_files; do
-            if [[ ! "$file" =~ ^\.github/workflows/ && "$file" != "README.md" ]]; then
-              relevant_changes=true
-              break
-            fi
-          done
-
-          if [ "$relevant_changes" = false ]; then
-            if echo "$changed_files" | grep -q "^\.github/workflows/"; then
-              skip_reason="Workflow-only changes"
-            elif echo "$changed_files" | grep -q "^README.md"; then
-              skip_reason="README-only changes"
-            else
-              skip_reason="No relevant code changes"
-            fi
-            echo "🟡 Skipping build — reason: $skip_reason"
-            echo "proceed=false" >> $GITHUB_OUTPUT
-            echo "skip_reason=$skip_reason" >> $GITHUB_OUTPUT
+          # Always build when manually or externally triggered
+          if [[ "$event_name" == "workflow_dispatch" || "$event_name" == "repository_dispatch" ]]; then
+            echo "🔧 Manual or external trigger detected — building regardless of changes."
+            echo "should_build=true" >> $GITHUB_OUTPUT
             exit 0
           fi
 
-          echo "✅ Relevant changes detected — proceed with build/release."
-          echo "proceed=true" >> $GITHUB_OUTPUT
-          echo "skip_reason=" >> $GITHUB_OUTPUT
+          git fetch origin $branch --depth=2
+          echo "🔍 Checking for relevant changes since last origin/$branch..."
+          changed_files=$(git diff --name-only origin/$branch...HEAD)
+          echo "Changed files:"
+          echo "$changed_files"
 
-      - name: Log skipped build
-        if: steps.changes.outputs.proceed == 'false'
-        run: |
-          echo "### 🟡 Build Skipped" >> $GITHUB_STEP_SUMMARY
-          echo "**Reason:** ${{ steps.changes.outputs.skip_reason }}" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "This commit only changed ignored files (e.g., workflows or README). No build or release was triggered." >> $GITHUB_STEP_SUMMARY
+          if [[ -z "$changed_files" ]]; then
+            echo "🟡 No changes detected. Skipping build."
+            echo "should_build=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # Skip if only workflows or README changed
+          if echo "$changed_files" | grep -Eq '^(\.github/workflows/|README\.md)'; then
+            non_workflow_changes=$(echo "$changed_files" | grep -Ev '^(\.github/workflows/|README\.md)' || true)
+            if [[ -z "$non_workflow_changes" ]]; then
+              echo "🟡 Only workflow/README changes detected — skipping build."
+              echo "should_build=false" >> $GITHUB_OUTPUT
+              exit 0
+            fi
+          fi
+
+          echo "✅ Relevant changes detected — proceed with build/release."
+          echo "should_build=true" >> $GITHUB_OUTPUT
 
       - name: Run PowerShell build script
-        if: steps.changes.outputs.proceed == 'true'
+        if: steps.changes.outputs.should_build == 'true'
         run: ./build_apworld.ps1
         shell: pwsh
 
       - name: Upload build artifact
-        if: steps.changes.outputs.proceed == 'true'
+        if: steps.changes.outputs.should_build == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: rac3.apworld
@@ -117,15 +88,15 @@ jobs:
 
   release:
     needs: build
-    if: needs.build.outputs.proceed == 'true'
     runs-on: ubuntu-latest
+    if: needs.build.outputs.should_build == 'true'
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
           ref: ${{ needs.build.outputs.branch }}
+          fetch-depth: 0
 
       - name: Download built artifact
         uses: actions/download-artifact@v4
@@ -140,19 +111,27 @@ jobs:
           branch="${{ needs.build.outputs.branch }}"
           git fetch --tags
 
-          # Get latest version
+          echo "🔢 Determining next semantic version for branch: $branch"
+
           if [[ "$branch" == "main" ]]; then
             latest_tag=$(git tag --sort=-v:refname | grep -v -- '-pre' | head -n 1)
-            [ -z "$latest_tag" ] && latest_tag="v0.0.0"
-            IFS='.' read -r major minor patch <<< "${latest_tag//v/}"
+          else
+            latest_tag=$(git tag --sort=-v:refname | head -n 1)
+          fi
+
+          [ -z "$latest_tag" ] && latest_tag="v0.0.0"
+          echo "Latest tag: $latest_tag"
+
+          IFS='.' read -r major minor patch <<< "${latest_tag//v/}"
+          major=${major:-0}
+          minor=${minor:-0}
+          patch=${patch:-0}
+
+          if [[ "$branch" == "main" ]]; then
             minor=$((minor + 1))
             patch=0
             version="${major}.${minor}.${patch}"
           else
-            # staging → bump from latest (including pre-releases)
-            latest_tag=$(git tag --sort=-v:refname | head -n 1)
-            [ -z "$latest_tag" ] && latest_tag="v0.0.0"
-            IFS='.' read -r major minor patch <<< "${latest_tag//v/}"
             patch=$((patch + 1))
             version="${major}.${minor}.${patch}-pre"
           fi
@@ -184,13 +163,12 @@ jobs:
 
           ### Notes
           This release was automatically generated from the **${branch}** branch.  
-          Latest (main) releases are recommended as pre-releases (staging) may contain experimental or in-progress changes.
-
+          Latest (main) releases are recommended as pre-releases (staging) may contain experimental or in-progress changes.  
           ${changelog}
 
           ### If a location is broken and does not get sent out
-          Go to the server console (local or web) and use:
-          \`/send_location <player_name> <location>\`
+          Go to the server console (locally or via the Archipelago room page) and run:  
+          \`/send_location <player_name> <location>\`  
           Example: \`/send_location TaoshiRaC3 "Crash Site: Infobot: Aridia"\`
           EOF
 
