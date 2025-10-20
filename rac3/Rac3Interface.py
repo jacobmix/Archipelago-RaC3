@@ -156,7 +156,7 @@ class Rac3Interface(GameInterface):
     def proc_option(self, slot_data):
         self.logger.info(f"{slot_data}")
         self.boltAndXPMultiplier = slot_data["options"]["bolt_and_xp_multiplier"]
-        self.weaponLevelLockFlag = slot_data["options"]["enable_weapon_level_as_item"]
+        self.weaponLevelLockFlag = slot_data["options"]["enable_progressive_weapons"]
 
     def map_switch(self):
         planet = self._read8(self.addresses["CurrentPlanet"])  # Todo: Status

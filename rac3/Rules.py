@@ -150,7 +150,8 @@ def set_rules_hard_location(world):
     add_rule(world.get_location("Annihilation: Whip it Good"),
              lambda state: state.has_any(["Plasma Whip", "Progressive Plasma Whip"], world.player))
     add_rule(world.get_location("Annihilation: Hydra'n Seek"),
-             lambda state: state.has_any(["Spitting Hydra", "Progressive Spitting Hydra"], world.player))
+             lambda state: state.has_any(["Spitting Hydra", "Progressive Spitting Hydra"], world.player)
+                           and state.can_reach_location("Annihilation: Whip it Good", world.player))
 
     # Second visit: Post-Dax(Meeting Courtney)
     add_rule(world.get_location("Annihilation: Time to Suck"),
@@ -158,9 +159,11 @@ def set_rules_hard_location(world):
     add_rule(world.get_location("Annihilation: Chop Chop"),
              lambda state: state.has_any(["Disc-Blade Gun", "Progressive Disc-Blade Gun"], world.player))
     add_rule(world.get_location("Annihilation: Sleep Inducer"),
-             lambda state: state.has_any(["Rift Inducer", "Progressive Rift Inducer"], world.player))
+             lambda state: state.has_any(["Rift Inducer", "Progressive Rift Inducer"], world.player)
+                           and state.can_reach_location("Annihilation: Chop Chop", world.player))
     add_rule(world.get_location("Annihilation: The Other White Meat"),
-             lambda state: state.has_any(["Qwack-O-Ray", "Progressive Qwack-O-Ray"], world.player))
+             lambda state: state.has_any(["Qwack-O-Ray", "Progressive Qwack-O-Ray"], world.player)
+                           and state.can_reach_location("Annihilation: Sleep Inducer", world.player))
 
     # Maybe difficult and long(100 rounds ...), so it restrict after getting items for clear the game.
     add_rule(world.get_location("Annihilation: Qwarktastic Battle"),
@@ -291,9 +294,9 @@ def set_rules_hard_location(world):
                  lambda state: state.has_all(["Hypershot", "Charge-Boots", "Hacker"], world.player))
         # Holostar Studios
         add_rule(world.get_location("Holostar: T-Bolt: Lot 42's Gravity Ramp"),
-             lambda state: state.has("Gravity-Boots", world.player))
+                 lambda state: state.has("Gravity-Boots", world.player))
         add_rule(world.get_location("Holostar: T-Bolt: Kamikaze Noids"),
-             lambda state: state.has("Gravity-Boots", world.player))
+                 lambda state: state.has("Gravity-Boots", world.player))
 
         # Obani Gemini
         add_rule(world.get_location("Obani Gemini: T-Bolt: Follow the Lava"),

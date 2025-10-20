@@ -533,6 +533,7 @@ gadgets: list[str] = [
     "Blackwater City: Received Gravity Boots",
     "Zeldrin Starport: Received Bolt Grabber V2",
     "Aridia: Received Warp Pad",
+    "Crash Site: Received Nano-Pak",
     "Qwarks Hideout: Received Gadgetron PDA",
 ]
 

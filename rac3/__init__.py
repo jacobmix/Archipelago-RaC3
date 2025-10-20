@@ -121,7 +121,7 @@ class RaC3World(World):
                 "start_inventory_from_pool": self.options.start_inventory_from_pool.value,
                 "starting_weapons": self.options.starting_weapons.value,
                 "bolt_and_xp_multiplier": self.options.bolt_and_xp_multiplier.value,
-                "enable_weapon_level_as_item": self.options.enable_weapon_level_as_item.value,
+                "enable_progressive_weapons": self.options.enable_progressive_weapons.value,
                 "extra_armor_upgrade": self.options.extra_armor_upgrade.value,
                 "skill_points": self.options.skill_points.value,
                 "trophies": self.options.trophies.value,

@@ -33,7 +33,8 @@ class StartingWeapons(ItemDict):
 class BoltAndXPMultiplier(Choice):
     """
     Determines what your bolts and xp will be multiplied by, recommended to go with x6 if you hate grinding,
-    x10 if you're looking to do a sync
+    x10 if you're looking to do a sync.
+    Dev comment: This currently uses the NG+ multiplier so only bolt gain is affected, weapon xp gain is not.
     """
     display_name = "BoltAndXPMultiplier"
     option_x1 = 1
@@ -45,19 +46,21 @@ class BoltAndXPMultiplier(Choice):
     default = 1
 
 
-class EnableWeaponLevelAsItem(Choice):
+class EnableProgressiveWeapons(Choice):
     """
-    Determines weapon level is unlocked items or not.
+    Determines whether weapon level-ups are progressive items or not.
+    Disabled: Weapon leveling and exp functions like in the vanilla game.
+    Enabled: Weapon level-ups are progressive items placed in the item pool and weapon exp is disabled.
     """
-    display_name = "EnableWeaponLevelAsItem"
+    display_name = "EnableProgressiveWeapons"
     option_disable = 0
     option_enable = 1
-    default = 0
+    default = 1
 
 
 class ExtraArmorUpgrade(Choice):
     """
-    Determines Which extra number of ArmorUpgrade items contains in itempool. 1~2 is recommended.
+    Determines how many extra progressive ArmorUpgrade items are included in the item pool. 1~2 is recommended.
     """
     display_name = "ExtraArmorUpgrade"
     option_no_extra = 0
@@ -71,9 +74,8 @@ class SkillPoints(Choice):
     """
     Determines which skill points are locations in the world.
     None: No skill points are locations.
-    Simple: 15 simple skill points are locations.
+    Simple: 15 simple skill points are locations. Still taking feedback on the selection:
     - Stay Squeaky Clean
-    - Monkeying Around
     - Reflect on how to score
     - Lights, camera action!
     - Flee Flawlessly
@@ -81,6 +83,7 @@ class SkillPoints(Choice):
     - Be a sharpshooter
     - Beat Helga's Best Time
     - Bugs to Birdie
+    - Get to the belt
     - Feeling Lucky?
     - 2002 was a good year in the city
     - Aim High
@@ -142,7 +145,7 @@ class RaC3Options(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
     starting_weapons: StartingWeapons
     bolt_and_xp_multiplier: BoltAndXPMultiplier
-    enable_weapon_level_as_item: EnableWeaponLevelAsItem
+    enable_progressive_weapons: EnableProgressiveWeapons
     extra_armor_upgrade: ExtraArmorUpgrade
     skill_points: SkillPoints
     trophies: Trophies
@@ -151,7 +154,7 @@ class RaC3Options(PerGameCommonOptions):
 
 
 rac3_option_groups: Dict[str, List[Any]] = {
-    "General Options": [StartInventoryPool, StartingWeapons, BoltAndXPMultiplier, EnableWeaponLevelAsItem,
+    "General Options": [StartInventoryPool, StartingWeapons, BoltAndXPMultiplier, EnableProgressiveWeapons,
                         ExtraArmorUpgrade, SkillPoints, Trophies, TitaniumBolts, NanotechMilestones]
 }
 
@@ -159,7 +162,7 @@ slot_data_options: list[str] = [
     "start_inventory_from_pool"
     "starting_weapons",
     "bolt_and_xp_multiplier",
-    "enable_weapon_level_as_item",
+    "enable_progressive_weapons",
     "extra_armor_upgrade",
     "skill_points",
     "trophies",

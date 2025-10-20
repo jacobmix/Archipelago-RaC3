@@ -27,11 +27,11 @@ def create_itempool(world: "RaC3World") -> List[Item]:
             else:
                 item_amount -= 1  # remove one from the pool as it has already been placed
 
-        # WeaponLevelAsItem option
-        if not options.enable_weapon_level_as_item.value:
+        # Progressive Weapons option
+        if not options.enable_progressive_weapons.value:
             if name in progressive_weapons.keys():
                 continue
-        else:  # options.EnableWeaponLevelAsItem.value:
+        else:  # options.EnableProgressiveWeapons.value:
             if name in weapon_items.keys():
                 continue
 
@@ -68,7 +68,7 @@ def create_item(world: "RaC3World", name: str) -> Item:
 
 def get_filler_item_selection(world: "RaC3World"):
     frequencies = dict.fromkeys(junk_items.keys(), 1)
-    if not world.options.enable_weapon_level_as_item.value:
+    if not world.options.enable_progressive_weapons.value:
         weapon_exp = dict.fromkeys(junk_weapon_exp, 1)
         frequencies.update(weapon_exp)
     # if world.options.traps_enabled:
@@ -229,7 +229,7 @@ def starting_weapons(world, weapon_dict: dict[str, int]) -> list[str]:
         count = weapon_dict[name]
         if count == 0:
             continue
-        if world.options.enable_weapon_level_as_item.value:
+        if world.options.enable_progressive_weapons.value:
             for i in range(count):
                 weapon_list.append(f"Progressive {name}")
         else:
