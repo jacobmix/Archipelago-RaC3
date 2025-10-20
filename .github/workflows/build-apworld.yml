@@ -108,25 +108,36 @@ jobs:
         id: semver
         shell: bash
         run: |
+          set -e
           branch="${{ needs.build.outputs.branch }}"
           git fetch --tags
 
           echo "🔢 Determining next semantic version for branch: $branch"
 
+          # Get the latest tag, depending on branch type
           if [[ "$branch" == "main" ]]; then
-            latest_tag=$(git tag --sort=-v:refname | grep -v -- '-pre' | head -n 1)
+            latest_tag=$(git tag --sort=-v:refname | grep -v -- '-pre' | head -n 1 || true)
           else
-            latest_tag=$(git tag --sort=-v:refname | head -n 1)
+            latest_tag=$(git tag --sort=-v:refname | head -n 1 || true)
           fi
 
-          [ -z "$latest_tag" ] && latest_tag="v0.0.0"
+          if [[ -z "$latest_tag" ]]; then
+            echo "⚠️ No previous tags found. Starting from v0.0.0"
+            latest_tag="v0.0.0"
+          fi
+
           echo "Latest tag: $latest_tag"
 
-          IFS='.' read -r major minor patch <<< "${latest_tag//v/}"
+          # Strip leading "v" if present
+          tag_stripped="${latest_tag#v}"
+
+          # Split version safely (defaults if missing)
+          IFS='.' read -r major minor patch <<< "$tag_stripped"
           major=${major:-0}
           minor=${minor:-0}
           patch=${patch:-0}
 
+          # Bump version based on branch type
           if [[ "$branch" == "main" ]]; then
             minor=$((minor + 1))
             patch=0
