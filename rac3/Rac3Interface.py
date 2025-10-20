@@ -8,7 +8,9 @@ from typing import Dict, Optional
 from . import Items, Locations
 from .pcsx2_interface.pine import Pine
 from .Rac3Addresses import (ADDRESSES, ALL_ITEMS_LIST, CHECK_TYPE, COMPARE_TYPE, GADGET_LIST, INFOBOT_LIST, LOCATIONS,
-                            RAC3_DATA_TABLE, RAC3ITEM, RAC3REGION, VIDCOMIC_LIST, WEAPON_LIST, ITEM_NAME_FROM_ID)
+                            PLANET_NAME_FROM_ID, RAC3_DATA_TABLE, RAC3ITEM, RAC3REGION, SHIP_SLOTS, VIDCOMIC_LIST,
+                            WEAPON_LIST,
+                            ITEM_NAME_FROM_ID)
 
 
 class Dummy(IntEnum):
@@ -42,7 +44,7 @@ class GameInterface:
         return self.pcsx2_interface.read_bytes(address, n)
 
     def _read_float(self, address: int):
-        return struct.unpack("f", self.pcsx2_interface.read_bytes(address, 4))[0]
+        return struct.unpack('f', self.pcsx2_interface.read_bytes(address, 4))[0]
 
     def _write8(self, address: int, value: int):
         self.pcsx2_interface.write_int8(address, value)
@@ -65,7 +67,7 @@ class GameInterface:
             self.pcsx2_interface.connect()
             if not self.pcsx2_interface.is_connected():
                 return
-            self.logger.info("Connected to PCSX2 Emulator")
+            self.logger.info('Connected to PCSX2 Emulator')
         try:
             game_id = self.pcsx2_interface.get_game_id()
             # The first read of the address will be null if the client is faster than the emulator
@@ -74,7 +76,7 @@ class GameInterface:
                 self.current_game = game_id
                 self.addresses = ADDRESSES[game_id]
             if self.current_game is None and self.game_id_error != game_id and game_id != b'\x00\x00\x00\x00\x00\x00':
-                self.logger.warning(f"Connected to the wrong game ({game_id})")
+                self.logger.warning(f'Connected to the wrong game ({game_id})')
                 self.game_id_error = game_id
         except RuntimeError:
             pass
@@ -154,7 +156,7 @@ class Rac3Interface(GameInterface):
         return False
 
     def proc_option(self, slot_data):
-        self.logger.info(f"{slot_data}")
+        self.logger.info(f'{slot_data}')
         self.boltAndXPMultiplier = slot_data["options"]["bolt_and_xp_multiplier"]
         self.weaponLevelLockFlag = slot_data["options"]["enable_progressive_weapons"]
 
@@ -164,13 +166,13 @@ class Rac3Interface(GameInterface):
             planet = 0
         elif planet > 29:
             planet = 3
-        return list(self.addresses["PlanetValues"])[planet]  # Todo: get planet name from id
+        return PLANET_NAME_FROM_ID[planet]
 
     def tyhrranosis_fix(self):
         self._write8(self.addresses["Robonoids active"], 0)
 
     def item_received(self, item_code, processed_items_count=0):
-        # self.logger.info(f"{item_code}")
+        # self.logger.info(f'{item_code}')
         if list(Items.weapon_items.values())[0].ap_code <= item_code <= list(Items.weapon_items.values())[-1].ap_code:
             self.received_weapon(item_code)
         elif list(Items.progressive_weapons.values())[0].ap_code <= item_code <= \
@@ -323,23 +325,23 @@ class Rac3Interface(GameInterface):
 
     # interval update function: Check unlock/lock status of items
     def weapon_cycler(self):
-        # self.logger.debug("---------WeaponCycler Start---------")
+        # self.logger.debug('---------WeaponCycler Start---------')
         for name, dict_data in self.UnlockWeapons.items():
             addr = RAC3_DATA_TABLE[name].UNLOCK_ADDRESS
             addr = self.address_convert(addr)
 
-            # self.logger.info(f"[WeaponCycler] {name}: status={unlock_status}, delay={self.UnlockWeapons[name][
-            # 'unlockDelay']}, addr={hex(addr)}")
+            # self.logger.info(f'[WeaponCycler] {name}: status={unlock_status}, delay={self.UnlockWeapons[name][
+            # 'unlockDelay']}, addr={hex(addr)}')
             if dict_data.status == 0:
                 self.UnlockWeapons[name].unlock_delay += 1
                 if dict_data.unlock_delay > 1:
                     self._write8(addr, 0)
                     self.UnlockWeapons[name].unlock_delay = 0
-                # self.logger.debug(f"{name} locked")
+                # self.logger.debug(f'{name} locked')
             else:
                 self._write8(addr, 1)
-        #         self.logger.debug(f"{name} is available")
-        # self.logger.debug("---------WeaponCycler End---------")
+        #         self.logger.debug(f'{name} is available')
+        # self.logger.debug('---------WeaponCycler End---------')
 
         replace_equip: int = 0
         equipped_address = self.address_convert(self.addresses["CurrentEquipped"])  # TODO: Status
@@ -350,7 +352,7 @@ class Rac3Interface(GameInterface):
             # 9 is omniwrench TODO: make this default to a previous weapon
 
     def gadget_cycler(self):
-        # self.logger.debug("---------GadgetCycler Start---------")
+        # self.logger.debug('---------GadgetCycler Start---------')
         for name, dict_data in self.UnlockGadgets.items():
             unlock_status = dict_data.status
             addr = RAC3_DATA_TABLE[name].UNLOCK_ADDRESS
@@ -362,7 +364,7 @@ class Rac3Interface(GameInterface):
                     val = self._read8(addr)
                     self._write8(addr, (val & 0xfe))
                     self.UnlockGadgets[name].unlock_delay = 0
-                # self.logger.debug(f"{name} locked")
+                # self.logger.debug(f'{name} locked')
             else:
                 # Get Gadget in event
                 if name in [RAC3ITEM.HACKER, RAC3ITEM.HYPERSHOT, RAC3ITEM.REFRACTOR, RAC3ITEM.TYHRRA_GUISE,
@@ -371,11 +373,11 @@ class Rac3Interface(GameInterface):
                 # Get Gadget in field
                 else:
                     self._write8(addr, 1)  # 0x1=0b0001
-        #         self.logger.debug(f"{name} is available")
-        # self.logger.debug("---------GadgetCycler End---------")
+        #         self.logger.debug(f'{name} is available')
+        # self.logger.debug('---------GadgetCycler End---------')
 
     def planet_cycler(self):
-        # self.logger.debug("---------PlanetCycler Start---------")
+        # self.logger.debug('---------PlanetCycler Start---------')
         for name in INFOBOT_LIST:
             addr, idx = RAC3_DATA_TABLE[name]
             if self.UnlockPlanets[name].status:
@@ -394,7 +396,7 @@ class Rac3Interface(GameInterface):
             if name == RAC3REGION.QWARKS_HIDEOUT:
                 if self.UnlockGadgets[RAC3ITEM.REFRACTOR].status == 0:
                     self._write8(addr, 0)
-        # self.logger.debug("---------PlanetCycler End---------")
+        # self.logger.debug('---------PlanetCycler End---------')
 
     def vidcomic_cycler(self):
         # self.logger.debug("---------VidComicCycler Start---------")
@@ -424,7 +426,7 @@ class Rac3Interface(GameInterface):
         # self.logger.debug("---------VidComicCycler End---------")
 
     def armor_cycler(self):
-        # self.logger.debug("---------ArmorCycler Start---------")
+        # self.logger.debug('---------ArmorCycler Start---------')
         addr = self.addresses["ArmorVersion"]  # Todo: Add Armour to Items
         addr = self.address_convert(addr)
         current_armor_value = self._read8(addr)
@@ -434,8 +436,8 @@ class Rac3Interface(GameInterface):
             if self.UnlockArmor.unlock_delay > 1:
                 self._write8(addr, self.UnlockArmor.status)
                 self.UnlockArmor.unlock_delay = 0
-        # self.logger.debug(f"Armor status: {self.UnlockArmor.status}")
-        # self.logger.debug("---------ArmorCycler End---------")
+        # self.logger.debug(f'Armor status: {self.UnlockArmor.status}')
+        # self.logger.debug('---------ArmorCycler End---------')
 
     # Todo: status
     def verify_quick_select_and_last_used(self):
@@ -594,9 +596,8 @@ class Rac3Interface(GameInterface):
         print(f'Planets Tracker: {self.UnlockPlanets}')
         print(f'Armor Tracker: {self.UnlockArmor}')
         count = 0
-        planet_lookup = list(self.addresses["PlanetValues"].keys())
-        for addr in self.addresses["PlanetSlots"]:
-            print(f'Planet{count}: {planet_lookup[self._read8(addr)]}')
+        for name in SHIP_SLOTS:
+            print(f'Planet{count}: {PLANET_NAME_FROM_ID[self._read8(RAC3_DATA_TABLE[name].SLOT_ADDRESS)]}')
             count += 1
         print(f'Current planet Tracked: {current_planet}')
         print(f'Slot Data: {slot_data}')
