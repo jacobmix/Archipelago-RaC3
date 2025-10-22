@@ -1,0 +1,195 @@
+name: Build and Release APWorld
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+  workflow_dispatch:
+  repository_dispatch:
+    types: [trigger-build-apworld]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    outputs:
+      branch: ${{ steps.branch.outputs.branch }}
+      should_build: ${{ steps.changes.outputs.should_build }}
+
+    steps:
+      - name: Determine branch to build
+        id: branch
+        shell: bash
+        run: |
+          branch="${{ github.event.client_payload.branch }}"
+          if [ -z "$branch" ]; then
+            branch="${GITHUB_REF#refs/heads/}"
+          fi
+          echo "🏗️ Building branch: $branch"
+          echo "branch=$branch" >> $GITHUB_OUTPUT
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.branch.outputs.branch }}
+          fetch-depth: 0
+
+      - name: Check if build should run (skip workflow/README-only changes)
+        id: changes
+        shell: bash
+        run: |
+          branch="${{ steps.branch.outputs.branch }}"
+          event_name="${{ github.event_name }}"
+
+          # Always build when manually or externally triggered
+          if [[ "$event_name" == "workflow_dispatch" || "$event_name" == "repository_dispatch" ]]; then
+            echo "🔧 Manual or external trigger detected — building regardless of changes."
+            echo "should_build=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          git fetch origin $branch --depth=2
+          echo "🔍 Checking for relevant changes since last origin/$branch..."
+          changed_files=$(git diff --name-only origin/$branch...HEAD)
+          echo "Changed files:"
+          echo "$changed_files"
+
+          if [[ -z "$changed_files" ]]; then
+            echo "🟡 No changes detected. Skipping build."
+            echo "should_build=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # Skip if only workflows or README changed
+          if echo "$changed_files" | grep -Eq '^(\.github/workflows/|README\.md)'; then
+            non_workflow_changes=$(echo "$changed_files" | grep -Ev '^(\.github/workflows/|README\.md)' || true)
+            if [[ -z "$non_workflow_changes" ]]; then
+              echo "🟡 Only workflow/README changes detected — skipping build."
+              echo "should_build=false" >> $GITHUB_OUTPUT
+              exit 0
+            fi
+          fi
+
+          echo "✅ Relevant changes detected — proceed with build/release."
+          echo "should_build=true" >> $GITHUB_OUTPUT
+
+      - name: Run PowerShell build script
+        if: steps.changes.outputs.should_build == 'true'
+        run: ./build/build_apworld.ps1
+        shell: pwsh
+
+      - name: Upload build artifact
+        if: steps.changes.outputs.should_build == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: rac3.apworld
+          path: ./rac3.apworld
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: needs.build.outputs.should_build == 'true'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.build.outputs.branch }}
+          fetch-depth: 0
+
+      - name: Download built artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: rac3.apworld
+          path: .
+
+      - name: Determine next semantic version
+        id: semver
+        shell: bash
+        run: |
+          set -e
+          branch="${{ needs.build.outputs.branch }}"
+          git fetch --tags
+
+          echo "🔢 Determining next semantic version for branch: $branch"
+
+          # Get the latest tag, depending on branch type
+          if [[ "$branch" == "main" ]]; then
+            latest_tag=$(git tag --sort=-v:refname | grep -v -- '-pre' | head -n 1 || true)
+          else
+            latest_tag=$(git tag --sort=-v:refname | head -n 1 || true)
+          fi
+
+          if [[ -z "$latest_tag" ]]; then
+            echo "⚠️ No previous tags found. Starting from v0.0.0"
+            latest_tag="v0.0.0"
+          fi
+
+          echo "Latest tag: $latest_tag"
+
+          # Strip leading "v" if present
+          tag_stripped="${latest_tag#v}"
+
+          # Split version safely (defaults if missing)
+          IFS='.' read -r major minor patch <<< "$tag_stripped"
+          major=${major:-0}
+          minor=${minor:-0}
+          patch=${patch:-0}
+
+          # Bump version based on branch type
+          if [[ "$branch" == "main" ]]; then
+            minor=$((minor + 1))
+            patch=0
+            version="${major}.${minor}.${patch}"
+          else
+            patch=$((patch + 1))
+            version="${major}.${minor}.${patch}-pre"
+          fi
+
+          echo "✅ Next version: $version"
+          echo "version=$version" >> $GITHUB_OUTPUT
+          echo "branch=$branch" >> $GITHUB_OUTPUT
+
+      - name: Create release notes
+        id: notes
+        run: |
+          repo_url="https://github.com/${{ github.repository }}"
+          branch="${{ steps.semver.outputs.branch }}"
+          new_tag="v${{ steps.semver.outputs.version }}"
+          short_sha=$(git rev-parse --short HEAD)
+          commit_msg=$(git log -1 --pretty=%B)
+
+          changelog="**Changelog:** ${repo_url}/commits/${branch}"
+
+          cat <<EOF > release_notes.md
+          ## RaC3 APWorld ${new_tag}
+
+          **Branch:** ${branch}  
+          **Commit:** ${short_sha}  
+          **Date:** $(date -u +"%Y-%m-%d %H:%M UTC")
+
+          ### Summary
+          - ${commit_msg}
+
+          ### Notes
+          This release was automatically generated from the **${branch}** branch.  
+          Latest (main) releases are recommended as pre-releases (staging) may contain experimental or in-progress changes.  
+          ${changelog}
+
+          ### If a location is broken and does not get sent out
+          Go to the server console (locally or via the Archipelago room page) and run:  
+          \`/send_location <player_name> <location>\`  
+          Example: \`/send_location TaoshiRaC3 "Crash Site: Infobot: Aridia"\`
+          EOF
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: rac3.apworld
+          tag_name: v${{ steps.semver.outputs.version }}
+          name: "RaC3 APWorld v${{ steps.semver.outputs.version }}"
+          body_path: release_notes.md
+          prerelease: ${{ contains(steps.semver.outputs.version, '-pre') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
