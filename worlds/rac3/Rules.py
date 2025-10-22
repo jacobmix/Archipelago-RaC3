@@ -157,7 +157,7 @@ def set_rules_hard_location(world):
     add_rule(world.get_location("Annihilation: Time to Suck"),
              lambda state: state.has_any(["Suck Cannon", "Progressive Suck Cannon"], world.player))
     add_rule(world.get_location("Annihilation: Chop Chop"),
-             lambda state: state.has_any(["Disk-Blade Gun", "Progressive Disk-Blade Gun"], world.player))
+             lambda state: state.has_any(["Disc-Blade Gun", "Progressive Disc-Blade Gun"], world.player))
     add_rule(world.get_location("Annihilation: Sleep Inducer"),
              lambda state: state.has_any(["Rift Inducer", "Progressive Rift Inducer"], world.player)
                            and state.can_reach_location("Annihilation: Chop Chop", world.player))
@@ -349,7 +349,7 @@ def set_rules_hard_location(world):
         add_rule(world.get_location("Metropolis: Skill Point: 2002 was a good year in the city"),
                  lambda state: state.has_any(["Flux Rifle", "Progressive Flux Rifle", "Annihilator",
                                               "Progressive Annihilator", "RY3N0", "Progressive RY3N0", "Suck Cannon",
-                                              "Progressive Suck Cannon", "Disk-Blade Gun", "Progressive Disk-Blade Gun"
+                                              "Progressive Suck Cannon", "Disc-Blade Gun", "Progressive Disc-Blade Gun"
                                               ], world.player))
 
         # Crash Site
@@ -463,7 +463,7 @@ def set_rules_hard_location(world):
                                and state.can_reach("Koros", player=world.player)
                                and state.can_reach("Command Center", player=world.player)
                                # Weapons
-                               and state.has_all(["Plasma Whip", "Spitting Hydra", "Suck Cannon", "Disk-Blade Gun",
+                               and state.has_all(["Plasma Whip", "Spitting Hydra", "Suck Cannon", "Disc-Blade Gun",
                                                   "Flux Rifle", "Qwack-O-Ray", "Annihilator", "Infector"],
                                                  world.player))
 

@@ -141,8 +141,8 @@ def create_regions(world: "RaC3World"):
     holo_shield_glove_upgrades = create_region(world, "Holo-Shield Glove Upgrades")
     menu.connect(holo_shield_glove_upgrades, rule=lambda state: state.has("Holo-Shield Glove", world.player)),
 
-    disk_blade_gun_upgrades = create_region(world, "Disk-Blade Gun Upgrades")
-    menu.connect(disk_blade_gun_upgrades, rule=lambda state: state.has("Disk-Blade Gun", world.player)),
+    disc_blade_gun_upgrades = create_region(world, "Disc-Blade Gun Upgrades")
+    menu.connect(disc_blade_gun_upgrades, rule=lambda state: state.has("Disc-Blade Gun", world.player)),
 
     rift_inducer_upgrades = create_region(world, "Rift Inducer Upgrades")
     menu.connect(rift_inducer_upgrades, rule=lambda state: state.has("Rift Inducer", world.player)),
@@ -217,29 +217,29 @@ def should_skip_location(key: str, options) -> bool:
             if simple_skill.lower() in key.lower():
                 return False
         return True
-    
+
         # Skip titanium bolt locations if titanium bolt option is disabled
     if "T-Bolt" in key and options.titanium_bolts.value == 0:
         return True
-    
+
         # Skip nanotech milestone locations if nanotech milestones option is disabled
     if "Nanotech Milestone" in key and options.nanotech_milestones.value == 0:
         return True
-    
+
         #Skips nanotech milestones that are not in every 5
     if "Nanotech Milestone" in key and options.nanotech_milestones.value == 1:
         for every_5 in every_5_nanotech:
             if every_5.lower() in key.lower():
                 return False
         return True
-    
+
         #Skips nanotech milestones that are not in every 10
     if "Nanotech Milestone" in key and options.nanotech_milestones.value == 2:
         for every_10 in every_10_nanotech:
             if every_10.lower() in key.lower():
                 return False
         return True
-    
+
         #Skips nanotech milestones that are not in every 20
     if "Nanotech Milestone" in key and options.nanotech_milestones.value == 3:
         for every_20 in every_20_nanotech:

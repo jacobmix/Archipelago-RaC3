@@ -1,6 +1,5 @@
 from typing import Any, TYPE_CHECKING
-
-from .Rac3Addresses import ADDRESSES, LOCATIONS
+from .Rac3Addresses import LOCATIONS, RAC3_DATA_TABLE
 
 if TYPE_CHECKING:
     from . import RaC3World
@@ -28,9 +27,7 @@ def setup_options_from_slot_data(world: "RaC3World") -> None:
 
 
 def map_page_index(data: Any) -> int:
-    planet_values = ADDRESSES["SCUS-97353"]["PlanetValues"]
-    # exception(f'Looking up key: {data}')
-    return planet_values.get(data, 0)
+    return RAC3_DATA_TABLE[data].ID
 
 
 def poptracker_data() -> dict[str, int]:
