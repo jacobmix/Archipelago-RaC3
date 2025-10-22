@@ -1,7 +1,7 @@
 import logging
 from typing import TYPE_CHECKING
 
-from worlds.generic.Rules import add_rule, set_rule
+from worlds.generic.Rules import add_rule
 
 if TYPE_CHECKING:
     from . import RaC3World
@@ -327,8 +327,6 @@ def set_rules_hard_location(world):
     # ----- Simple Skill Points -----#
     if world.options.skill_points.value > 0:
         # Phoenix
-        add_rule(world.get_location("Phoenix: Skill Point: Monkeying Around"),
-                 lambda state: state.has("Tyhrra-Guise", world.player))
         add_rule(world.get_location("Phoenix: Skill Point: Beat Helga's Best VR Time"),
                  lambda state: state.can_reach("Tyhrranosis", player=world.player)
                                and state.has_all(["Hacker", "Hypershot"], player=world.player))
@@ -366,6 +364,8 @@ def set_rules_hard_location(world):
 
     # ----- Every Skill Point -----#
     if world.options.skill_points.value > 1:
+        add_rule(world.get_location("Phoenix: Skill Point: Monkeying Around"),
+                 lambda state: state.has("Tyhrra-Guise", world.player))
         add_rule(world.get_location("Phoenix: Skill Point: Turn Up The Heat!"),
                  lambda state: state.can_reach("Koros", player=world.player))
         add_rule(world.get_location("Phoenix: Skill Point: Strive for Arcade Perfection"),

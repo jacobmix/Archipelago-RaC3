@@ -1,8 +1,8 @@
-from typing import List, Dict, Any
 from dataclasses import dataclass
-from worlds.AutoWorld import PerGameCommonOptions
-from Options import Choice, OptionGroup, Toggle, DefaultOnToggle, ItemDict, StartInventoryPool
+from typing import Any, Dict, List
 
+from Options import Choice, ItemDict, OptionGroup, StartInventoryPool
+from worlds.AutoWorld import PerGameCommonOptions
 from .Items import default_starting_weapons
 
 # Common variable
