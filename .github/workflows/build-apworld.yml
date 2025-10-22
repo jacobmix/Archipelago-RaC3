@@ -79,7 +79,7 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
-          $rootDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
+          $rootDir = "${{ github.workspace }}"
           Set-Location $rootDir
 
           $worldFolder = Join-Path $rootDir "worlds/rac3"
