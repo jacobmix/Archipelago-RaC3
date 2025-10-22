@@ -172,14 +172,47 @@ jobs:
 
       - name: Create release notes
         id: notes
+        shell: bash
         run: |
+          set -e
           repo_url="https://github.com/${{ github.repository }}"
           branch="${{ steps.semver.outputs.branch }}"
           new_tag="v${{ steps.semver.outputs.version }}"
           short_sha=$(git rev-parse --short HEAD)
-          commit_msg=$(git log -1 --pretty=%B)
 
-          changelog="**Changelog:** ${repo_url}/commits/${branch}"
+          # Find previous release tag (one before the new tag)
+          prev_tag=$(git tag --sort=-v:refname | head -n 2 | tail -n 1 || true)
+          if [[ -z "$prev_tag" || "$prev_tag" == "$new_tag" ]]; then
+            echo "⚠️ No previous release tag found — will show recent commits."
+            prev_tag=""
+          fi
+
+          # Build changelog link
+          if [[ -n "$prev_tag" ]]; then
+            changelog="${repo_url}/compare/${prev_tag}...${new_tag}"
+          else
+            changelog="${repo_url}/commits/${branch}"
+          fi
+
+          echo "🔍 Using changelog link: $changelog"
+
+          # Gather commit list (limit 50, count total)
+          if [[ -n "$prev_tag" ]]; then
+            total_commits=$(git rev-list --count "${prev_tag}..HEAD")
+            commit_list=$(git log "${prev_tag}..HEAD" --pretty=format:"- %s (%h)" -n 50)
+          else
+            total_commits=$(git rev-list --count HEAD)
+            commit_list=$(git log -n 50 --pretty=format:"- %s (%h)")
+          fi
+
+          if [[ -z "$commit_list" ]]; then
+            commit_list="- (no new commits since last release)"
+          fi
+
+          if [[ $total_commits -gt 50 ]]; then
+            extra_commits=$((total_commits - 50))
+            commit_list="${commit_list}\n- ...and ${extra_commits} more commits."
+          fi
 
           cat <<EOF > release_notes.md
           ## RaC3 APWorld ${new_tag}
@@ -188,13 +221,14 @@ jobs:
           **Commit:** ${short_sha}  
           **Date:** $(date -u +"%Y-%m-%d %H:%M UTC")
 
-          ### Summary
-          - ${commit_msg}
+          ### Summary (Last ${total_commits} Commits)
+          ${commit_list}
+
+          **Full changelog and compare**: ${changelog}
 
           ### Notes
           This release was automatically generated from the **${branch}** branch.  
-          Latest (main) releases are recommended as pre-releases (staging) may contain experimental or in-progress changes.  
-          ${changelog}
+          Latest (main) releases are recommended, as pre-releases (staging) may contain experimental or in-progress changes.
 
           ### If a location is broken and does not get sent out
           Go to the server console (locally or via the Archipelago room page) and run:  

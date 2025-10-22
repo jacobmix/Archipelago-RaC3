@@ -8,7 +8,7 @@ The following are required in order to play Ratchet & Clank 3 in Archipelago
 
 - Installed [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases) v0.5.0 or higher.\
    **Make sure to install the Generator if you intend to generate multiworlds.**
-- The latest version of the [Ratchet & Clank 3 apworld](https://github.com/Taoshix/RaC3AP/releases).
+- The latest version of the [Ratchet & Clank 3 apworld](https://github.com/Taoshix/Archipelago-RaC3/releases).
 - [PCSX2 Emulator](https://pcsx2.net/downloads/). Must be v1.7 or higher for the required PINE support.
 - A Ratchet & Clank 3 US ISO (`SCUS-97353`)
 
