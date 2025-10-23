@@ -49,9 +49,8 @@ jobs:
             exit 0
           fi
 
-          git fetch origin $branch --depth=2
-          echo "🔍 Checking for relevant changes since last origin/$branch..."
-          changed_files=$(git diff --name-only origin/$branch...HEAD)
+          echo "🔍 Checking for relevant changes since last commit..."
+          changed_files=$(git diff --name-only HEAD~1 HEAD || true)
           echo "Changed files:"
           echo "$changed_files"
 
@@ -196,21 +195,21 @@ jobs:
 
           echo "🔍 Using changelog link: $changelog"
 
-          # Gather commit list (limit 50, count total)
+          # Gather commit list (limit 200, count total)
           if [[ -n "$prev_tag" ]]; then
             total_commits=$(git rev-list --count "${prev_tag}..HEAD")
             commit_list=$(git log "${prev_tag}..HEAD" --pretty=format:"- %s (%h)" -n 50)
           else
             total_commits=$(git rev-list --count HEAD)
-            commit_list=$(git log -n 50 --pretty=format:"- %s (%h)")
+            commit_list=$(git log -n 200 --pretty=format:"- %s (%h)")
           fi
 
           if [[ -z "$commit_list" ]]; then
             commit_list="- (no new commits since last release)"
           fi
 
-          if [[ $total_commits -gt 50 ]]; then
-            extra_commits=$((total_commits - 50))
+          if [[ $total_commits -gt 200 ]]; then
+            extra_commits=$((total_commits - 200))
             commit_list="${commit_list}\n- ...and ${extra_commits} more commits."
           fi
 
