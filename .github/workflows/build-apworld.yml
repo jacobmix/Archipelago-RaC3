@@ -198,7 +198,7 @@ jobs:
           # Gather commit list (limit 200, count total)
           if [[ -n "$prev_tag" ]]; then
             total_commits=$(git rev-list --count "${prev_tag}..HEAD")
-            commit_list=$(git log "${prev_tag}..HEAD" --pretty=format:"- %s (%h)" -n 50)
+            commit_list=$(git log "${prev_tag}..HEAD" --pretty=format:"- %s (%h)" -n 200)
           else
             total_commits=$(git rev-list --count HEAD)
             commit_list=$(git log -n 200 --pretty=format:"- %s (%h)")
