@@ -67,6 +67,7 @@ class ExtraArmorUpgrade(Choice):
     option_extra_4 = 4
     default = 0
 
+
 class SkillPoints(Choice):
     """
     Determines which skill points are locations in the world.
@@ -95,6 +96,7 @@ class SkillPoints(Choice):
     option_every_skill_point = 2
     default = 1
 
+
 class Trophies(Choice):
     """
     Determines which trophies are locations in the world.
@@ -108,6 +110,7 @@ class Trophies(Choice):
     option_every_trophy = 2
     default = 1
 
+
 class TitaniumBolts(Choice):
     """
     Determines whether titanium bolts are locations in the world.
@@ -118,6 +121,7 @@ class TitaniumBolts(Choice):
     option_disabled = 0
     option_enabled = 1
     default = 1
+
 
 class NanotechMilestones(Choice):
     """

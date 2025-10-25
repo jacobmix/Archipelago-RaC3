@@ -1,5 +1,6 @@
 from typing import Dict, TYPE_CHECKING
 
+from Rac3Addresses import RAC3REGION
 from .Types import EventData, LocData
 
 if TYPE_CHECKING:
@@ -23,49 +24,49 @@ def get_regions() -> list:
 
 rac3_locations = {
     # ----- Planet Veldin -----#
-    "Veldin: First Ranger": LocData(50010000, "Veldin"),
-    "Veldin: Second Ranger": LocData(50010001, "Veldin"),
-    "Veldin: Save Veldin": LocData(50010002, "Veldin"),
+    "Veldin: First Ranger": LocData(50010000, RAC3REGION.VELDIN),
+    "Veldin: Second Ranger": LocData(50010001, RAC3REGION.VELDIN),
+    "Veldin: Save Veldin": LocData(50010002, RAC3REGION.VELDIN),
 
     # ----- Planet Florana -----#
-    "Florana: Received Plasma Whip": LocData(50020000, "Florana"),
-    "Florana: Received N60 Storm": LocData(50020001, "Florana"),
-    "Florana: T-Bolt: Below Gadgetron Vendor": LocData(50020002, "Florana"),
-    "Florana: T-Bolt: Path of Death": LocData(50020003, "Florana"),
-    "Florana: Defeat Qwark": LocData(50020004, "Florana"),
-    "Florana: Skill Point: Stay Squeaky Clean": LocData(50020005, "Florana"),
-    "Florana: Trophy: 2nd Building Upstairs North-East": LocData(50020006, "Florana"),  # Ratchet Trophy
+    "Florana: Received Plasma Whip": LocData(50020000, RAC3REGION.FLORANA),
+    "Florana: Received N60 Storm": LocData(50020001, RAC3REGION.FLORANA),
+    "Florana: T-Bolt: Below Gadgetron Vendor": LocData(50020002, RAC3REGION.FLORANA),
+    "Florana: T-Bolt: Path of Death": LocData(50020003, RAC3REGION.FLORANA),
+    "Florana: Defeat Qwark": LocData(50020004, RAC3REGION.FLORANA),
+    "Florana: Skill Point: Stay Squeaky Clean": LocData(50020005, RAC3REGION.FLORANA),
+    "Florana: Trophy: 2nd Building Upstairs North-East": LocData(50020006, RAC3REGION.FLORANA),  # Ratchet Trophy
 
     # ----- Starship Phoenix -----#
-    "Phoenix: Received Suck Cannon": LocData(50030000, "Starship Phoenix"),
-    "Phoenix: Received Infector": LocData(50030001, "Starship Phoenix"),
-    "Phoenix: Received Magna Plate Armor": LocData(50030002, "Starship Phoenix"),
-    "Phoenix: Received Adamantine Armor": LocData(50030003, "Starship Phoenix"),
-    "Phoenix: Received Aegis Mark V Armor": LocData(50030004, "Starship Phoenix"),
-    "Phoenix: Received Infernox Armor": LocData(50030005, "Starship Phoenix"),
-    "Phoenix: Meet Sasha on the Bridge": LocData(50030006, "Starship Phoenix"),  # Infobot: Marcadia
-    "Phoenix: Post Hideout Assault": LocData(50030007, "Starship Phoenix"),  # Infobot: Koros
-    "Phoenix: Return after winning Grand Prize Bout": LocData(50030009, "Starship Phoenix"),  # Infobot: Aquatos
-    "Phoenix: Return after Aquatos Base": LocData(50030010, "Starship Phoenix"),  # Infobot: Tyhrranosis
-    "Phoenix: VR Training after Noid Queen": LocData(50030011, "Starship Phoenix"),  # Infobot: Daxx
-    "Phoenix: T-Bolt: VR Gadget Training": LocData(50030015, "Starship Phoenix"),
-    "Phoenix: Received Hacker": LocData(50030016, "Starship Phoenix"),
-    "Phoenix: Received Hypershot": LocData(50030017, "Starship Phoenix"),
-    "Phoenix: VR: VR Gadget Training": LocData(50030018, "Starship Phoenix"),
-    "Phoenix: VR: Warm Up": LocData(50030019, "Starship Phoenix"),
-    "Phoenix: VR: Don't Look Down": LocData(50030020, "Starship Phoenix"),
-    "Phoenix: VR: Speed Round": LocData(50030021, "Starship Phoenix"),
-    "Phoenix: VR: Hot Stepper": LocData(50030022, "Starship Phoenix"),
-    "Phoenix: VR: 90 Second Slayer": LocData(50030023, "Starship Phoenix"),
-    "Phoenix: VR: The Shocker": LocData(50030024, "Starship Phoenix"),
-    "Phoenix: VR: Wrench Beatdown": LocData(50030025, "Starship Phoenix"),
-    "Phoenix: VR: Nerves of Titanium": LocData(50030026, "Starship Phoenix"),
-    "Phoenix: T-Bolt: VR Nerves of Titanium": LocData(50030027, "Starship Phoenix"),
-    "Phoenix: Give Al the Master Plan": LocData(50030029, "Starship Phoenix"),  # VidComic 5
-    "Phoenix: Skill Point: Turn Up The Heat!": LocData(50030030, "Starship Phoenix"),
-    "Phoenix: Skill Point: Strive for Arcade Perfection": LocData(50030031, "Starship Phoenix"),
-    "Phoenix: Skill Point: Beat Helga's Best VR Time": LocData(50030032, "Starship Phoenix"),
-    "Phoenix: Skill Point: Monkeying Around": LocData(50030033, "Starship Phoenix"),
+    "Phoenix: Received Suck Cannon": LocData(50030000, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Received Infector": LocData(50030001, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Received Magna Plate Armor": LocData(50030002, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Received Adamantine Armor": LocData(50030003, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Received Aegis Mark V Armor": LocData(50030004, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Received Infernox Armor": LocData(50030005, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Meet Sasha on the Bridge": LocData(50030006, RAC3REGION.STARSHIP_PHOENIX),  # Infobot: Marcadia
+    "Phoenix: Post Hideout Assault": LocData(50030007, RAC3REGION.STARSHIP_PHOENIX),  # Infobot: Koros
+    "Phoenix: Return after winning Grand Prize Bout": LocData(50030009, RAC3REGION.STARSHIP_PHOENIX),  # Infobot: Aquatos
+    "Phoenix: Return after Aquatos Base": LocData(50030010, RAC3REGION.STARSHIP_PHOENIX),  # Infobot: Tyhrranosis
+    "Phoenix: VR Training after Noid Queen": LocData(50030011, RAC3REGION.STARSHIP_PHOENIX),  # Infobot: Daxx
+    "Phoenix: T-Bolt: VR Gadget Training": LocData(50030015, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Received Hacker": LocData(50030016, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Received Hypershot": LocData(50030017, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: VR: VR Gadget Training": LocData(50030018, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: VR: Warm Up": LocData(50030019, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: VR: Don't Look Down": LocData(50030020, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: VR: Speed Round": LocData(50030021, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: VR: Hot Stepper": LocData(50030022, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: VR: 90 Second Slayer": LocData(50030023, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: VR: The Shocker": LocData(50030024, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: VR: Wrench Beatdown": LocData(50030025, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: VR: Nerves of Titanium": LocData(50030026, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: T-Bolt: VR Nerves of Titanium": LocData(50030027, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Give Al the Master Plan": LocData(50030029, RAC3REGION.STARSHIP_PHOENIX),  # VidComic 5
+    "Phoenix: Skill Point: Turn Up The Heat!": LocData(50030030, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Skill Point: Strive for Arcade Perfection": LocData(50030031, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Skill Point: Beat Helga's Best VR Time": LocData(50030032, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Skill Point: Monkeying Around": LocData(50030033, RAC3REGION.STARSHIP_PHOENIX),
     "Phoenix: Long Term Trophy: Titanium Collector": LocData(50030034, "Long Term Trophy"),
     # All Titanium Bolts collected
     "Phoenix: Long Term Trophy: Friend of the Rangers": LocData(50030035, "Long Term Trophy"),
@@ -75,53 +76,53 @@ rac3_locations = {
     "Phoenix: Long Term Trophy: Skill Master": LocData(50030037, "Long Term Trophy"),  # All Skill Points collected
 
     # VidComics
-    "Phoenix: Play VidComic 1": LocData(50030008, "Starship Phoenix"),  # Infobot: Annihilation Nation
-    "Phoenix: Qwark VidComic 1 Clear": LocData(50310000, "Starship Phoenix"),
-    "Phoenix: T-Bolt: VidComic 1 100%": LocData(50310001, "Starship Phoenix"),
-    "Phoenix: Skill Point: Pirate booty - set a new record for qwark": LocData(50310003, "Starship Phoenix"),
-    "Phoenix: Qwark VidComic 2 Clear": LocData(50330000, "Starship Phoenix"),
-    "Phoenix: T-Bolt: VidComic 2 100%": LocData(50330001, "Starship Phoenix"),
-    "Phoenix: Skill Point: Arriba Amoeba! - set a new record for qwark": LocData(50330003, "Starship Phoenix"),
-    "Phoenix: Qwark VidComic 3 Clear": LocData(50340000, "Starship Phoenix"),
-    "Phoenix: T-Bolt: VidComic 3 100%": LocData(50340001, "Starship Phoenix"),
-    "Phoenix: Skill Point: Shadow of the robot - set a new record for qwark": LocData(50340003, "Starship Phoenix"),
-    "Phoenix: Play VidComic 4": LocData(50030012, "Starship Phoenix"),  # Infobot: Metropolis
-    "Phoenix: Qwark VidComic 4 Clear": LocData(50320000, "Starship Phoenix"),
-    "Phoenix: T-Bolt: VidComic 4 100%": LocData(50320001, "Starship Phoenix"),
-    "Phoenix: Skill Point: Deja Q All over Again - set a new record for qwark": LocData(50320003, "Starship Phoenix"),
-    "Phoenix: Qwark VidComic 5 Clear": LocData(50350000, "Starship Phoenix"),
-    "Phoenix: T-Bolt: VidComic 5 100%": LocData(50350001, "Starship Phoenix"),
-    "Phoenix: Skill Point: The Shaming of the Q - set a new record for qwark": LocData(50350003, "Starship Phoenix"),
-    "Phoenix: Play VidComic 5": LocData(50030014, "Starship Phoenix"),  # Infobot: Qwarks Hideout
+    "Phoenix: Play VidComic 1": LocData(50030008, RAC3REGION.STARSHIP_PHOENIX),  # Infobot: Annihilation Nation
+    "Phoenix: Qwark VidComic 1 Clear": LocData(50310000, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: T-Bolt: VidComic 1 100%": LocData(50310001, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Skill Point: Pirate booty - set a new record for qwark": LocData(50310003, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Qwark VidComic 2 Clear": LocData(50330000, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: T-Bolt: VidComic 2 100%": LocData(50330001, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Skill Point: Arriba Amoeba! - set a new record for qwark": LocData(50330003, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Qwark VidComic 3 Clear": LocData(50340000, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: T-Bolt: VidComic 3 100%": LocData(50340001, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Skill Point: Shadow of the robot - set a new record for qwark": LocData(50340003, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Play VidComic 4": LocData(50030012, RAC3REGION.STARSHIP_PHOENIX),  # Infobot: Metropolis
+    "Phoenix: Qwark VidComic 4 Clear": LocData(50320000, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: T-Bolt: VidComic 4 100%": LocData(50320001, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Skill Point: Deja Q All over Again - set a new record for qwark": LocData(50320003, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Qwark VidComic 5 Clear": LocData(50350000, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: T-Bolt: VidComic 5 100%": LocData(50350001, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Skill Point: The Shaming of the Q - set a new record for qwark": LocData(50350003, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Play VidComic 5": LocData(50030014, RAC3REGION.STARSHIP_PHOENIX),  # Infobot: Qwarks Hideout
 
     # ----- Planet Marcadia -----#
-    "Marcadia: Received Spitting Hydra": LocData(50040000, "Marcadia"),
-    "Marcadia: Received Refractor": LocData(50040001, "Marcadia"),
-    "Marcadia: T-Bolt: After Pool of Water": LocData(50040002, "Marcadia"),
-    "Marcadia: T-Bolt: Last Refractor Room": LocData(50040003, "Marcadia"),
-    "Marcadia: T-Bolt: Ceiling just before Al": LocData(50040004, "Marcadia"),
-    "Marcadia: Meet Al": LocData(50040005, "Marcadia"),
-    "Marcadia: Operation IRON SHIELD: Secure the Area": LocData(50040006, "Marcadia"),
-    "Marcadia: Operation IRON SHIELD: Air Assault": LocData(50040007, "Marcadia"),
-    "Marcadia: Operation IRON SHIELD: Turret Command": LocData(50040008, "Marcadia"),
-    "Marcadia: Operation IRON SHIELD: Under the Gun": LocData(50040009, "Marcadia"),
-    "Marcadia: Operation IRON SHIELD: Hit n' Run": LocData(50040010, "Marcadia"),
-    "Marcadia: Skill Point: Reflect on how to score": LocData(50040011, "Marcadia"),
+    "Marcadia: Received Spitting Hydra": LocData(50040000, RAC3REGION.MARCADIA),
+    "Marcadia: Received Refractor": LocData(50040001, RAC3REGION.MARCADIA),
+    "Marcadia: T-Bolt: After Pool of Water": LocData(50040002, RAC3REGION.MARCADIA),
+    "Marcadia: T-Bolt: Last Refractor Room": LocData(50040003, RAC3REGION.MARCADIA),
+    "Marcadia: T-Bolt: Ceiling just before Al": LocData(50040004, RAC3REGION.MARCADIA),
+    "Marcadia: Meet Al": LocData(50040005, RAC3REGION.MARCADIA),
+    "Marcadia: Operation IRON SHIELD: Secure the Area": LocData(50040006, RAC3REGION.MARCADIA),
+    "Marcadia: Operation IRON SHIELD: Air Assault": LocData(50040007, RAC3REGION.MARCADIA),
+    "Marcadia: Operation IRON SHIELD: Turret Command": LocData(50040008, RAC3REGION.MARCADIA),
+    "Marcadia: Operation IRON SHIELD: Under the Gun": LocData(50040009, RAC3REGION.MARCADIA),
+    "Marcadia: Operation IRON SHIELD: Hit n' Run": LocData(50040010, RAC3REGION.MARCADIA),
+    "Marcadia: Skill Point: Reflect on how to score": LocData(50040011, RAC3REGION.MARCADIA),
 
     # ----- Annihilation Nation -----#
-    "Annihilation: Received Agents of Doom": LocData(50070000, "Annihilation Nation"),
-    "Annihilation: Received Tyhrra-Guise": LocData(50070001, "Annihilation Nation"),
-    "Annihilation: T-Bolt: Heat Street": LocData(50070002, "Annihilation Nation"),
+    "Annihilation: Received Agents of Doom": LocData(50070000, RAC3REGION.ANNIHILATION_NATION),
+    "Annihilation: Received Tyhrra-Guise": LocData(50070001, RAC3REGION.ANNIHILATION_NATION),
+    "Annihilation: T-Bolt: Heat Street": LocData(50070002, RAC3REGION.ANNIHILATION_NATION),
     "Annihilation: T-Bolt: Maze of Blaze": LocData(50070003, "Annihilation Nation 2"),
-    "Annihilation: Grand Prize Bout": LocData(50070004, "Annihilation Nation"),
-    "Annihilation: The Terrible Two": LocData(50070005, "Annihilation Nation"),
-    "Annihilation: Robot Rampage": LocData(50070006, "Annihilation Nation"),
-    "Annihilation: Two Minute Warning": LocData(50070007, "Annihilation Nation"),
-    "Annihilation: 90 Seconds of Carnage": LocData(50070008, "Annihilation Nation"),
-    "Annihilation: Onslaught": LocData(50070009, "Annihilation Nation"),
-    "Annihilation: Whip it Good": LocData(50070010, "Annihilation Nation"),
-    "Annihilation: Hydra'n Seek": LocData(50070011, "Annihilation Nation"),
-    "Annihilation: Championship Bout": LocData(50070012, "Annihilation Nation"),
+    "Annihilation: Grand Prize Bout": LocData(50070004, RAC3REGION.ANNIHILATION_NATION),
+    "Annihilation: The Terrible Two": LocData(50070005, RAC3REGION.ANNIHILATION_NATION),
+    "Annihilation: Robot Rampage": LocData(50070006, RAC3REGION.ANNIHILATION_NATION),
+    "Annihilation: Two Minute Warning": LocData(50070007, RAC3REGION.ANNIHILATION_NATION),
+    "Annihilation: 90 Seconds of Carnage": LocData(50070008, RAC3REGION.ANNIHILATION_NATION),
+    "Annihilation: Onslaught": LocData(50070009, RAC3REGION.ANNIHILATION_NATION),
+    "Annihilation: Whip it Good": LocData(50070010, RAC3REGION.ANNIHILATION_NATION),
+    "Annihilation: Hydra'n Seek": LocData(50070011, RAC3REGION.ANNIHILATION_NATION),
+    "Annihilation: Championship Bout": LocData(50070012, RAC3REGION.ANNIHILATION_NATION),
     "Annihilation: Meet Courtney - Arena": LocData(50070013, "Annihilation Nation 2"),
     "Annihilation: Ninja Challenge": LocData(50070014, "Annihilation Nation 2"),
     "Annihilation: Counting Ducks": LocData(50070015, "Annihilation Nation 2"),
@@ -136,160 +137,160 @@ rac3_locations = {
     "Annihilation: The Other White Meat": LocData(50070024, "Annihilation Nation 2"),
     "Annihilation: Championship Bout II": LocData(50070025, "Annihilation Nation 2"),
     "Annihilation: Qwarktastic Battle": LocData(50070026, "Annihilation Nation 2"),
-    "Annihilation: Heat Street": LocData(50070027, "Annihilation Nation"),
-    "Annihilation: Crispy Critter": LocData(50070028, "Annihilation Nation"),
-    "Annihilation: Pyro Playground": LocData(50070029, "Annihilation Nation"),
-    "Annihilation: Suicide Run": LocData(50070030, "Annihilation Nation"),
+    "Annihilation: Heat Street": LocData(50070027, RAC3REGION.ANNIHILATION_NATION),
+    "Annihilation: Crispy Critter": LocData(50070028, RAC3REGION.ANNIHILATION_NATION),
+    "Annihilation: Pyro Playground": LocData(50070029, RAC3REGION.ANNIHILATION_NATION),
+    "Annihilation: Suicide Run": LocData(50070030, RAC3REGION.ANNIHILATION_NATION),
     "Annihilation: BBQ Boulevard": LocData(50070031, "Annihilation Nation 2"),
     "Annihilation: Maze of Blaze": LocData(50070032, "Annihilation Nation 2"),
     "Annihilation: Cremation Station": LocData(50070033, "Annihilation Nation 2"),
     "Annihilation: The Annihilator (Gauntlet)": LocData(50070034, "Annihilation Nation 2"),
-    # "Annihilation: Qwark VidComic 2": LocData(50070035, "Annihilation Nation"),
+    # "Annihilation: Qwark VidComic 2": LocData(50070035, RAC3REGION.ANNIHILATION_NATION),
     # "Annihilation: Qwark VidComic 3": LocData(50070036, "Annihilation Nation 2"),
     "Annihilation: Skill Point: Bash the bug": LocData(50070037, "Annihilation Nation 2"),
     "Annihilation: Skill Point: Be an eight time champ": LocData(50070038, "Annihilation Nation 2"),
-    "Annihilation: Skill Point: Flee Flawlessly": LocData(50070039, "Annihilation Nation"),
-    "Annihilation: Skill Point: Lights, camera action!": LocData(50070040, "Annihilation Nation"),
+    "Annihilation: Skill Point: Flee Flawlessly": LocData(50070039, RAC3REGION.ANNIHILATION_NATION),
+    "Annihilation: Skill Point: Lights, camera action!": LocData(50070040, RAC3REGION.ANNIHILATION_NATION),
 
     # ----- Planet Aquatos -----#
-    "Aquatos: Received Flux Rifle": LocData(50080000, "Aquatos"),
-    "Aquatos: T-Bolt: Under the Bridge": LocData(50080001, "Aquatos"),
-    "Aquatos: T-Bolt: Underwater Bolt": LocData(50080002, "Aquatos"),
-    "Aquatos: T-Bolt: Behind the Locked Gate": LocData(50080003, "Aquatos"),
-    "Aquatos: Skill Point: Search for sunken treasure": LocData(50080004, "Aquatos"),
-    "Aquatos: Received Mini-Turret Glove": LocData(50080005, "Aquatos"),
-    "Aquatos: Received Lava Gun": LocData(50080006, "Aquatos"),
-    "Aquatos: Received Shield Charger": LocData(50080007, "Aquatos"),  # Command Center
-    "Aquatos: Received Bouncer": LocData(50080008, "Aquatos"),  # Qwarks Hideout
-    "Aquatos: Received Plasma Coil": LocData(50080009, "Aquatos"),  # Koros
+    "Aquatos: Received Flux Rifle": LocData(50080000, RAC3REGION.AQUATOS),
+    "Aquatos: T-Bolt: Under the Bridge": LocData(50080001, RAC3REGION.AQUATOS),
+    "Aquatos: T-Bolt: Underwater Bolt": LocData(50080002, RAC3REGION.AQUATOS),
+    "Aquatos: T-Bolt: Behind the Locked Gate": LocData(50080003, RAC3REGION.AQUATOS),
+    "Aquatos: Skill Point: Search for sunken treasure": LocData(50080004, RAC3REGION.AQUATOS),
+    "Aquatos: Received Mini-Turret Glove": LocData(50080005, RAC3REGION.AQUATOS),
+    "Aquatos: Received Lava Gun": LocData(50080006, RAC3REGION.AQUATOS),
+    "Aquatos: Received Shield Charger": LocData(50080007, RAC3REGION.AQUATOS),  # Command Center
+    "Aquatos: Received Bouncer": LocData(50080008, RAC3REGION.AQUATOS),  # Qwarks Hideout
+    "Aquatos: Received Plasma Coil": LocData(50080009, RAC3REGION.AQUATOS),  # Koros
     # Base
     # Sewers
-    "Aquatos: T-Bolt: Top Left Bolt": LocData(50280000, "Aquatos"),
-    "Aquatos: T-Bolt: Swinging Bolt": LocData(50280001, "Aquatos"),
-    "Aquatos: 1 Sewer Crystal Traded": LocData(50280002, "Aquatos"),
-    "Aquatos: 5 Sewer Crystals Traded": LocData(50280003, "Aquatos"),
-    "Aquatos: 10 Sewer Crystals Traded": LocData(50280004, "Aquatos"),
-    "Aquatos: 20 Sewer Crystals Traded": LocData(50280005, "Aquatos"),
-    "Aquatos: Skill Point: Hit the motherload": LocData(50280006, "Aquatos"),
+    "Aquatos: T-Bolt: Top Left Bolt": LocData(50280000, RAC3REGION.AQUATOS),
+    "Aquatos: T-Bolt: Swinging Bolt": LocData(50280001, RAC3REGION.AQUATOS),
+    "Aquatos: 1 Sewer Crystal Traded": LocData(50280002, RAC3REGION.AQUATOS),
+    "Aquatos: 5 Sewer Crystals Traded": LocData(50280003, RAC3REGION.AQUATOS),
+    "Aquatos: 10 Sewer Crystals Traded": LocData(50280004, RAC3REGION.AQUATOS),
+    "Aquatos: 20 Sewer Crystals Traded": LocData(50280005, RAC3REGION.AQUATOS),
+    "Aquatos: Skill Point: Hit the motherload": LocData(50280006, RAC3REGION.AQUATOS),
 
     # ----- Planet Tyhrranosis -----#
-    "Tyhrranosis: Received Annihilator": LocData(50090000, "Tyhrranosis"),
-    "Tyhrranosis: Received Holo-Shield Glove": LocData(50090001, "Tyhrranosis"),
-    "Tyhrranosis: T-Bolt: South East Cannon": LocData(50090002, "Tyhrranosis"),
-    "Tyhrranosis: T-Bolt: Underground Cave Bolt": LocData(50090003, "Tyhrranosis"),
-    "Tyhrranosis: Destroy the Momma Tyhrranoid": LocData(50090004, "Tyhrranosis"),
-    "Tyhrranosis: Skill Point: Be a Sharpshooter": LocData(50090005, "Tyhrranosis"),
-    "Tyhrranosis: Trophy: North East Pillar": LocData(50090006, "Tyhrranosis"),  # Al Trophy
+    "Tyhrranosis: Received Annihilator": LocData(50090000, RAC3REGION.TYHRRANOSIS),
+    "Tyhrranosis: Received Holo-Shield Glove": LocData(50090001, RAC3REGION.TYHRRANOSIS),
+    "Tyhrranosis: T-Bolt: South East Cannon": LocData(50090002, RAC3REGION.TYHRRANOSIS),
+    "Tyhrranosis: T-Bolt: Underground Cave Bolt": LocData(50090003, RAC3REGION.TYHRRANOSIS),
+    "Tyhrranosis: Destroy the Momma Tyhrranoid": LocData(50090004, RAC3REGION.TYHRRANOSIS),
+    "Tyhrranosis: Skill Point: Be a Sharpshooter": LocData(50090005, RAC3REGION.TYHRRANOSIS),
+    "Tyhrranosis: Trophy: North East Pillar": LocData(50090006, RAC3REGION.TYHRRANOSIS),  # Al Trophy
     # Missions
-    "Tyhrranosis: Operation ISLAND STRIKE: Assault on Kavu Island": LocData(50290000, "Tyhrranosis Region 2"),
-    "Tyhrranosis: Operation ISLAND STRIKE: Dogfight over Kavu Island": LocData(50290001, "Tyhrranosis Region 2"),
-    "Tyhrranosis: Operation ISLAND STRIKE: Operation Thunderbolt": LocData(50290002, "Tyhrranosis Region 2"),
-    "Tyhrranosis: Operation ISLAND STRIKE: The Final Battle": LocData(50290003, "Tyhrranosis Region 2"),
+    "Tyhrranosis: Operation ISLAND STRIKE: Assault on Kavu Island": LocData(50290000, RAC3REGION.TYHRRANOSIS_MISSION),
+    "Tyhrranosis: Operation ISLAND STRIKE: Dogfight over Kavu Island": LocData(50290001, RAC3REGION.TYHRRANOSIS_MISSION),
+    "Tyhrranosis: Operation ISLAND STRIKE: Operation Thunderbolt": LocData(50290002, RAC3REGION.TYHRRANOSIS_MISSION),
+    "Tyhrranosis: Operation ISLAND STRIKE: The Final Battle": LocData(50290003, RAC3REGION.TYHRRANOSIS_MISSION),
 
     # ----- Planet Daxx -----#
-    "Daxx: Infiltrate Weapons Facility": LocData(50050000, "Daxx"),
-    "Daxx: T-Bolt: Right of the Taxi": LocData(50050001, "Daxx"),
-    "Daxx: T-Bolt: Time Sensitive Door": LocData(50050002, "Daxx"),
-    "Daxx: Received Charge Boots": LocData(50050003, "Daxx"),
-    "Daxx: Gunship": LocData(50050004, "Daxx"),
-    "Daxx: Skill Point: Bugs to Birdie": LocData(50050005, "Daxx"),
+    "Daxx: Infiltrate Weapons Facility": LocData(50050000, RAC3REGION.DAXX),
+    "Daxx: T-Bolt: Right of the Taxi": LocData(50050001, RAC3REGION.DAXX),
+    "Daxx: T-Bolt: Time Sensitive Door": LocData(50050002, RAC3REGION.DAXX),
+    "Daxx: Received Charge Boots": LocData(50050003, RAC3REGION.DAXX),
+    "Daxx: Gunship": LocData(50050004, RAC3REGION.DAXX),
+    "Daxx: Skill Point: Bugs to Birdie": LocData(50050005, RAC3REGION.DAXX),
     # In the vanilla game you get the quack-o-ray on Aridia, but the skill point is done on Daxx
-    "Daxx: Trophy: Ledge overlooking Ship": LocData(50050006, "Daxx"),  # Plumber Trophy
+    "Daxx: Trophy: Ledge overlooking Ship": LocData(50050006, RAC3REGION.DAXX),  # Plumber Trophy
 
     # ----- Obani Gemini -----#
-    "Obani Gemini: Received Disc-Blade Gun": LocData(50110000, "Obani Gemini"),
-    "Obani Gemini: T-Bolt: Follow the Lava": LocData(50110001, "Obani Gemini"),
-    "Obani Gemini: T-Bolt: Between the Twin Towers": LocData(50110002, "Obani Gemini"),
-    "Obani Gemini: Infobot: Blackwater City": LocData(50110003, "Obani Gemini"),
-    "Obani Gemini: Skill Point: Get to the belt": LocData(50110004, "Obani Gemini"),
+    "Obani Gemini: Received Disc-Blade Gun": LocData(50110000, RAC3REGION.OBANI_GEMINI),
+    "Obani Gemini: T-Bolt: Follow the Lava": LocData(50110001, RAC3REGION.OBANI_GEMINI),
+    "Obani Gemini: T-Bolt: Between the Twin Towers": LocData(50110002, RAC3REGION.OBANI_GEMINI),
+    "Obani Gemini: Infobot: Blackwater City": LocData(50110003, RAC3REGION.OBANI_GEMINI),
+    "Obani Gemini: Skill Point: Get to the belt": LocData(50110004, RAC3REGION.OBANI_GEMINI),
 
     # ----- Planet Blackwater City -----#
-    "Blackwater City: Received Gravity Boots": LocData(50120000, "Blackwater City"),
-    "Blackwater City: Infobot: Holostar Studios": LocData(50120001, "Blackwater City"),
+    "Blackwater City: Received Gravity Boots": LocData(50120000, RAC3REGION.BLACKWATER_CITY),
+    "Blackwater City: Infobot: Holostar Studios": LocData(50120001, RAC3REGION.BLACKWATER_CITY),
     # Annihilation Nation 2 Courtney
-    "Blackwater City: Operation BLACK TIDE: The Battle of Blackwater City": LocData(50120002, "Blackwater City"),
-    "Blackwater City: Operation BLACK TIDE: The Bridge": LocData(50120003, "Blackwater City"),
-    "Blackwater City: Operation BLACK TIDE: Counterattack": LocData(50120004, "Blackwater City"),
-    "Blackwater City: Skill Point: Bash the party": LocData(50120005, "Blackwater City"),
+    "Blackwater City: Operation BLACK TIDE: The Battle of Blackwater City": LocData(50120002, RAC3REGION.BLACKWATER_CITY),
+    "Blackwater City: Operation BLACK TIDE: The Bridge": LocData(50120003, RAC3REGION.BLACKWATER_CITY),
+    "Blackwater City: Operation BLACK TIDE: Counterattack": LocData(50120004, RAC3REGION.BLACKWATER_CITY),
+    "Blackwater City: Skill Point: Bash the party": LocData(50120005, RAC3REGION.BLACKWATER_CITY),
 
     # ----- Holostar Studios -----#
-    "Holostar: Received Rift Inducer": LocData(50130000, "Holostar Studios"),
-    "Holostar: T-Bolt: Atop the Chairs": LocData(50130001, "Holostar Studios"),
-    "Holostar: T-Bolt: Lot 42's Gravity Ramp": LocData(50130002, "Holostar Studios"),
-    "Holostar: T-Bolt: Kamikaze Noids": LocData(50130003, "Holostar Studios"),
-    "Holostar: Skill Point: Feeling Lucky?": LocData(50130005, "Holostar Studios"),
-    "Holostar: Trophy: After tall Elevator": LocData(50130006, "Holostar Studios"),  # Clank Trophy
+    "Holostar: Received Rift Inducer": LocData(50130000, RAC3REGION.HOLOSTAR_STUDIOS),
+    "Holostar: T-Bolt: Atop the Chairs": LocData(50130001, RAC3REGION.HOLOSTAR_STUDIOS),
+    "Holostar: T-Bolt: Lot 42's Gravity Ramp": LocData(50130002, RAC3REGION.HOLOSTAR_STUDIOS),
+    "Holostar: T-Bolt: Kamikaze Noids": LocData(50130003, RAC3REGION.HOLOSTAR_STUDIOS),
+    "Holostar: Skill Point: Feeling Lucky?": LocData(50130005, RAC3REGION.HOLOSTAR_STUDIOS),
+    "Holostar: Trophy: After tall Elevator": LocData(50130006, RAC3REGION.HOLOSTAR_STUDIOS),  # Clank Trophy
 
     # ----- Skidd Cutscene -----#
     "Skidd is captured": LocData(50130004, "Skidd Cutscene"),  # Blackwater City and Holostar completed
 
     # ----- Obani Draco (lol) -----#
-    "Obani Draco: Defeat Courtney Gears": LocData(50210000, "Obani Draco"),  # Infobot: Zeldrin Starport
+    "Obani Draco: Defeat Courtney Gears": LocData(50210000, RAC3REGION.OBANI_DRACO),  # Infobot: Zeldrin Starport
 
     # ----- Zeldrin Starport -----#
-    "Zeldrin Starport: Received Bolt Grabber V2": LocData(50100000, "Zeldrin Starport"),
-    "Zeldrin Starport: T-Bolt: Inside the Second Ship": LocData(50100001, "Zeldrin Starport"),
-    "Zeldrin Starport: T-Bolt: Atop the Twin Shooters": LocData(50100002, "Zeldrin Starport"),
-    "Zeldrin Starport: Escape the Exploding Ship": LocData(50100003, "Zeldrin Starport"),  # VidComic 4
+    "Zeldrin Starport: Received Bolt Grabber V2": LocData(50100000, RAC3REGION.ZELDRIN_STARPORT),
+    "Zeldrin Starport: T-Bolt: Inside the Second Ship": LocData(50100001, RAC3REGION.ZELDRIN_STARPORT),
+    "Zeldrin Starport: T-Bolt: Atop the Twin Shooters": LocData(50100002, RAC3REGION.ZELDRIN_STARPORT),
+    "Zeldrin Starport: Escape the Exploding Ship": LocData(50100003, RAC3REGION.ZELDRIN_STARPORT),  # VidComic 4
 
     # ----- Planet Metropolis -----#
-    "Metropolis: T-Bolt: Across the Gap": LocData(50160000, "Metropolis Region 1"),
-    "Metropolis: Skill Point: 2002 was a good year in the city": LocData(50160001, "Metropolis Region 1"),
-    "Metropolis: Metal-Noids": LocData(50160002, "Metropolis Region 1"),
-    "Metropolis: T-Bolt: Before Grav-wall": LocData(50160003, "Metropolis Region 1"),
-    "Metropolis: Defeat Klunk": LocData(50160004, "Metropolis Region 2"),  # Infobot: Crash Site
-    "Metropolis: Trophy: 2nd Building Window": LocData(50160005, "Metropolis Region 1"),  # Skrunch Trophy
+    "Metropolis: T-Bolt: Across the Gap": LocData(50160000, RAC3REGION.METROPOLIS),
+    "Metropolis: Skill Point: 2002 was a good year in the city": LocData(50160001, RAC3REGION.METROPOLIS),
+    "Metropolis: Metal-Noids": LocData(50160002, RAC3REGION.METROPOLIS),
+    "Metropolis: T-Bolt: Before Grav-wall": LocData(50160003, RAC3REGION.METROPOLIS),
+    "Metropolis: Defeat Klunk": LocData(50160004, RAC3REGION.METROPOLIS_MISSION),  # Infobot: Crash Site
+    "Metropolis: Trophy: 2nd Building Window": LocData(50160005, RAC3REGION.METROPOLIS),  # Skrunch Trophy
     # Missions
-    "Metropolis: T-Bolt: Tall Tower (Hovership)": LocData(50260000, "Metropolis Region 2"),
-    "Metropolis: Operation URBAN STORM: Countdown": LocData(50260001, "Metropolis Region 2"),
-    "Metropolis: Operation URBAN STORM: Urban Combat": LocData(50260002, "Metropolis Region 2"),
-    "Metropolis: Operation URBAN STORM: Tower Attack": LocData(50260003, "Metropolis Region 2"),
-    "Metropolis: Operation URBAN STORM: Air Superiority": LocData(50260004, "Metropolis Region 2"),
-    "Metropolis: Operation URBAN STORM: Turret Command": LocData(50260005, "Metropolis Region 2"),
-    "Metropolis: Received Map-O-Matic": LocData(50260006, "Metropolis Region 2"),
+    "Metropolis: T-Bolt: Tall Tower (Hovership)": LocData(50260000, RAC3REGION.METROPOLIS_MISSION),
+    "Metropolis: Operation URBAN STORM: Countdown": LocData(50260001, RAC3REGION.METROPOLIS_MISSION),
+    "Metropolis: Operation URBAN STORM: Urban Combat": LocData(50260002, RAC3REGION.METROPOLIS_MISSION),
+    "Metropolis: Operation URBAN STORM: Tower Attack": LocData(50260003, RAC3REGION.METROPOLIS_MISSION),
+    "Metropolis: Operation URBAN STORM: Air Superiority": LocData(50260004, RAC3REGION.METROPOLIS_MISSION),
+    "Metropolis: Operation URBAN STORM: Turret Command": LocData(50260005, RAC3REGION.METROPOLIS_MISSION),
+    "Metropolis: Received Map-O-Matic": LocData(50260006, RAC3REGION.METROPOLIS_MISSION),
 
     # ----- Planet Crash Site -----#
-    "Crash Site: T-Bolt: Turn Around": LocData(50170000, "Crash Site"),
-    "Crash Site: Received Nano-Pak": LocData(50170001, "Crash Site"),
-    "Crash Site: Escape Pod": LocData(50170002, "Crash Site"),
-    "Crash Site: Infobot: Aridia": LocData(50170003, "Crash Site"),
-    "Crash Site: Skill Point: Suck it up!": LocData(50170004, "Crash Site"),
-    "Crash Site: Skill Point: Aim High": LocData(50170005, "Crash Site"),
-    "Crash Site: Trophy: Near first corner": LocData(50170006, "Crash Site"),  # Nefarious Trophy
+    "Crash Site: T-Bolt: Turn Around": LocData(50170000, RAC3REGION.CRASH_SITE),
+    "Crash Site: Received Nano-Pak": LocData(50170001, RAC3REGION.CRASH_SITE),
+    "Crash Site: Escape Pod": LocData(50170002, RAC3REGION.CRASH_SITE),
+    "Crash Site: Infobot: Aridia": LocData(50170003, RAC3REGION.CRASH_SITE),
+    "Crash Site: Skill Point: Suck it up!": LocData(50170004, RAC3REGION.CRASH_SITE),
+    "Crash Site: Skill Point: Aim High": LocData(50170005, RAC3REGION.CRASH_SITE),
+    "Crash Site: Trophy: Near first corner": LocData(50170006, RAC3REGION.CRASH_SITE),  # Nefarious Trophy
 
     # ----- Planet Aridia -----#
-    "Aridia: Received Warp Pad": LocData(50180000, "Aridia"),
-    "Aridia: Received Qwack-O-Ray": LocData(50180001, "Aridia"),
-    "Aridia: T-Bolt: Under the Bridge (Assassination)": LocData(50180002, "Aridia"),
-    "Aridia: T-Bolt: Behind the Base (X12 Endgame)": LocData(50180003, "Aridia"),
-    "Aridia: Operation DEATH VALLEY: The Tunnels of Outpost X12": LocData(50180004, "Aridia"),
-    "Aridia: Operation DEATH VALLEY: Ambush in Red Rock Valley": LocData(50180005, "Aridia"),
-    "Aridia: Operation DEATH VALLEY: Assassination": LocData(50180006, "Aridia"),
-    "Aridia: Operation DEATH VALLEY: Reclaim the Valley": LocData(50180007, "Aridia"),
-    "Aridia: Operation DEATH VALLEY: X12 Endgame": LocData(50180008, "Aridia"),
-    "Aridia: Skill Point: Go for hang time": LocData(50180009, "Aridia"),
-    "Aridia: Skill Point: Zap back at ya'": LocData(50180010, "Aridia"),
+    "Aridia: Received Warp Pad": LocData(50180000, RAC3REGION.ARIDIA),
+    "Aridia: Received Qwack-O-Ray": LocData(50180001, RAC3REGION.ARIDIA),
+    "Aridia: T-Bolt: Under the Bridge (Assassination)": LocData(50180002, RAC3REGION.ARIDIA),
+    "Aridia: T-Bolt: Behind the Base (X12 Endgame)": LocData(50180003, RAC3REGION.ARIDIA),
+    "Aridia: Operation DEATH VALLEY: The Tunnels of Outpost X12": LocData(50180004, RAC3REGION.ARIDIA),
+    "Aridia: Operation DEATH VALLEY: Ambush in Red Rock Valley": LocData(50180005, RAC3REGION.ARIDIA),
+    "Aridia: Operation DEATH VALLEY: Assassination": LocData(50180006, RAC3REGION.ARIDIA),
+    "Aridia: Operation DEATH VALLEY: Reclaim the Valley": LocData(50180007, RAC3REGION.ARIDIA),
+    "Aridia: Operation DEATH VALLEY: X12 Endgame": LocData(50180008, RAC3REGION.ARIDIA),
+    "Aridia: Skill Point: Go for hang time": LocData(50180009, RAC3REGION.ARIDIA),
+    "Aridia: Skill Point: Zap back at ya'": LocData(50180010, RAC3REGION.ARIDIA),
 
     # ----- Qwark's Hideout -----#
-    "Qwarks Hideout: Received Gadgetron PDA": LocData(50190000, "Qwarks Hideout"),
-    "Qwarks Hideout: T-Bolt: Glide from the Ramp": LocData(50190001, "Qwarks Hideout"),
-    "Qwarks Hideout: Skill Point: Break the Dan": LocData(50190002, "Qwarks Hideout"),
-    "Qwarks Hideout: Trophy: Outside Qwarks Room": LocData(50190003, "Qwarks Hideout"),  # Qwark Trophy
+    "Qwarks Hideout: Received Gadgetron PDA": LocData(50190000, RAC3REGION.QWARKS_HIDEOUT),
+    "Qwarks Hideout: T-Bolt: Glide from the Ramp": LocData(50190001, RAC3REGION.QWARKS_HIDEOUT),
+    "Qwarks Hideout: Skill Point: Break the Dan": LocData(50190002, RAC3REGION.QWARKS_HIDEOUT),
+    "Qwarks Hideout: Trophy: Outside Qwarks Room": LocData(50190003, RAC3REGION.QWARKS_HIDEOUT),  # Qwark Trophy
     # Phoenix Assault Trigger
 
     # ----- Planet Koros -----#
-    "Koros: T-Bolt: Behind the Metal Fence": LocData(50140000, "Koros"),
-    "Koros: T-Bolt: Pair of Towers": LocData(50140001, "Koros"),
-    "Koros: Infobot: Command Center": LocData(50140002, "Koros"),
-    "Koros: Skill Point: You break it, you win it": LocData(50140003, "Koros"),
-    "Koros: Trophy: Glass House": LocData(50140004, "Koros"),  # Courtney Gears Trophy
+    "Koros: T-Bolt: Behind the Metal Fence": LocData(50140000, RAC3REGION.KOROS),
+    "Koros: T-Bolt: Pair of Towers": LocData(50140001, RAC3REGION.KOROS),
+    "Koros: Infobot: Command Center": LocData(50140002, RAC3REGION.KOROS),
+    "Koros: Skill Point: You break it, you win it": LocData(50140003, RAC3REGION.KOROS),
+    "Koros: Trophy: Glass House": LocData(50140004, RAC3REGION.KOROS),  # Courtney Gears Trophy
 
     # ----- Planet Command Center -----#
-    "Command Center: T-Bolt: Behind the Forcefield": LocData(50220000, "Command Center"),
-    "Command Center: Skill Point: Spread Your Germs": LocData(50220001, "Command Center"),
-    "Command Center: Trophy: Up a Ladder": LocData(50220002, "Command Center"),  # Lawrence Trophy
-    "Command Center: Dr. Nefarious Defeated!": LocData(50200000, "Command Center"),
-    "Command Center: Biobliterator Defeated!": LocData(50200001, "Command Center")
+    "Command Center: T-Bolt: Behind the Forcefield": LocData(50220000, RAC3REGION.COMMAND_CENTER),
+    "Command Center: Skill Point: Spread Your Germs": LocData(50220001, RAC3REGION.COMMAND_CENTER),
+    "Command Center: Trophy: Up a Ladder": LocData(50220002, RAC3REGION.COMMAND_CENTER),  # Lawrence Trophy
+    "Command Center: Dr. Nefarious Defeated!": LocData(50200000, RAC3REGION.COMMAND_CENTER),
+    "Command Center: Biobliterator Defeated!": LocData(50200001, RAC3REGION.COMMAND_CENTER)
 }
 
 weapon_upgrades = {
@@ -490,14 +491,14 @@ nanotech_milestones = {
 }
 
 rac3_events = {  # Events have no ap_code
-    "Cleared Veldin": EventData(None, "Veldin"),
-    "Cleared Florana": EventData(None, "Florana"),
-    "Cleared Marcadia": EventData(None, "Marcadia"),
-    "Cleared Annihilation Nation 1": EventData(None, "Annihilation Nation"),
+    "Cleared Veldin": EventData(None, RAC3REGION.VELDIN),
+    "Cleared Florana": EventData(None, RAC3REGION.FLORANA),
+    "Cleared Marcadia": EventData(None, RAC3REGION.MARCADIA),
+    "Cleared Annihilation Nation 1": EventData(None, RAC3REGION.ANNIHILATION_NATION),
     "Cleared Annihilation Nation 2": EventData(None, "Annihilation Nation 2"),
-    "Cleared Aquatos": EventData(None, "Aquatos"),
-    "Cleared Tyhrranosis": EventData(None, "Tyhrranosis"),
-    "Cleared Daxx": EventData(None, "Daxx"),
+    "Cleared Aquatos": EventData(None, RAC3REGION.AQUATOS),
+    "Cleared Tyhrranosis": EventData(None, RAC3REGION.TYHRRANOSIS),
+    "Cleared Daxx": EventData(None, RAC3REGION.DAXX),
 }
 
 location_table: dict[str, LocData] = {
@@ -596,31 +597,31 @@ unstable: list[str] = [
 ]
 
 location_groups: dict[str, set[str]] = {
-    "Veldin": set(loc for loc in location_table.keys() if location_table[loc].region == "Veldin"),
-    "Florana": set(loc for loc in location_table.keys() if location_table[loc].region == "Florana"),
-    "Starship Phoenix": set(loc for loc in location_table.keys() if location_table[loc].region == "Starship Phoenix"),
-    "Marcadia": set(loc for loc in location_table.keys() if location_table[loc].region == "Marcadia"),
-    "Annihilation Nation": set(loc for loc in location_table.keys() if
-                               location_table[loc].region == "Annihilation Nation"
+    RAC3REGION.VELDIN: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.VELDIN),
+    RAC3REGION.FLORANA: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.FLORANA),
+    RAC3REGION.STARSHIP_PHOENIX: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.STARSHIP_PHOENIX),
+    RAC3REGION.MARCADIA: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.MARCADIA),
+    RAC3REGION.ANNIHILATION_NATION: set(loc for loc in location_table.keys() if
+                               location_table[loc].region == RAC3REGION.ANNIHILATION_NATION
                                or location_table[loc].region == "Annihilation Nation 2"),
-    "Aquatos": set(loc for loc in location_table.keys() if location_table[loc].region == "Aquatos"),
-    "Tyhrranosis": set(loc for loc in location_table.keys() if
-                       location_table[loc].region == "Tyhrranosis"
-                       or location_table[loc].region == "Tyhrranosis Region 2"),
-    "Daxx": set(loc for loc in location_table.keys() if location_table[loc].region == "Daxx"),
-    "Obani Gemini": set(loc for loc in location_table.keys() if location_table[loc].region == "Obani Gemini"),
-    "Blackwater City": set(loc for loc in location_table.keys() if location_table[loc].region == "Blackwater City"),
-    "Holostar Studios": set(loc for loc in location_table.keys() if location_table[loc].region == "Holostar Studios"),
-    "Obani Draco": set(loc for loc in location_table.keys() if location_table[loc].region == "Obani Draco"),
-    "Zeldrin Starport": set(loc for loc in location_table.keys() if location_table[loc].region == "Zeldrin Starport"),
-    "Metropolis": set(loc for loc in location_table.keys() if
-                      location_table[loc].region == "Metropolis Region 1"
-                      or location_table[loc].region == "Metropolis Region 2"),
-    "Crash Site": set(loc for loc in location_table.keys() if location_table[loc].region == "Crash Site"),
-    "Aridia": set(loc for loc in location_table.keys() if location_table[loc].region == "Aridia"),
-    "Qwarks Hideout": set(loc for loc in location_table.keys() if location_table[loc].region == "Qwarks Hideout"),
-    "Koros": set(loc for loc in location_table.keys() if location_table[loc].region == "Koros"),
-    "Command Center": set(loc for loc in location_table.keys() if location_table[loc].region == "Command Center"),
+    RAC3REGION.AQUATOS: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.AQUATOS),
+    RAC3REGION.TYHRRANOSIS: set(loc for loc in location_table.keys() if
+                       location_table[loc].region == RAC3REGION.TYHRRANOSIS
+                       or location_table[loc].region == RAC3REGION.TYHRRANOSIS_MISSION),
+    RAC3REGION.DAXX: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.DAXX),
+    RAC3REGION.OBANI_GEMINI: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.OBANI_GEMINI),
+    RAC3REGION.BLACKWATER_CITY: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.BLACKWATER_CITY),
+    RAC3REGION.HOLOSTAR_STUDIOS: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.HOLOSTAR_STUDIOS),
+    RAC3REGION.OBANI_DRACO: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.OBANI_DRACO),
+    RAC3REGION.ZELDRIN_STARPORT: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.ZELDRIN_STARPORT),
+    RAC3REGION.METROPOLIS: set(loc for loc in location_table.keys() if
+                      location_table[loc].region == RAC3REGION.METROPOLIS
+                      or location_table[loc].region == RAC3REGION.METROPOLIS_MISSION),
+    RAC3REGION.CRASH_SITE: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.CRASH_SITE),
+    RAC3REGION.ARIDIA: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.ARIDIA),
+    RAC3REGION.QWARKS_HIDEOUT: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.QWARKS_HIDEOUT),
+    RAC3REGION.KOROS: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.KOROS),
+    RAC3REGION.COMMAND_CENTER: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.COMMAND_CENTER),
     "Skill Point": set(loc for loc in location_table.keys() if "Skill" in loc),
     "T-Bolt": set(loc for loc in location_table.keys() if "T-Bolt" in loc),
     "Crystal": set(loc for loc in location_table.keys() if ("Sewer" in loc)

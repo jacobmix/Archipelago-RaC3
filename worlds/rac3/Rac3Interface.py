@@ -156,7 +156,7 @@ class Rac3Interface(GameInterface):
         self.weaponLevelLockFlag = slot_data[RAC3OPTION.ENABLE_PROGRESSIVE_WEAPONS]
 
     def map_switch(self):
-        planet = self._read8(RAC3STATUS.PLANET)  # Todo: Status
+        planet = self._read8(RAC3STATUS.PLANET)
         if planet > 55 or not self._read8(RAC3STATUS.MAP_CHECK):
             planet = 0
         elif planet > 29:

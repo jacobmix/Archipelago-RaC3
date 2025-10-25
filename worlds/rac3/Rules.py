@@ -1,6 +1,7 @@
 import logging
 from typing import TYPE_CHECKING
 
+from Rac3Addresses import PLANET_LIST, RAC3REGION
 from worlds.generic.Rules import add_rule
 from worlds.rac3 import RAC3ITEM, RAC3OPTION
 
@@ -13,68 +14,76 @@ rac3_logger.setLevel(logging.DEBUG)
 
 def set_rules_planets(world):
     # Getting to Marcadia
-    add_rule(world.multiworld.get_entrance("Starship Phoenix -> Marcadia", world.player),
-             lambda state: state.has("Infobot: Marcadia", world.player))
+    add_rule(world.multiworld.get_entrance(f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.MARCADIA}", world.player),
+             lambda state: state.has(RAC3ITEM.MARCADIA, world.player))
 
     # Getting to Annihilation Nation:
-    add_rule(world.multiworld.get_entrance("Starship Phoenix -> Annihilation Nation", world.player),
-             lambda state: state.has("Infobot: Annihilation Nation", world.player))
+    add_rule(world.multiworld.get_entrance(f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.ANNIHILATION_NATION}",
+                                           world.player),
+             lambda state: state.has(RAC3ITEM.ANNIHILATION_NATION, world.player))
 
     # Getting to Aquatos
-    add_rule(world.multiworld.get_entrance("Starship Phoenix -> Aquatos", world.player),
-             lambda state: state.has("Infobot: Aquatos", world.player))
+    add_rule(world.multiworld.get_entrance(f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.AQUATOS}", world.player),
+             lambda state: state.has(RAC3ITEM.AQUATOS, world.player))
 
     # Getting to Tyhrranosis
-    add_rule(world.multiworld.get_entrance("Starship Phoenix -> Tyhrranosis", world.player),
-             lambda state: state.has("Infobot: Tyhrranosis", world.player))
+    add_rule(world.multiworld.get_entrance(f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.TYHRRANOSIS}", world.player),
+             lambda state: state.has(RAC3ITEM.TYHRRANOSIS, world.player))
 
     # Getting to Daxx
-    add_rule(world.multiworld.get_entrance("Starship Phoenix -> Daxx", world.player),
-             lambda state: state.has("Infobot: Daxx", world.player))
+    add_rule(world.multiworld.get_entrance(f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.DAXX}", world.player),
+             lambda state: state.has(RAC3ITEM.DAXX, world.player))
 
     # Getting to Obani Gemini
-    add_rule(world.multiworld.get_entrance("Starship Phoenix -> Obani Gemini", world.player),
-             lambda state: state.has_all(["Infobot: Obani Gemini", "Refractor"], world.player))
+    add_rule(world.multiworld.get_entrance(f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.OBANI_GEMINI}", world.player),
+             lambda state: state.has_all([RAC3ITEM.OBANI_GEMINI, RAC3ITEM.REFRACTOR], world.player))
 
     # Getting to Blackwater City
-    add_rule(world.multiworld.get_entrance("Starship Phoenix -> Blackwater City", world.player),
-             lambda state: state.has("Infobot: Blackwater City", world.player))
+    add_rule(
+        world.multiworld.get_entrance(f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.BLACKWATER_CITY}", world.player),
+        lambda state: state.has(RAC3ITEM.BLACKWATER_CITY, world.player))
 
     # Getting to Holostar Studios
-    add_rule(world.multiworld.get_entrance("Starship Phoenix -> Holostar Studios", world.player),  # Softlock Prevention
-             lambda state: state.has_all(["Infobot: Holostar Studios", "Hacker", "Hypershot"], world.player))
+    add_rule(
+        world.multiworld.get_entrance(f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.HOLOSTAR_STUDIOS}", world.player),
+        # Softlock
+        # Prevention
+        lambda state: state.has_all([RAC3ITEM.HOLOSTAR_STUDIOS, RAC3ITEM.HACKER, RAC3ITEM.HYPERSHOT], world.player))
 
     # Getting to Obani Draco (lol)
-    add_rule(world.multiworld.get_entrance("Starship Phoenix -> Obani Draco", world.player),
-             lambda state: state.has_all(["Infobot: Obani Draco", "Gravity-Boots"], world.player))
+    add_rule(world.multiworld.get_entrance(f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.OBANI_DRACO}", world.player),
+             lambda state: state.has_all([RAC3ITEM.OBANI_DRACO, RAC3ITEM.GRAV_BOOTS], world.player))
 
     # Getting to Zeldrin Starport
-    add_rule(world.multiworld.get_entrance("Starship Phoenix -> Zeldrin Starport", world.player),
-             lambda state: state.has("Infobot: Zeldrin Starport", world.player))
+    add_rule(
+        world.multiworld.get_entrance(f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.ZELDRIN_STARPORT}", world.player),
+        lambda state: state.has(RAC3ITEM.ZELDRIN_STARPORT, world.player))
 
     # Getting to Metropolis
-    add_rule(world.multiworld.get_entrance("Starship Phoenix -> Metropolis", world.player),
-             lambda state: state.has("Infobot: Metropolis", world.player))
+    add_rule(world.multiworld.get_entrance(f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.METROPOLIS}", world.player),
+             lambda state: state.has(RAC3ITEM.METROPOLIS, world.player))
 
     # Getting to Crash Site
-    add_rule(world.multiworld.get_entrance("Starship Phoenix -> Crash Site", world.player),
-             lambda state: state.has("Infobot: Crash Site", world.player))
+    add_rule(world.multiworld.get_entrance(f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.CRASH_SITE}", world.player),
+             lambda state: state.has(RAC3ITEM.CRASH_SITE, world.player))
 
     # Getting to Aridia
-    add_rule(world.multiworld.get_entrance("Starship Phoenix -> Aridia", world.player),
-             lambda state: state.has("Infobot: Aridia", world.player))
+    add_rule(world.multiworld.get_entrance(f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.ARIDIA}", world.player),
+             lambda state: state.has(RAC3ITEM.ARIDIA, world.player))
 
     # Getting to Qwark's Hideout
-    add_rule(world.multiworld.get_entrance("Starship Phoenix -> Qwarks Hideout", world.player),
-             lambda state: state.has_all(["Infobot: Qwarks Hideout", "Refractor"], world.player))  # Softlock Prevention
+    add_rule(
+        world.multiworld.get_entrance(f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.QWARKS_HIDEOUT}", world.player),
+        lambda state: state.has_all([RAC3ITEM.QWARKS_HIDEOUT, RAC3ITEM.REFRACTOR], world.player))  # Softlock Prevention
 
     # Getting to Koros
-    add_rule(world.multiworld.get_entrance("Starship Phoenix -> Koros", world.player),
-             lambda state: state.has("Infobot: Koros", world.player))
+    add_rule(world.multiworld.get_entrance(f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.KOROS}", world.player),
+             lambda state: state.has(RAC3ITEM.KOROS, world.player))
 
     # Getting to Command Center
-    add_rule(world.multiworld.get_entrance("Starship Phoenix -> Command Center", world.player),
-             lambda state: state.has("Infobot: Command Center", world.player))
+    add_rule(
+        world.multiworld.get_entrance(f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.COMMAND_CENTER}", world.player),
+        lambda state: state.has(RAC3ITEM.COMMAND_CENTER, world.player))
 
 
 def set_rules_hard_location(world):
@@ -87,7 +96,7 @@ def set_rules_hard_location(world):
     #  add_rule(world.get_location("Phoenix: T-Bolt: VR Nerves of Titanium"), None)
 
     add_rule(world.get_location("Phoenix: Received Adamantine Armor"),
-             lambda state: state.can_reach("Aquatos", player=world.player))
+             lambda state: state.can_reach(RAC3REGION.AQUATOS, player=world.player))
     add_rule(world.get_location("Phoenix: Received Aegis Mark V Armor"),
              lambda state: state.can_reach("Zeldrin Starport", player=world.player))
     add_rule(world.get_location("Phoenix: Received Infernox Armor"),
@@ -102,7 +111,7 @@ def set_rules_hard_location(world):
     add_rule(world.get_location("Phoenix: Return after winning Grand Prize Bout"),
              lambda state: state.can_reach("Annihilation Nation", player=world.player))
     add_rule(world.get_location("Phoenix: Return after Aquatos Base"),
-             lambda state: state.can_reach("Aquatos", player=world.player))
+             lambda state: state.can_reach(RAC3REGION.AQUATOS, player=world.player))
     add_rule(world.get_location("Phoenix: VR Training after Noid Queen"),
              lambda state: state.can_reach("Tyhrranosis", player=world.player)
                            and state.has_all([RAC3ITEM.HACKER, RAC3ITEM.HYPERSHOT], player=world.player))
@@ -172,9 +181,9 @@ def set_rules_hard_location(world):
                            and state.has(RAC3ITEM.PROGRESSIVE_VIDCOMIC, world.player, 5)),
 
     # ----- Planet Aquatos -----#
-    # "Aquatos: Received Flux Rifle": LocData(50001090, "Aquatos"),
-    # "Aquatos: T-Bolt: Under the Bridge": LocData(50001091, "Aquatos"),
-    # "Aquatos: T-Bolt: Underwater Bolt": LocData(50001092, "Aquatos"),
+    # "Aquatos: Received Flux Rifle": LocData(50001090, RAC3REGION.AQUATOS),
+    # "Aquatos: T-Bolt: Under the Bridge": LocData(50001091, RAC3REGION.AQUATOS),
+    # "Aquatos: T-Bolt: Underwater Bolt": LocData(50001092, RAC3REGION.AQUATOS),
     # "Aquatos: Received Mini-Turret Glove"
     # "Aquatos: Received Lava Gun"
     add_rule(world.get_location("Aquatos: Received Shield Charger"),
@@ -186,10 +195,10 @@ def set_rules_hard_location(world):
 
     # Sewers
 
-    # "Aquatos: 1 Sewer Crystal Traded": LocData(50001096, "Aquatos"),
-    # "Aquatos: 5 Sewer Crystals Traded": LocData(50001097, "Aquatos"),
-    # "Aquatos: 10 Sewer Crystals Traded": LocData(50001098, "Aquatos"),
-    # "Aquatos: 20 Sewer Crystals Traded": LocData(50001099, "Aquatos"),
+    # "Aquatos: 1 Sewer Crystal Traded": LocData(50001096, RAC3REGION.AQUATOS),
+    # "Aquatos: 5 Sewer Crystals Traded": LocData(50001097, RAC3REGION.AQUATOS),
+    # "Aquatos: 10 Sewer Crystals Traded": LocData(50001098, RAC3REGION.AQUATOS),
+    # "Aquatos: 20 Sewer Crystals Traded": LocData(50001099, RAC3REGION.AQUATOS),
 
     # ----- Planet Tyhrranosis -----#
     # "Tyhrranosis: Received Annihilator": LocData(50001300, "Tyhrranosis"),

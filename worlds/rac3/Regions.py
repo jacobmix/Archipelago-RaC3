@@ -1,5 +1,7 @@
 from BaseClasses import Region
 from typing import TYPE_CHECKING
+
+from Rac3Addresses import RAC3ITEM, RAC3REGION
 from .Types import GameLocation
 from .Locations import location_table
 
@@ -25,61 +27,63 @@ SIMPLE_SKILL_POINTS = [
     "Break the Dan"
 ]
 
-#Making an array with every 5 nanotech
-every_5_nanotech = [f"Nanotech Milestone: {x}" for x in range(15,101,5)]
+# Making an array with every 5 nanotech
+every_5_nanotech = [f"Nanotech Milestone: {x}" for x in range(15, 101, 5)]
 
-#Making an array with every 10 nanotech
-every_10_nanotech = [f"Nanotech Milestone: {x}" for x in range(20,101,10)]
+# Making an array with every 10 nanotech
+every_10_nanotech = [f"Nanotech Milestone: {x}" for x in range(20, 101, 10)]
 
-#Making an array with every 20 nanotech
-every_20_nanotech = [f"Nanotech Milestone: {x}" for x in range(20,101,20)]
+# Making an array with every 20 nanotech
+every_20_nanotech = [f"Nanotech Milestone: {x}" for x in range(20, 101, 20)]
+
 
 def create_regions(world: "RaC3World"):
     # ----- Introduction Sequence -----#
     menu = create_region(world, "Menu")
-    veldin = create_region_and_connect(world, "Veldin", "Menu -> Veldin", menu)
-    florana = create_region(world, "Florana")
-    veldin.connect(florana, "Veldin -> Florana", rule=lambda state: state.has("Infobot: Florana", world.player))
-    starship_phoenix = create_region(world, "Starship Phoenix")
-    florana.connect(starship_phoenix, "Florana -> Starship Phoenix",
-                    rule=lambda state: state.has("Infobot: Starship Phoenix", world.player))
-    starship_phoenix.connect(florana, "Starship Phoenix -> Florana")
+    veldin = create_region_and_connect(world, RAC3REGION.VELDIN, f"Menu -> {RAC3REGION.VELDIN}", menu)
+    florana = create_region(world, RAC3REGION.FLORANA)
+    veldin.connect(florana, f"{RAC3REGION.VELDIN} -> {RAC3REGION.FLORANA}",
+                   rule=lambda state: state.has(RAC3ITEM.FLORANA, world.player))
+    starship_phoenix = create_region(world, RAC3REGION.STARSHIP_PHOENIX)
+    florana.connect(starship_phoenix, f"{RAC3REGION.FLORANA} -> {RAC3REGION.STARSHIP_PHOENIX}",
+                    rule=lambda state: state.has(RAC3ITEM.STARSHIP_PHOENIX, world.player))
+    starship_phoenix.connect(florana, f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.FLORANA}", )
 
     # ----- Regions within the game -----#
-    marcadia = create_region(world, "Marcadia")
-    annihilation_nation = create_region(world, "Annihilation Nation")
-    aquatos = create_region(world, "Aquatos")
-    tyhrranosis = create_region(world, "Tyhrranosis")
-    daxx = create_region(world, "Daxx")
-    obani_gemini = create_region(world, "Obani Gemini")
-    blackwater_city = create_region(world, "Blackwater City")
-    holostar_studios = create_region(world, "Holostar Studios")
-    obani_draco = create_region(world, "Obani Draco")
-    zeldrin_starport = create_region(world, "Zeldrin Starport")
-    metropolis_first_half = create_region(world, "Metropolis Region 1")
-    crash_site = create_region(world, "Crash Site")
-    aridia = create_region(world, "Aridia")
-    qwarks_hideout = create_region(world, "Qwarks Hideout")
-    koros = create_region(world, "Koros")
-    command_center = create_region(world, "Command Center")  # Victory Location
+    marcadia = create_region(world, RAC3REGION.MARCADIA)
+    annihilation_nation = create_region(world, RAC3REGION.ANNIHILATION_NATION)
+    aquatos = create_region(world, RAC3REGION.AQUATOS)
+    tyhrranosis = create_region(world, RAC3REGION.TYHRRANOSIS)
+    daxx = create_region(world, RAC3REGION.DAXX)
+    obani_gemini = create_region(world, RAC3REGION.OBANI_GEMINI)
+    blackwater_city = create_region(world, RAC3REGION.BLACKWATER_CITY)
+    holostar_studios = create_region(world, RAC3REGION.HOLOSTAR_STUDIOS)
+    obani_draco = create_region(world, RAC3REGION.OBANI_DRACO)
+    zeldrin_starport = create_region(world, RAC3REGION.ZELDRIN_STARPORT)
+    metropolis_first_half = create_region(world, RAC3REGION.METROPOLIS)
+    crash_site = create_region(world, RAC3REGION.CRASH_SITE)
+    aridia = create_region(world, RAC3REGION.ARIDIA)
+    qwarks_hideout = create_region(world, RAC3REGION.QWARKS_HIDEOUT)
+    koros = create_region(world, RAC3REGION.KOROS)
+    command_center = create_region(world, RAC3REGION.COMMAND_CENTER)  # Victory Location
 
     # ----- Connecting everything to Starship Phoenix -----#
-    starship_phoenix.connect(marcadia, "Starship Phoenix -> Marcadia")
-    starship_phoenix.connect(annihilation_nation, "Starship Phoenix -> Annihilation Nation")
-    starship_phoenix.connect(aquatos, "Starship Phoenix -> Aquatos")
-    starship_phoenix.connect(tyhrranosis, "Starship Phoenix -> Tyhrranosis")
-    starship_phoenix.connect(daxx, "Starship Phoenix -> Daxx")
-    starship_phoenix.connect(obani_gemini, "Starship Phoenix -> Obani Gemini")
-    starship_phoenix.connect(blackwater_city, "Starship Phoenix -> Blackwater City")
-    starship_phoenix.connect(obani_draco, "Starship Phoenix -> Obani Draco")
-    starship_phoenix.connect(holostar_studios, "Starship Phoenix -> Holostar Studios")
-    starship_phoenix.connect(zeldrin_starport, "Starship Phoenix -> Zeldrin Starport")
-    starship_phoenix.connect(metropolis_first_half, "Starship Phoenix -> Metropolis")
-    starship_phoenix.connect(crash_site, "Starship Phoenix -> Crash Site")
-    starship_phoenix.connect(aridia, "Starship Phoenix -> Aridia")
-    starship_phoenix.connect(qwarks_hideout, "Starship Phoenix -> Qwarks Hideout")
-    starship_phoenix.connect(koros, "Starship Phoenix -> Koros")
-    starship_phoenix.connect(command_center, "Starship Phoenix -> Command Center")
+    starship_phoenix.connect(marcadia, f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.MARCADIA}")
+    starship_phoenix.connect(annihilation_nation, f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.ANNIHILATION_NATION}")
+    starship_phoenix.connect(aquatos, f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.AQUATOS}")
+    starship_phoenix.connect(tyhrranosis, f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.TYHRRANOSIS}")
+    starship_phoenix.connect(daxx, f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.DAXX}")
+    starship_phoenix.connect(obani_gemini, f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.OBANI_GEMINI}")
+    starship_phoenix.connect(blackwater_city, f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.BLACKWATER_CITY}")
+    starship_phoenix.connect(obani_draco, f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.HOLOSTAR_STUDIOS}")
+    starship_phoenix.connect(holostar_studios, f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.OBANI_DRACO}")
+    starship_phoenix.connect(zeldrin_starport, f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.ZELDRIN_STARPORT}")
+    starship_phoenix.connect(metropolis_first_half, f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.METROPOLIS}")
+    starship_phoenix.connect(crash_site, f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.CRASH_SITE}")
+    starship_phoenix.connect(aridia, f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.ARIDIA}")
+    starship_phoenix.connect(qwarks_hideout, f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.QWARKS_HIDEOUT}")
+    starship_phoenix.connect(koros, f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.KOROS}")
+    starship_phoenix.connect(command_center, f"{RAC3REGION.STARSHIP_PHOENIX} -> {RAC3REGION.COMMAND_CENTER}")
 
     # ----- Split planet connections for gadget reasons -----#
 
@@ -88,17 +92,17 @@ def create_regions(world: "RaC3World"):
     annihilation_nation.connect(annihilation_nation_second_half,
                                 rule=lambda state: state.can_reach_location("Daxx: Gunship", player=world.player)),
 
-    tyhrranosis_second_half = create_region(world, "Tyhrranosis Region 2")
+    tyhrranosis_second_half = create_region(world, RAC3REGION.TYHRRANOSIS_MISSION)
     tyhrranosis.connect(tyhrranosis_second_half,
-                        rule=lambda state: state.can_reach("Tyhrranosis", player=world.player)),
+                        rule=lambda state: state.can_reach(RAC3REGION.TYHRRANOSIS, player=world.player)),
 
     # This cutscene requires beating Holostar and Blackwater in any order:
     skidd_cutscene = create_region(world, "Skidd Cutscene")
-    holostar_studios.connect(skidd_cutscene, rule=lambda state: state.can_reach("Blackwater City", player=world.player))
-    blackwater_city.connect(skidd_cutscene, rule=lambda state: state.can_reach("Holostar Studios", player=world.player))
+    holostar_studios.connect(skidd_cutscene, rule=lambda state: state.can_reach(RAC3REGION.BLACKWATER_CITY, player=world.player))
+    blackwater_city.connect(skidd_cutscene, rule=lambda state: state.can_reach(RAC3REGION.HOLOSTAR_STUDIOS, player=world.player))
 
     # You can get Metal-Noids in metropolis with no other requirements
-    metropolis_second_half = create_region(world, "Metropolis Region 2")
+    metropolis_second_half = create_region(world, RAC3REGION.METROPOLIS_MISSION)
     metropolis_first_half.connect(metropolis_second_half,
                                   rule=lambda state: state.has(RAC3ITEM.GRAV_BOOTS, world.player)
                                                      and state.has(RAC3ITEM.REFRACTOR, world.player)),
@@ -171,7 +175,7 @@ def create_regions(world: "RaC3World"):
     # ----- Long Term Trophy Dummy Regions ----- #
     if world.options.trophies.value == 2:
         long_term_trophy = create_region(world, "Long Term Trophy")
-        menu.connect(long_term_trophy, rule=lambda state: state.can_reach("Starship Phoenix", player=world.player))
+        menu.connect(long_term_trophy, rule=lambda state: state.can_reach(RAC3REGION.STARSHIP_PHOENIX, player=world.player))
 
 
 def create_region(world: "RaC3World", name: str) -> Region:
@@ -226,27 +230,26 @@ def should_skip_location(key: str, options) -> bool:
     if "Nanotech Milestone" in key and options.nanotech_milestones.value == 0:
         return True
 
-        #Skips nanotech milestones that are not in every 5
+        # Skips nanotech milestones that are not in every 5
     if "Nanotech Milestone" in key and options.nanotech_milestones.value == 1:
         for every_5 in every_5_nanotech:
             if every_5.lower() in key.lower():
                 return False
         return True
 
-        #Skips nanotech milestones that are not in every 10
+        # Skips nanotech milestones that are not in every 10
     if "Nanotech Milestone" in key and options.nanotech_milestones.value == 2:
         for every_10 in every_10_nanotech:
             if every_10.lower() in key.lower():
                 return False
         return True
 
-        #Skips nanotech milestones that are not in every 20
+        # Skips nanotech milestones that are not in every 20
     if "Nanotech Milestone" in key and options.nanotech_milestones.value == 3:
         for every_20 in every_20_nanotech:
             if every_20.lower() in key.lower():
                 return False
         return True
-
 
     # Add more conditions here if needed in the future
 
