@@ -11,7 +11,7 @@ from .Types import GameItem
 if TYPE_CHECKING:
     from . import RaC3World
 
-rac3_logger = logging.getLogger("Ratchet & Clank 3")
+rac3_logger = logging.getLogger(RAC3OPTION.GAME_TITLE_FULL)
 rac3_logger.setLevel(logging.DEBUG)
 
 

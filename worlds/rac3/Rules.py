@@ -2,11 +2,12 @@ import logging
 from typing import TYPE_CHECKING
 
 from worlds.generic.Rules import add_rule
+from worlds.rac3 import RAC3ITEM, RAC3OPTION
 
 if TYPE_CHECKING:
     from . import RaC3World
 
-rac3_logger = logging.getLogger("Ratchet & Clank 3")
+rac3_logger = logging.getLogger(RAC3OPTION.GAME_TITLE_FULL)
 rac3_logger.setLevel(logging.DEBUG)
 
 

@@ -6,6 +6,7 @@ from typing import Optional
 
 import Utils
 from CommonClient import get_base_parser, gui_enabled, logger, server_loop
+from Rac3Addresses import RAC3OPTION, RAC3REGION
 
 # Load Universal Tracker modules with aliases
 tracker_loaded = False
@@ -24,9 +25,8 @@ from . import Locations
 # from .data.Constants import EPISODES
 from .Rac3Interface import Rac3Interface
 from .Rac3Callbacks import init, update
-from .Rac3Options import GAME_TITLE, GAME_TITLE_FULL
 
-CLIENT_INIT_LOG = f"{GAME_TITLE}_Client"
+CLIENT_INIT_LOG = f"{RAC3OPTION.GAME_TITLE}_Client"
 CLIENT_VERSION = "0.1.0"
 
 
@@ -57,7 +57,7 @@ class Rac3Context(CommonContext):
     # Client variables
     command_processor = CommandProcessor
     game_interface: Rac3Interface
-    game = f"{GAME_TITLE_FULL}"
+    game = RAC3OPTION.GAME_TITLE_FULL
     pcsx2_sync_task: Optional[asyncio.Task] = None
     is_connected_to_game: bool = False
     is_connected_to_server: bool = False
@@ -69,7 +69,7 @@ class Rac3Context(CommonContext):
     deathlink_timestamp: float = 0
     death_link_enabled = False
     queued_deaths: int = 0
-    current_planet: str = 'Galaxy'
+    current_planet: str = RAC3REGION.GALAXY
     main_menu: bool = True
 
     items_handling = 0b111  # This is mandatory
@@ -93,7 +93,7 @@ class Rac3Context(CommonContext):
 
     def make_gui(self):
         ui = super().make_gui()
-        ui.base_title = f"{GAME_TITLE} Client v{CLIENT_VERSION}"
+        ui.base_title = f"{RAC3OPTION.GAME_TITLE} Client v{CLIENT_VERSION}"
         if tracker_loaded:
             ui.base_title += f" | Universal Tracker {UT_VERSION}"
 
@@ -133,7 +133,7 @@ def update_connection_status(ctx: Rac3Context, status: bool):
         return
 
     if status:
-        logger.info(f"Connected to {GAME_TITLE}")
+        logger.info(f"Connected to {RAC3OPTION.GAME_TITLE}")
     else:
         logger.info("Unable to connect to the PCSX2 instance, attempting to reconnect...")
 
@@ -141,7 +141,7 @@ def update_connection_status(ctx: Rac3Context, status: bool):
 
 
 async def pcsx2_sync_task(ctx: Rac3Context):
-    logger.info(f"Starting {GAME_TITLE} Connector, attempting to connect to emulator...")
+    logger.info(f"Starting {RAC3OPTION.GAME_TITLE} Connector, attempting to connect to emulator...")
     ctx.game_interface.connect_to_game()
     while not ctx.exit_event.is_set():
         try:

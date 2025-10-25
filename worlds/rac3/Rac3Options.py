@@ -3,11 +3,8 @@ from typing import Any, Dict, List
 
 from Options import Choice, ItemDict, OptionGroup, StartInventoryPool
 from worlds.AutoWorld import PerGameCommonOptions
+from worlds.rac3 import RAC3OPTION
 from .Items import default_starting_weapons
-
-# Common variable
-GAME_TITLE = "Rac3"
-GAME_TITLE_FULL = "Ratchet & Clank 3"
 
 
 def create_option_groups() -> List[OptionGroup]:
@@ -159,13 +156,13 @@ rac3_option_groups: Dict[str, List[Any]] = {
 }
 
 slot_data_options: list[str] = [
-    "start_inventory_from_pool"
-    "starting_weapons",
-    "bolt_and_xp_multiplier",
-    "enable_progressive_weapons",
-    "extra_armor_upgrade",
-    "skill_points",
-    "trophies",
-    "titanium_bolts",
-    "nanotech_milestones",
+    RAC3OPTION.START_INVENTORY_FROM_POOL,
+    RAC3OPTION.STARTING_WEAPONS,
+    RAC3OPTION.BOLT_AND_XP_MULTIPLIER,
+    RAC3OPTION.ENABLE_PROGRESSIVE_WEAPONS,
+    RAC3OPTION.EXTRA_ARMOR_UPGRADE,
+    RAC3OPTION.SKILL_POINTS,
+    RAC3OPTION.TROPHIES,
+    RAC3OPTION.TITANIUM_BOLTS,
+    RAC3OPTION.NANOTECH_MILESTONES,
 ]

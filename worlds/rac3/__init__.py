@@ -6,23 +6,23 @@ from Rac3Addresses import RAC3_ITEM_DATA_TABLE, RAC3ITEM, RAC3OPTION
 from worlds.AutoWorld import CollectionState, WebWorld, World
 from worlds.LauncherComponents import Component, components, launch_subprocess, SuffixIdentifier, Type
 from . import UniversalTracker
-from .Items import create_item, create_itempool, get_filler_item_selection, item_table
+from .Items import create_item, create_itempool, get_filler_item_selection
 from .Locations import get_level_locations, get_location_names, get_regions, get_total_locations, location_groups
-from .Rac3Options import GAME_TITLE_FULL, RaC3Options
+from .Rac3Options import RaC3Options
 from .Regions import create_regions
 from .Rules import set_rules
 
-rac3_logger = logging.getLogger("Ratchet & Clank 3")
+rac3_logger = logging.getLogger(RAC3OPTION.GAME_TITLE_FULL)
 rac3_logger.setLevel(logging.DEBUG)
 
 
 def run_client(_url: Optional[str] = None):
     from .Rac3Client import launch_client
-    launch_subprocess(launch_client, name="Rac3Client")
+    launch_subprocess(launch_client, name=f"{RAC3OPTION.GAME_TITLE}Client")
 
 
 components.append(
-    Component("Ratchet & Clank 3 Client", func=run_client, component_type=Type.CLIENT,
+    Component(f"{RAC3OPTION.GAME_TITLE_FULL} Client", func=run_client, component_type=Type.CLIENT,
               file_identifier=SuffixIdentifier(".aprac3"))
 )
 
@@ -46,7 +46,7 @@ class RaC3World(World):
     Blast your enemies with over the top weaponry and save the galaxy from total disaster.
     """
 
-    game = GAME_TITLE_FULL
+    game = RAC3OPTION.GAME_TITLE_FULL
     item_name_to_id = {name: data.AP_CODE for name, data in RAC3_ITEM_DATA_TABLE.items()}
     location_name_to_id = get_location_names()
     location_name_groups = location_groups
@@ -117,18 +117,16 @@ class RaC3World(World):
 
     def fill_slot_data(self) -> Dict[str, object]:
         slot_data: Dict[str, object] = {
-            "options": {
-                "start_inventory_from_pool": self.options.start_inventory_from_pool.value,
-                "starting_weapons": self.options.starting_weapons.value,
-                "bolt_and_xp_multiplier": self.options.bolt_and_xp_multiplier.value,
-                "enable_progressive_weapons": self.options.enable_progressive_weapons.value,
-                "extra_armor_upgrade": self.options.extra_armor_upgrade.value,
-                "skill_points": self.options.skill_points.value,
-                "trophies": self.options.trophies.value,
-                "titanium_bolts": self.options.titanium_bolts.value,
-                "nanotech_milestones": self.options.nanotech_milestones.value,
-            },
-            "TotalLocations": get_total_locations(self)
+            RAC3OPTION.START_INVENTORY_FROM_POOL: self.options.start_inventory_from_pool.value,
+            RAC3OPTION.STARTING_WEAPONS: self.options.starting_weapons.value,
+            RAC3OPTION.BOLT_AND_XP_MULTIPLIER: self.options.bolt_and_xp_multiplier.value,
+            RAC3OPTION.ENABLE_PROGRESSIVE_WEAPONS: self.options.enable_progressive_weapons.value,
+            RAC3OPTION.EXTRA_ARMOR_UPGRADE: self.options.extra_armor_upgrade.value,
+            RAC3OPTION.SKILL_POINTS: self.options.skill_points.value,
+            RAC3OPTION.TROPHIES: self.options.trophies.value,
+            RAC3OPTION.TITANIUM_BOLTS: self.options.titanium_bolts.value,
+            RAC3OPTION.NANOTECH_MILESTONES: self.options.nanotech_milestones.value,
+            RAC3OPTION.TOTAL_LOCATIONS: get_total_locations(self)
         }
 
         return slot_data

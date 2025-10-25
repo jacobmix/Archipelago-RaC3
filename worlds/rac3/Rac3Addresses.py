@@ -250,7 +250,19 @@ ADDRESSES = {
 
 # Todo: add Options for slot data
 class RAC3OPTION:
-    pass
+    OPTIONS = "options"
+    GAME_TITLE = "Rac3"
+    GAME_TITLE_FULL = "Ratchet & Clank 3"
+    START_INVENTORY_FROM_POOL = "start_inventory_from_pool"
+    STARTING_WEAPONS = "starting_weapons"
+    BOLT_AND_XP_MULTIPLIER = "bolt_and_xp_multiplier"
+    ENABLE_PROGRESSIVE_WEAPONS = "enable_progressive_weapons"
+    EXTRA_ARMOR_UPGRADE = "extra_armor_upgrade"
+    SKILL_POINTS = "skill_points"
+    TROPHIES = "trophies"
+    TITANIUM_BOLTS = "titanium_bolts"
+    NANOTECH_MILESTONES = "nanotech_milestones"
+    TOTAL_LOCATIONS = "TotalLocations"
 
 
 class RAC3ITEM:

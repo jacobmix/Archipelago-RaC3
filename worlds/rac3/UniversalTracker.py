@@ -10,16 +10,15 @@ def setup_options_from_slot_data(world: "RaC3World") -> None:
         if world.game in world.multiworld.re_gen_passthrough:
             world.using_ut = True
             world.passthrough = world.multiworld.re_gen_passthrough[world.game]
-            world.options.start_inventory_from_pool.value = world.passthrough["options"]["start_inventory_from_pool"]
-            world.options.starting_weapons.value = world.passthrough["options"]["starting_weapons"]
-            world.options.bolt_and_xp_multiplier.value = world.passthrough["options"]["bolt_and_xp_multiplier"]
-            world.options.enable_progressive_weapons.value = world.passthrough["options"][
-                "enable_progressive_weapons"]
-            world.options.extra_armor_upgrade.value = world.passthrough["options"]["extra_armor_upgrade"]
-            world.options.skill_points.value = world.passthrough["options"]["skill_points"]
-            world.options.trophies.value = world.passthrough["options"]["trophies"]
-            world.options.titanium_bolts.value = world.passthrough["options"]["titanium_bolts"]
-            world.options.nanotech_milestones.value = world.passthrough["options"]["nanotech_milestones"]
+            world.options.start_inventory_from_pool.value = world.passthrough[RAC3OPTION.START_INVENTORY_FROM_POOL]
+            world.options.starting_weapons.value = world.passthrough[RAC3OPTION.STARTING_WEAPONS]
+            world.options.bolt_and_xp_multiplier.value = world.passthrough[RAC3OPTION.BOLT_AND_XP_MULTIPLIER]
+            world.options.enable_progressive_weapons.value = world.passthrough[RAC3OPTION.ENABLE_PROGRESSIVE_WEAPONS]
+            world.options.extra_armor_upgrade.value = world.passthrough[RAC3OPTION.EXTRA_ARMOR_UPGRADE]
+            world.options.skill_points.value = world.passthrough[RAC3OPTION.SKILL_POINTS]
+            world.options.trophies.value = world.passthrough[RAC3OPTION.TROPHIES]
+            world.options.titanium_bolts.value = world.passthrough[RAC3OPTION.TITANIUM_BOLTS]
+            world.options.nanotech_milestones.value = world.passthrough[RAC3OPTION.NANOTECH_MILESTONES]
         else:
             world.using_ut = False
     else:
