@@ -30,7 +30,7 @@ async def update(ctx: 'Context', ap_connected: bool) -> None:
 
         if menu is True and ctx.main_menu is False:
             logger.info("Updating game...")
-            ctx.game_interface.file_load(ctx.checked_locations)
+            ctx.game_interface.file_load()
             logger.info("Game State Updated!")
 
         if not ctx.main_menu:

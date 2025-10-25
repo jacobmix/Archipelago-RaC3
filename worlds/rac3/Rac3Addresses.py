@@ -602,7 +602,36 @@ class RAC3LOCATION:
 
 # Todo: Values such as "CurrentEquipped", affects/describes gameplay
 class RAC3STATUS:
-    pass
+    LEVEL_TABLE = 0x001425C0
+    BOLTS = 0x00142660
+    MAX_HEALTH = 0x00142668
+    LAST_USED_0 = 0x00142670
+    LAST_USED_1 = 0x00142674
+    LAST_USED_2 = 0x00142678
+    WRENCH_EQUIPPED = 0x00142690
+    CHALLENGE_MODE = 0x00142692
+    NANOTECH_EXP = 0x00142694
+    ARMOR = 0x001426A0
+    CRYSTALS = 0x001426A2
+    MULTIPLIER = 0x001426BA
+    ROBONOIDS = 0x0014275C
+    ITEM_AMMO_ADDRESS = 0x001427F0
+    ITEM_UNLOCK_ADDRESS = 0x00142CA0
+    ITEM_UNLOCK_ADDRESS_2_OFFSET = 0xA0
+    ITEM_XP_ADDRESS = 0x00142DE0
+    PLANET_SLOT_ADDRESS = 0x00143050
+    MAIN_MENU = 0x0016C598
+    MAP_CHECK = 0x0016C5A0
+    JACKPOT_TIMER = 0x001A4E10
+    INFERNO_TIMER = 0x001A4E14
+    HOLDING_WEAPON = 0x001A5E08
+    HEALTH = 0x001A7430
+    JACKPOT = 0x001A74A8
+    WEAPON_LOCK = 0x001A74A9
+    EQUIPPED = 0x001D4C40
+    QUICK_SELECT = 0x001D4C60
+    PLANET = 0x001D545C
+    ALLOW_SHIP = 0x001D5533
 
 
 @dataclass
@@ -624,6 +653,12 @@ class RAC3DATA:
 
 
 @dataclass
+class RAC3STATUSDATA(RAC3DATA):
+    def __init__(self, slot: Optional[int] = None):
+        self.SLOT_ADDRESS: int = 4 * slot + RAC3STATUS.QUICK_SELECT
+
+
+@dataclass
 class RAC3ITEMDATA(RAC3DATA):
     def __init__(self,
                  idx: Optional[int] = None,
@@ -635,17 +670,29 @@ class RAC3ITEMDATA(RAC3DATA):
                  ap_code: Optional[int] = None,
                  ap_classification: Optional[ItemClassification] = None, ):
         self.ID: Optional[int] = idx
+        self.LEVEL: Optional[int] = idx + RAC3STATUS.LEVEL_TABLE
         if address:
             self.UNLOCK_ADDRESS = address
-        else:
-            self.UNLOCK_ADDRESS: int = idx + 0x00142CA0
-            self.UNLOCK_ADDRESS_2: int = self.UNLOCK_ADDRESS + 0xA0
+        elif idx < 0x9C:
+            self.UNLOCK_ADDRESS: int = idx + RAC3STATUS.ITEM_UNLOCK_ADDRESS
+            self.UNLOCK_ADDRESS_2: int = self.UNLOCK_ADDRESS + RAC3STATUS.ITEM_UNLOCK_ADDRESS_2_OFFSET
+        elif idx < 0xDA:
+            self.UNLOCK_ADDRESS: int = (idx - 0xCB) * 8 + 0x27 + RAC3STATUS.ITEM_UNLOCK_ADDRESS
+            self.UNLOCK_ADDRESS_2: int = self.UNLOCK_ADDRESS + RAC3STATUS.ITEM_UNLOCK_ADDRESS_2_OFFSET
+        elif idx < 0xE1:
+            self.UNLOCK_ADDRESS: int = idx - 0xCA + RAC3STATUS.ITEM_UNLOCK_ADDRESS
+            self.UNLOCK_ADDRESS_2: int = self.UNLOCK_ADDRESS + RAC3STATUS.ITEM_UNLOCK_ADDRESS_2_OFFSET
+
         if power:
-            self.XP_ADDRESS: int = 4 * idx + 0x00142DE0
-            self.XP_THRESHOLD: int = 32 * xp
-            self.POWER: int = power
+            if idx < 0xDF:
+                self.XP_ADDRESS: int = 4 * idx + RAC3STATUS.ITEM_XP_ADDRESS
+                self.POWER: int = power
+                if xp:
+                    self.XP_THRESHOLD: int = 32 * xp
+            else:
+                self.ARMOR: float = power / 30
         if ammo:
-            self.AMMO_ADDRESS: Optional[int] = 4 * idx + 0x001427F0
+            self.AMMO_ADDRESS: Optional[int] = 4 * idx + RAC3STATUS.ITEM_AMMO_ADDRESS
             self.AMMO: Optional[int] = ammo
         if value:
             self.VALUE: int = value
@@ -667,8 +714,8 @@ class RAC3REGIONDATA(RAC3DATA):
                  idx: Optional[int] = None,
                  slot: Optional[int] = None):
         self.ID: Optional[int] = idx
-        if slot is not None:
-            self.SLOT_ADDRESS: Optional[int] = 4 * slot + 0x00143050
+        if slot:
+            self.SLOT_ADDRESS: Optional[int] = 4 * slot + RAC3STATUS.PLANET_SLOT_ADDRESS
 
 
 RAC3_ITEM_DATA_TABLE: dict[str, RAC3DATA] = {
@@ -828,7 +875,6 @@ RAC3_ITEM_DATA_TABLE: dict[str, RAC3DATA] = {
     RAC3ITEM.RY3NO_V3: RAC3ITEMDATA(0x99, 8000, 35, 50000),
     RAC3ITEM.RY3NO_V4: RAC3ITEMDATA(0x9A, 9000, 40, 90000),
     RAC3ITEM.RYNOCIRATOR: RAC3ITEMDATA(0x9B, 10000, 50, 140000),
-    # Gadgets
     RAC3ITEM.PLASMA_COIL_V2: RAC3ITEMDATA(0xA0, 3000, 15, 8000),
     RAC3ITEM.LAVA_GUN_V2: RAC3ITEMDATA(0xA1, 240, 150, 600),
     RAC3ITEM.MINI_TURRET_V2: RAC3ITEMDATA(0xA2, 800, 10, 400),
@@ -922,6 +968,17 @@ RAC3_ITEM_DATA_TABLE: dict[str, RAC3DATA] = {
     RAC3ITEM.KOROS: RAC3ITEMDATA(0xF2, ap_classification=ItemClassification.progression),
     RAC3ITEM.COMMAND_CENTER: RAC3ITEMDATA(0xF3, ap_classification=ItemClassification.progression),
     RAC3ITEM.MUSEUM: RAC3ITEMDATA(0xF4, ap_classification=ItemClassification.progression),
+    # Armor
+    RAC3ITEM.PROGRESSIVE_ARMOR: RAC3ITEMDATA(0xF5, address=RAC3STATUS.ARMOR,
+                                             ap_classification=ItemClassification.progression),
+    RAC3ITEM.MAGNAPLATE: RAC3ITEMDATA(0xF6, 10, address=RAC3STATUS.ARMOR, value=1,
+                                      ap_classification=ItemClassification.progression),
+    RAC3ITEM.ADAMANTINE: RAC3ITEMDATA(0xF7, 15, address=RAC3STATUS.ARMOR, value=2,
+                                      ap_classification=ItemClassification.progression),
+    RAC3ITEM.AEGIS: RAC3ITEMDATA(0xF8, 20, address=RAC3STATUS.ARMOR, value=3,
+                                 ap_classification=ItemClassification.progression),
+    RAC3ITEM.INFERNOX: RAC3ITEMDATA(0xF9, 24, address=RAC3STATUS.ARMOR, value=4,
+                                    ap_classification=ItemClassification.progression),
     # VidComics
     RAC3ITEM.PROGRESSIVE_VIDCOMIC: RAC3ITEMDATA(0xFA, value=5, ap_classification=ItemClassification.progression),
     RAC3ITEM.VIDCOMIC1: RAC3ITEMDATA(0xFB, address=0x001D554F),
@@ -934,12 +991,30 @@ RAC3_ITEM_DATA_TABLE: dict[str, RAC3DATA] = {
     RAC3ITEM.TITANIUM_BOLT: RAC3ITEMDATA(0x100, ap_classification=ItemClassification.filler),
     RAC3ITEM.WEAPON_XP: RAC3ITEMDATA(0x101, ap_classification=ItemClassification.filler),
     RAC3ITEM.PLAYER_XP: RAC3ITEMDATA(0x102, ap_classification=ItemClassification.filler),
+    RAC3ITEM.BOLTS: RAC3ITEMDATA(0x103, address=RAC3STATUS.BOLTS, ap_classification=ItemClassification.filler),
     RAC3ITEM.INFERNO_MODE: RAC3ITEMDATA(0x104, ap_classification=ItemClassification.filler),
     RAC3ITEM.JACKPOT: RAC3ITEMDATA(0x105, ap_classification=ItemClassification.filler),
 
     # Goal
     RAC3ITEM.VICTORY: RAC3ITEMDATA(0x106, ap_classification=ItemClassification.progression),
 
+    # Quick Select
+    RAC3ITEM.QUICK_SELECT_0: RAC3STATUSDATA(0x0),
+    RAC3ITEM.QUICK_SELECT_1: RAC3STATUSDATA(0x1),
+    RAC3ITEM.QUICK_SELECT_2: RAC3STATUSDATA(0x2),
+    RAC3ITEM.QUICK_SELECT_3: RAC3STATUSDATA(0x3),
+    RAC3ITEM.QUICK_SELECT_4: RAC3STATUSDATA(0x4),
+    RAC3ITEM.QUICK_SELECT_5: RAC3STATUSDATA(0x5),
+    RAC3ITEM.QUICK_SELECT_6: RAC3STATUSDATA(0x6),
+    RAC3ITEM.QUICK_SELECT_7: RAC3STATUSDATA(0x7),
+    RAC3ITEM.QUICK_SELECT_8: RAC3STATUSDATA(0x8),
+    RAC3ITEM.QUICK_SELECT_9: RAC3STATUSDATA(0x9),
+    RAC3ITEM.QUICK_SELECT_A: RAC3STATUSDATA(0xA),
+    RAC3ITEM.QUICK_SELECT_B: RAC3STATUSDATA(0xB),
+    RAC3ITEM.QUICK_SELECT_C: RAC3STATUSDATA(0xC),
+    RAC3ITEM.QUICK_SELECT_D: RAC3STATUSDATA(0xD),
+    RAC3ITEM.QUICK_SELECT_E: RAC3STATUSDATA(0xE),
+    RAC3ITEM.QUICK_SELECT_F: RAC3STATUSDATA(0xF),
 }
 RAC3_REGION_DATA_TABLE: dict[str, RAC3REGIONDATA] = {
     # Regions

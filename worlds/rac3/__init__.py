@@ -47,7 +47,7 @@ class RaC3World(World):
     """
 
     game = GAME_TITLE_FULL
-    item_name_to_id = {name: data.ap_code for name, data in item_table.items()}
+    item_name_to_id = {name: data.AP_CODE for name, data in RAC3_ITEM_DATA_TABLE.items()}
     location_name_to_id = get_location_names()
     location_name_groups = location_groups
     preplaced_items: list[str] = []

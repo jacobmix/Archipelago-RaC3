@@ -74,6 +74,7 @@ def get_filler_item_selection(world: "RaC3World"):
         RAC3ITEM.TITANIUM_BOLT: 0,
         RAC3ITEM.WEAPON_XP: 0,
         RAC3ITEM.PLAYER_XP: 5,
+        RAC3ITEM.BOLTS: 10,
         RAC3ITEM.INFERNO_MODE: 1,
         RAC3ITEM.JACKPOT: 10,
     }

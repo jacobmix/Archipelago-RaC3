@@ -38,11 +38,11 @@ class CommandProcessor(ClientCommandProcessor):
     #         self.ctx.game_interface.kill_player()
     def _cmd_weapon_exp_test(self):
         if isinstance(self.ctx, Rac3Context):
-            self.ctx.game_interface.received_others(50000092)
+            self.ctx.game_interface.item_received(50000092)
 
     def _cmd_bolt_test(self):
         if isinstance(self.ctx, Rac3Context):
-            self.ctx.game_interface.received_others(50000091)
+            self.ctx.game_interface.item_received(50000091)
 
     def _cmd_rac3_info(self):
         if isinstance(self.ctx, Rac3Context):
