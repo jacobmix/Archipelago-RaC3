@@ -220,8 +220,12 @@ jobs:
           **Commit:** ${short_sha}  
           **Date:** $(date -u +"%Y-%m-%d %H:%M UTC")
 
-          ### Summary (Last ${total_commits} Commits)
+          <details>
+          <summary><strong>📜 Summary (Last ${total_commits} Commits)</strong></summary>
+
           ${commit_list}
+
+          </details>
 
           **Full changelog and compare**: ${changelog}
 
