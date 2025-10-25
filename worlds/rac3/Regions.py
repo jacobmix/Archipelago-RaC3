@@ -100,73 +100,73 @@ def create_regions(world: "RaC3World"):
     # You can get Metal-Noids in metropolis with no other requirements
     metropolis_second_half = create_region(world, "Metropolis Region 2")
     metropolis_first_half.connect(metropolis_second_half,
-                                  rule=lambda state: state.has("Gravity-Boots", world.player)
-                                                     and state.has("Refractor", world.player)),
+                                  rule=lambda state: state.has(RAC3ITEM.GRAV_BOOTS, world.player)
+                                                     and state.has(RAC3ITEM.REFRACTOR, world.player)),
 
     # ----- Dummy regions for weapon upgrade organization -----#
 
     nanotech_levels = create_region(world, "Nanotech Levels")
     menu.connect(nanotech_levels)
 
-    shock_blaster_upgrades = create_region(world, "Shock Blaster Upgrades")
-    menu.connect(shock_blaster_upgrades, rule=lambda state: state.has("Shock Blaster", world.player)),
+    shock_blaster_upgrades = create_region(world, f"{RAC3ITEM.SHOCK_BLASTER} Upgrades")
+    menu.connect(shock_blaster_upgrades, rule=lambda state: state.has(RAC3ITEM.SHOCK_BLASTER, world.player)),
 
-    nitro_launcher_upgrades = create_region(world, "Nitro Launcher Upgrades")
-    menu.connect(nitro_launcher_upgrades, rule=lambda state: state.has("Nitro Launcher", world.player)),
+    nitro_launcher_upgrades = create_region(world, f"{RAC3ITEM.NITRO_LAUNCHER} Upgrades")
+    menu.connect(nitro_launcher_upgrades, rule=lambda state: state.has(RAC3ITEM.NITRO_LAUNCHER, world.player)),
 
-    n60_storm_upgrades = create_region(world, "N60 Storm Upgrades")
-    menu.connect(n60_storm_upgrades, rule=lambda state: state.has("N60 Storm", world.player)),
+    n60_storm_upgrades = create_region(world, f"{RAC3ITEM.N60_STORM} Upgrades")
+    menu.connect(n60_storm_upgrades, rule=lambda state: state.has(RAC3ITEM.N60_STORM, world.player)),
 
-    plasma_whip_upgrades = create_region(world, "Plasma Whip Upgrades")
-    menu.connect(plasma_whip_upgrades, rule=lambda state: state.has("Plasma Whip", world.player)),
+    plasma_whip_upgrades = create_region(world, f"{RAC3ITEM.PLASMA_WHIP} Upgrades")
+    menu.connect(plasma_whip_upgrades, rule=lambda state: state.has(RAC3ITEM.PLASMA_WHIP, world.player)),
 
-    infector_upgrades = create_region(world, "Infector Upgrades")
-    menu.connect(infector_upgrades, rule=lambda state: state.has("Infector", world.player)),
+    infector_upgrades = create_region(world, f"{RAC3ITEM.INFECTOR} Upgrades")
+    menu.connect(infector_upgrades, rule=lambda state: state.has(RAC3ITEM.INFECTOR, world.player)),
 
-    suck_cannon_upgrades = create_region(world, "Suck Cannon Upgrades")
-    menu.connect(suck_cannon_upgrades, rule=lambda state: state.has("Suck Cannon", world.player)),
+    suck_cannon_upgrades = create_region(world, f"{RAC3ITEM.SUCK_CANNON} Upgrades")
+    menu.connect(suck_cannon_upgrades, rule=lambda state: state.has(RAC3ITEM.SUCK_CANNON, world.player)),
 
-    spitting_hydra_upgrades = create_region(world, "Spitting Hydra Upgrades")
-    menu.connect(spitting_hydra_upgrades, rule=lambda state: state.has("Spitting Hydra", world.player)),
+    spitting_hydra_upgrades = create_region(world, f"{RAC3ITEM.SPITTING_HYDRA} Upgrades")
+    menu.connect(spitting_hydra_upgrades, rule=lambda state: state.has(RAC3ITEM.SPITTING_HYDRA, world.player)),
 
-    agents_of_doom_upgrades = create_region(world, "Agents of Doom Upgrades")
-    menu.connect(agents_of_doom_upgrades, rule=lambda state: state.has("Agents of Doom", world.player)),
+    agents_of_doom_upgrades = create_region(world, f"{RAC3ITEM.AGENTS_OF_DOOM} Upgrades")
+    menu.connect(agents_of_doom_upgrades, rule=lambda state: state.has(RAC3ITEM.AGENTS_OF_DOOM, world.player)),
 
-    flux_rifle_upgrades = create_region(world, "Flux Rifle Upgrades")
-    menu.connect(flux_rifle_upgrades, rule=lambda state: state.has("Flux Rifle", world.player)),
+    flux_rifle_upgrades = create_region(world, f"{RAC3ITEM.FLUX_RIFLE} Upgrades")
+    menu.connect(flux_rifle_upgrades, rule=lambda state: state.has(RAC3ITEM.FLUX_RIFLE, world.player)),
 
-    annihilator_upgrades = create_region(world, "Annihilator Upgrades")
-    menu.connect(annihilator_upgrades, rule=lambda state: state.has("Annihilator", world.player)),
+    annihilator_upgrades = create_region(world, f"{RAC3ITEM.ANNIHILATOR} Upgrades")
+    menu.connect(annihilator_upgrades, rule=lambda state: state.has(RAC3ITEM.ANNIHILATOR, world.player)),
 
-    holo_shield_glove_upgrades = create_region(world, "Holo-Shield Glove Upgrades")
-    menu.connect(holo_shield_glove_upgrades, rule=lambda state: state.has("Holo-Shield Glove", world.player)),
+    holo_shield_glove_upgrades = create_region(world, f"{RAC3ITEM.HOLO_SHIELD} Upgrades")
+    menu.connect(holo_shield_glove_upgrades, rule=lambda state: state.has(RAC3ITEM.HOLO_SHIELD, world.player)),
 
-    disc_blade_gun_upgrades = create_region(world, "Disc-Blade Gun Upgrades")
-    menu.connect(disc_blade_gun_upgrades, rule=lambda state: state.has("Disc-Blade Gun", world.player)),
+    disc_blade_gun_upgrades = create_region(world, f"{RAC3ITEM.DISC_BLADE} Upgrades")
+    menu.connect(disc_blade_gun_upgrades, rule=lambda state: state.has(RAC3ITEM.DISC_BLADE, world.player)),
 
-    rift_inducer_upgrades = create_region(world, "Rift Inducer Upgrades")
-    menu.connect(rift_inducer_upgrades, rule=lambda state: state.has("Rift Inducer", world.player)),
+    rift_inducer_upgrades = create_region(world, f"{RAC3ITEM.RIFT_INDUCER} Upgrades")
+    menu.connect(rift_inducer_upgrades, rule=lambda state: state.has(RAC3ITEM.RIFT_INDUCER, world.player)),
 
-    qwack_o_ray_upgrades = create_region(world, "Qwack-O-Ray Upgrades")
-    menu.connect(qwack_o_ray_upgrades, rule=lambda state: state.has("Qwack-O-Ray", world.player)),
+    qwack_o_ray_upgrades = create_region(world, f"{RAC3ITEM.QWACK_O_RAY} Upgrades")
+    menu.connect(qwack_o_ray_upgrades, rule=lambda state: state.has(RAC3ITEM.QWACK_O_RAY, world.player)),
 
-    ry3no_upgrades = create_region(world, "RY3N0 Upgrades")
-    menu.connect(ry3no_upgrades, rule=lambda state: state.has("RY3N0", world.player)),
+    ry3no_upgrades = create_region(world, f"{RAC3ITEM.RY3N0} Upgrades")
+    menu.connect(ry3no_upgrades, rule=lambda state: state.has(RAC3ITEM.RY3N0, world.player)),
 
-    mega_turret_glove_upgrades = create_region(world, "Mini-Turret Glove Upgrades")
-    menu.connect(mega_turret_glove_upgrades, rule=lambda state: state.has("Mini-Turret Glove", world.player)),
+    mega_turret_glove_upgrades = create_region(world, f"{RAC3ITEM.MINI_TURRET} Upgrades")
+    menu.connect(mega_turret_glove_upgrades, rule=lambda state: state.has(RAC3ITEM.MINI_TURRET, world.player)),
 
-    lava_gun_upgrades = create_region(world, "Lava Gun Upgrades")
-    menu.connect(lava_gun_upgrades, rule=lambda state: state.has("Lava Gun", world.player)),
+    lava_gun_upgrades = create_region(world, f"{RAC3ITEM.LAVA_GUN} Upgrades")
+    menu.connect(lava_gun_upgrades, rule=lambda state: state.has(RAC3ITEM.LAVA_GUN, world.player)),
 
-    tesla_barrier_upgrades = create_region(world, "Shield Charger Upgrades")
-    menu.connect(tesla_barrier_upgrades, rule=lambda state: state.has("Shield Charger", world.player)),
+    tesla_barrier_upgrades = create_region(world, f"{RAC3ITEM.SHIELD_CHARGER} Upgrades")
+    menu.connect(tesla_barrier_upgrades, rule=lambda state: state.has(RAC3ITEM.SHIELD_CHARGER, world.player)),
 
-    bouncer_upgrades = create_region(world, "Bouncer Upgrades")
-    menu.connect(bouncer_upgrades, rule=lambda state: state.has("Bouncer", world.player)),
+    bouncer_upgrades = create_region(world, f"{RAC3ITEM.BOUNCER} Upgrades")
+    menu.connect(bouncer_upgrades, rule=lambda state: state.has(RAC3ITEM.BOUNCER, world.player)),
 
-    plasma_coil_upgrades = create_region(world, "Plasma Coil Upgrades")
-    menu.connect(plasma_coil_upgrades, rule=lambda state: state.has("Plasma Coil", world.player))
+    plasma_coil_upgrades = create_region(world, f"{RAC3ITEM.PLASMA_COIL} Upgrades")
+    menu.connect(plasma_coil_upgrades, rule=lambda state: state.has(RAC3ITEM.PLASMA_COIL, world.player))
 
     # ----- Long Term Trophy Dummy Regions ----- #
     if world.options.trophies.value == 2:

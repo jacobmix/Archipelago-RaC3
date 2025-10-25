@@ -1,4 +1,4 @@
-from BaseClasses import CollectionState
+from Rac3Addresses import RAC3ITEM, RAC3REGION
 from worlds.rac3.test import RAC3TestBase
 
 
@@ -25,6 +25,7 @@ class TestBiobliterator(RAC3TestBase):
         self.assertFalse(self.can_reach_location("Command Center: Biobliterator Defeated!"),
                          "Goal reachable with no items")
 
-        self.collect_by_name(["Hypershot", "Gravity-Boots", "Tyhrra-Guise", "Hacker", "Refractor"])
+        self.collect_by_name([RAC3ITEM.HYPERSHOT, RAC3ITEM.GRAV_BOOTS, RAC3ITEM.TYHRRA_GUISE, RAC3ITEM.HACKER,
+                              RAC3ITEM.REFRACTOR])
         self.assertTrue(self.can_reach_location("Command Center: Biobliterator Defeated!"),
                         "Goal not reachable with items")

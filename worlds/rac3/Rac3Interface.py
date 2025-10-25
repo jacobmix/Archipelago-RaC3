@@ -303,13 +303,13 @@ class Rac3Interface(GameInterface):
     # initialization
     def remove_all_items(self):
         for name in ALL_ITEMS_LIST:
-            self._write8(RAC3_DATA_TABLE[name].UNLOCK_ADDRESS, 0)
-        for planet in INFOBOT_LIST:
-            self._write8(RAC3_DATA_TABLE[planet].UNLOCK_ADDRESS, 0)
         self.UnlockPlanets[RAC3REGION.VELDIN].status = 1
         # self.UnlockPlanets[RAC3REGION.FLORANA].status = 1
         # self.UnlockPlanets[RAC3REGION.STARSHIP_PHOENIX].status = 1
         # self.UnlockPlanets[RAC3REGION.MUSEUM].status = 1
+            self._write8(RAC3_ITEM_DATA_TABLE[name].UNLOCK_ADDRESS, 0)
+        for slot in SHIP_SLOTS:
+            self._write8(RAC3_ITEM_DATA_TABLE[slot].SLOT_ADDRESS, 0)
 
     # Logic Fixes
     def logic_fixes(self):
@@ -320,7 +320,7 @@ class Rac3Interface(GameInterface):
         # Fix can't play Qwark VidComics in some case which first event is skipped
         addr = self.addresses["Missions"]["Take Qwark to Cage"]  # Todo: Missions
         addr = self.address_convert(addr)
-        if current_planet == RAC3_DATA_TABLE[RAC3REGION.STARSHIP_PHOENIX].ID:
+        if current_planet == RAC3_ITEM_DATA_TABLE[RAC3REGION.STARSHIP_PHOENIX].ID:
             self._write8(addr, 1)
 
     # interval update function: Check unlock/lock status of items
@@ -335,13 +335,11 @@ class Rac3Interface(GameInterface):
             if dict_data.status == 0:
                 self.UnlockWeapons[name].unlock_delay += 1
                 if dict_data.unlock_delay > 1:
-                    self._write8(addr, 0)
                     self.UnlockWeapons[name].unlock_delay = 0
                 # self.logger.debug(f'{name} locked')
+                    self._write8(addr, 1)
             else:
-                self._write8(addr, 1)
-        #         self.logger.debug(f'{name} is available')
-        # self.logger.debug('---------WeaponCycler End---------')
+                self._write8(addr, 0)
 
         replace_equip: int = 0
         equipped_address = self.address_convert(self.addresses["CurrentEquipped"])  # TODO: Status
@@ -597,7 +595,7 @@ class Rac3Interface(GameInterface):
         print(f'Armor Tracker: {self.UnlockArmor}')
         count = 0
         for name in SHIP_SLOTS:
-            print(f'Planet{count}: {PLANET_NAME_FROM_ID[self._read8(RAC3_DATA_TABLE[name].SLOT_ADDRESS)]}')
+            print(f'Planet{count}: {PLANET_NAME_FROM_ID[self._read8(RAC3_ITEM_DATA_TABLE[name].SLOT_ADDRESS)]}')
             count += 1
         print(f'Current planet Tracked: {current_planet}')
         print(f'Slot Data: {slot_data}')

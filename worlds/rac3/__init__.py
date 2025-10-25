@@ -2,6 +2,7 @@ import logging
 from typing import Any, ClassVar, Dict, Optional
 
 from BaseClasses import Item, MultiWorld, Tutorial
+from Rac3Addresses import RAC3_ITEM_DATA_TABLE, RAC3ITEM, RAC3OPTION
 from worlds.AutoWorld import CollectionState, WebWorld, World
 from worlds.LauncherComponents import Component, components, launch_subprocess, SuffixIdentifier, Type
 from . import UniversalTracker
@@ -75,15 +76,17 @@ class RaC3World(World):
             self.player_name)
         rac3_logger.warning("INCOMPLETE WORLD! Slot '%s' may require send_location/send_item for completion!",
                             self.player_name)
-        self.preplaced_items = []
-
+        self.preplaced_items = [RAC3ITEM.VELDIN, RAC3ITEM.HELI_PACK, RAC3ITEM.THRUSTER_PACK]
         # implement .yaml-less Universal Tracker support
         UniversalTracker.setup_options_from_slot_data(self)
-
-        starting_weapons = Items.starting_weapons(self, self.options.starting_weapons.value)
-        starting_planets = ["Infobot: Florana", "Infobot: Starship Phoenix"]
-
         create_regions(self)
+
+        for item in self.preplaced_items:
+            self.push_precollected(self.create_item(item))
+        starting_weapons = Items.starting_weapons(self, self.options.starting_weapons.value)
+        starting_planets = [RAC3ITEM.FLORANA, RAC3ITEM.STARSHIP_PHOENIX]
+
+
 
         if len(starting_weapons) > 0:
             self.get_location("Veldin: First Ranger").place_locked_item(self.create_item(starting_weapons[0]))
