@@ -353,7 +353,7 @@ jobs:
         with:
           files: |
             rac3.apworld
-            Ratchet & Clank 3.yaml
+            RaC3.yaml
           tag_name: v${{ steps.semver.outputs.version }}
           name: "RaC3 APWorld v${{ steps.semver.outputs.version }}"
           body_path: release_notes.md
