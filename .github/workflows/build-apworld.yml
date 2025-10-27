@@ -235,8 +235,7 @@ jobs:
 
           ### If a location is broken and does not get sent out
           Go to the server console (locally or via the Archipelago room page) and run:  
-          \`/send_location <player_name> <location>\`  
-          Example: \`/send_location TaoshiRaC3 "Crash Site: Infobot: Aridia"\`
+          \`/send_location <player_name> <location>\` Example: \`/send_location TaoshiRaC3 "Crash Site: Infobot: Aridia"\`
           EOF
 
       - name: Create GitHub Release
