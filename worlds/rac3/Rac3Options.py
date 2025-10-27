@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List
 
-from Options import Choice, ItemDict, OptionGroup, StartInventoryPool
+from Options import Choice, ExcludeLocations, ItemDict, OptionGroup, Removed, StartInventoryPool
+from Rac3Addresses import RAC3TAG
 from worlds.AutoWorld import PerGameCommonOptions
 from worlds.rac3 import RAC3OPTION
 from .Items import default_starting_weapons
@@ -90,7 +91,7 @@ class SkillPoints(Choice):
     - You break it, you win it
     Every Skill Point: All 30 skill points are locations.
     """
-    display_name = "Skill Points"
+    display_name = RAC3OPTION.SKILL_POINTS
     option_none = 0
     option_simple = 1
     option_every_skill_point = 2
@@ -104,7 +105,7 @@ class Trophies(Choice):
     Collectables: Only the collectable trophies found on various planets are locations.
     Every Trophy: All special trophies that do not require NG+ are now also locations.
     """
-    display_name = "Trophies"
+    display_name = RAC3OPTION.TROPHIES
     option_none = 0
     option_collectables = 1
     option_every_trophy = 2
@@ -117,7 +118,7 @@ class TitaniumBolts(Choice):
     Disabled: No titanium bolts are locations.
     Enabled: All titanium bolts are locations.
     """
-    display_name = "Titanium Bolts"
+    display_name = RAC3OPTION.TITANIUM_BOLTS
     option_disabled = 0
     option_enabled = 1
     default = 1
@@ -132,13 +133,18 @@ class NanotechMilestones(Choice):
     Every 20: Makes every 20 nanotech milestones locations starting from nanotech level 20.
     All: All nanotech milestones are locations.
     """
-    display_name = "Nanotech Milestones"
+    display_name = RAC3OPTION.NANOTECH_MILESTONES
     option_none = 0
     option_every_5 = 1
     option_every_10 = 2
     option_every_20 = 3
     option_all = 4
     default = 0
+
+
+class RAC3ExcludeLocations(ExcludeLocations):
+    """Prevent these locations from having an important item."""
+    default = frozenset({RAC3TAG.UNSTABLE, RAC3TAG.LONG_TROPHY})
 
 
 @dataclass
@@ -152,9 +158,10 @@ class RaC3Options(PerGameCommonOptions):
     trophies: Trophies
     titanium_bolts: TitaniumBolts
     nanotech_milestones: NanotechMilestones
+    exclude_locations: RAC3ExcludeLocations
 
 
-rac3_option_groups: Dict[str, List[Any]] = {
+rac3_option_groups: dict[str, List[Any]] = {
     "General Options": [StartInventoryPool, StartingWeapons, BoltAndXPMultiplier, EnableProgressiveWeapons,
                         ExtraArmorUpgrade, SkillPoints, Trophies, TitaniumBolts, NanotechMilestones]
 }
@@ -169,4 +176,5 @@ slot_data_options: list[str] = [
     RAC3OPTION.TROPHIES,
     RAC3OPTION.TITANIUM_BOLTS,
     RAC3OPTION.NANOTECH_MILESTONES,
+    RAC3OPTION.EXCLUDE
 ]

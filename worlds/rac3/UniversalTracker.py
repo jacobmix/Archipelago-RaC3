@@ -20,6 +20,7 @@ def setup_options_from_slot_data(world: "RaC3World") -> None:
             world.options.trophies.value = world.passthrough[RAC3OPTION.TROPHIES]
             world.options.titanium_bolts.value = world.passthrough[RAC3OPTION.TITANIUM_BOLTS]
             world.options.nanotech_milestones.value = world.passthrough[RAC3OPTION.NANOTECH_MILESTONES]
+            world.options.exclude_locations.value = world.passthrough[RAC3OPTION.EXCLUDE]
         else:
             world.using_ut = False
     else:

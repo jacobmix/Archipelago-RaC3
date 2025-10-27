@@ -110,6 +110,7 @@ class RAC3OPTION:
     TROPHIES = "trophies"
     TITANIUM_BOLTS = "titanium_bolts"
     NANOTECH_MILESTONES = "nanotech_milestones"
+    EXCLUDE = "RaC3 Exclude Locations"
     TOTAL_LOCATIONS = "TotalLocations"
 
 

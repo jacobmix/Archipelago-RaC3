@@ -1,5 +1,5 @@
 import logging
-from typing import Any, ClassVar, Dict, Optional
+from typing import Any, ClassVar, Optional
 
 from BaseClasses import Item, MultiWorld, Tutorial
 from Rac3Addresses import RAC3_ITEM_DATA_TABLE, RAC3ITEM, RAC3OPTION
@@ -8,7 +8,7 @@ from worlds.LauncherComponents import Component, components, launch_subprocess, 
 from . import UniversalTracker
 from .Items import create_item, create_itempool, get_filler_item_selection
 from .Locations import get_level_locations, get_location_names, get_regions, get_total_locations, location_groups
-from .Rac3Options import RaC3Options
+from .Rac3Options import create_option_groups, RaC3Options
 from .Regions import create_regions
 from .Rules import set_rules
 
@@ -86,8 +86,6 @@ class RaC3World(World):
         starting_weapons = Items.starting_weapons(self, self.options.starting_weapons.value)
         starting_planets = [RAC3ITEM.FLORANA, RAC3ITEM.STARSHIP_PHOENIX]
 
-
-
         if len(starting_weapons) > 0:
             self.get_location("Veldin: First Ranger").place_locked_item(self.create_item(starting_weapons[0]))
             if len(starting_weapons) > 1:
@@ -115,8 +113,8 @@ class RaC3World(World):
     def create_item(self, name: str) -> Item:
         return create_item(self, name)
 
-    def fill_slot_data(self) -> Dict[str, object]:
-        slot_data: Dict[str, object] = {
+    def fill_slot_data(self) -> dict[str, object]:
+        slot_data: dict[str, object] = {
             RAC3OPTION.START_INVENTORY_FROM_POOL: self.options.start_inventory_from_pool.value,
             RAC3OPTION.STARTING_WEAPONS: self.options.starting_weapons.value,
             RAC3OPTION.BOLT_AND_XP_MULTIPLIER: self.options.bolt_and_xp_multiplier.value,
@@ -126,6 +124,7 @@ class RaC3World(World):
             RAC3OPTION.TROPHIES: self.options.trophies.value,
             RAC3OPTION.TITANIUM_BOLTS: self.options.titanium_bolts.value,
             RAC3OPTION.NANOTECH_MILESTONES: self.options.nanotech_milestones.value,
+            RAC3OPTION.EXCLUDE: self.options.exclude_locations.value,
             RAC3OPTION.TOTAL_LOCATIONS: get_total_locations(self)
         }
 
