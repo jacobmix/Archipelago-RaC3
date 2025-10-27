@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List
 
-from Options import Choice, ItemDict, OptionGroup, StartInventoryPool
+from Options import Choice, ExcludeLocations, ItemDict, OptionGroup, StartInventoryPool
 from worlds.AutoWorld import PerGameCommonOptions
 from .Items import default_starting_weapons
 
@@ -139,6 +139,10 @@ class NanotechMilestones(Choice):
     option_all = 4
     default = 0
 
+class RAC3ExcludeLocations(ExcludeLocations):
+    """Prevent these locations from having an important item."""
+    default = frozenset({'Unstable', 'Long Term Trophy', 'Weapons', 'Gadgets'})
+
 
 @dataclass
 class RaC3Options(PerGameCommonOptions):
@@ -151,6 +155,7 @@ class RaC3Options(PerGameCommonOptions):
     trophies: Trophies
     titanium_bolts: TitaniumBolts
     nanotech_milestones: NanotechMilestones
+    exclude_locations: RAC3ExcludeLocations
 
 
 rac3_option_groups: Dict[str, List[Any]] = {
@@ -168,4 +173,5 @@ slot_data_options: list[str] = [
     "trophies",
     "titanium_bolts",
     "nanotech_milestones",
+    "exclude_locations"
 ]
