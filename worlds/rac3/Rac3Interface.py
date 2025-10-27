@@ -5,13 +5,14 @@ from enum import IntEnum
 from logging import Logger
 from typing import Dict, Optional
 
-from Rac3Addresses import (GADGET_LIST, PROGRESSIVE_DICT, QUICK_SELECT_LIST, RAC3_REGION_DATA_TABLE, RAC3OPTION,
+from Rac3Addresses import (GADGET_LIST, PROGRESSIVE_DICT, QUICK_SELECT_LIST, RAC3_REGION_DATA_TABLE,
+                           RAC3_STATUS_DATA_TABLE, RAC3OPTION,
                            RAC3STATUS, UPGRADE_DICT, WEAPON_LIST)
 from . import Locations
 from .pcsx2_interface.pine import Pine
-from .Rac3Addresses import (ADDRESSES, ALL_ITEMS_LIST, CHECK_TYPE, COMPARE_TYPE, EQUIP_LIST, ITEM_FROM_AP_CODE,
-                            ITEM_NAME_FROM_ID, LOCATIONS, PLANET_LIST, PLANET_NAME_FROM_ID, RAC3_ITEM_DATA_TABLE,
-                            RAC3ITEM, RAC3REGION, SHIP_SLOTS, VIDCOMIC_LIST)
+from .Rac3Addresses import (ALL_ITEMS_LIST, CHECK_TYPE, COMPARE_TYPE, EQUIP_LIST, ITEM_FROM_AP_CODE, ITEM_NAME_FROM_ID,
+                            LOCATIONS, PLANET_LIST, PLANET_NAME_FROM_ID, RAC3_ITEM_DATA_TABLE, RAC3ITEM, RAC3REGION,
+                            SHIP_SLOTS, VIDCOMIC_LIST)
 
 
 class Dummy(IntEnum):
@@ -73,9 +74,8 @@ class GameInterface:
             game_id = self.pcsx2_interface.get_game_id()
             # The first read of the address will be null if the client is faster than the emulator
             self.current_game = None
-            if game_id in ADDRESSES.keys():
+            if game_id == RAC3STATUS.GAME_ID:
                 self.current_game = game_id
-                self.addresses = ADDRESSES[game_id]
             if self.current_game is None and self.game_id_error != game_id and game_id != b'\x00\x00\x00\x00\x00\x00':
                 self.logger.warning(f'Connected to the wrong game ({game_id})')
                 self.game_id_error = game_id
@@ -325,7 +325,7 @@ class Rac3Interface(GameInterface):
         for name in ALL_ITEMS_LIST:
             self._write8(RAC3_ITEM_DATA_TABLE[name].UNLOCK_ADDRESS, 0)
         for slot in SHIP_SLOTS:
-            self._write8(RAC3_ITEM_DATA_TABLE[slot].SLOT_ADDRESS, 0)
+            self._write8(RAC3_REGION_DATA_TABLE[slot].SLOT_ADDRESS, 0)
         self.UnlockItem[RAC3ITEM.VELDIN].status = 1
         # self.UnlockItem[RAC3ITEM.FLORANA].status = 1
         # self.UnlockItem[RAC3ITEM.STARSHIP_PHOENIX].status = 1
@@ -336,10 +336,8 @@ class Rac3Interface(GameInterface):
         current_planet = self._read8(RAC3STATUS.PLANET)
 
         # Fix can't play Qwark VidComics in some case which first event is skipped
-        addr = self.addresses["Missions"]["Take Qwark to Cage"]  # Todo: Missions
-        addr = self.address_convert(addr)
         if current_planet == RAC3_ITEM_DATA_TABLE[RAC3REGION.STARSHIP_PHOENIX].ID:
-            self._write8(addr, 1)
+            self._write8(0x001426E8, 1) # Todo: Take Qwark to Cage Mission
 
     # interval update function: Check unlock/lock status of items
     def weapon_cycler(self):
@@ -478,8 +476,8 @@ class Rac3Interface(GameInterface):
             self._write8(RAC3STATUS.LAST_USED_0, RAC3_ITEM_DATA_TABLE[name].ID)
             self._write8(RAC3STATUS.HOLDING_WEAPON, RAC3_ITEM_DATA_TABLE[name].ID)
             for slot in QUICK_SELECT_LIST:
-                if not self._read8(RAC3_ITEM_DATA_TABLE[slot].SLOT_ADDRESS):
-                    self._write8(RAC3_ITEM_DATA_TABLE[slot].SLOT_ADDRESS, RAC3_ITEM_DATA_TABLE[name].ID)
+                if not self._read8(RAC3_STATUS_DATA_TABLE[slot].SLOT_ADDRESS):
+                    self._write8(RAC3_STATUS_DATA_TABLE[slot].SLOT_ADDRESS, RAC3_ITEM_DATA_TABLE[name].ID)
                     break
             self.verify_quick_select_and_last_used()
 
@@ -487,7 +485,7 @@ class Rac3Interface(GameInterface):
         print(f'Collected Items: {self.UnlockItem}')
         count = 0
         for name in SHIP_SLOTS:
-            print(f'Planet{count}: {PLANET_NAME_FROM_ID[self._read8(RAC3_ITEM_DATA_TABLE[name].SLOT_ADDRESS)]}')
+            print(f'Planet{count}: {PLANET_NAME_FROM_ID[self._read8(RAC3_REGION_DATA_TABLE[name].SLOT_ADDRESS)]}')
             count += 1
         print(f'Current planet Tracked: {current_planet}')
         print(f'Slot Data: {slot_data}')

@@ -1,6 +1,6 @@
 from typing import Dict, TYPE_CHECKING
 
-from Rac3Addresses import RAC3REGION
+from Rac3Addresses import RAC3REGION, RAC3TAG
 from .Types import EventData, LocData
 
 if TYPE_CHECKING:
@@ -46,8 +46,9 @@ rac3_locations = {
     "Phoenix: Received Infernox Armor": LocData(50030005, RAC3REGION.STARSHIP_PHOENIX),
     "Phoenix: Meet Sasha on the Bridge": LocData(50030006, RAC3REGION.STARSHIP_PHOENIX),  # Infobot: Marcadia
     "Phoenix: Post Hideout Assault": LocData(50030007, RAC3REGION.STARSHIP_PHOENIX),  # Infobot: Koros
-    "Phoenix: Return after winning Grand Prize Bout": LocData(50030009, RAC3REGION.STARSHIP_PHOENIX),  # Infobot: Aquatos
-    "Phoenix: Return after Aquatos Base": LocData(50030010, RAC3REGION.STARSHIP_PHOENIX),  # Infobot: Tyhrranosis
+    "Phoenix: Return after winning Grand Prize Bout": LocData(50030009, RAC3REGION.STARSHIP_PHOENIX),
+    # Infobot: Aquatos
+    "Phoenix: Deliver the Star Map to Qwark": LocData(50030010, RAC3REGION.STARSHIP_PHOENIX),  # Infobot: Tyhrranosis
     "Phoenix: VR Training after Noid Queen": LocData(50030011, RAC3REGION.STARSHIP_PHOENIX),  # Infobot: Daxx
     "Phoenix: T-Bolt: VR Gadget Training": LocData(50030015, RAC3REGION.STARSHIP_PHOENIX),
     "Phoenix: Received Hacker": LocData(50030016, RAC3REGION.STARSHIP_PHOENIX),
@@ -67,13 +68,14 @@ rac3_locations = {
     "Phoenix: Skill Point: Strive for Arcade Perfection": LocData(50030031, RAC3REGION.STARSHIP_PHOENIX),
     "Phoenix: Skill Point: Beat Helga's Best VR Time": LocData(50030032, RAC3REGION.STARSHIP_PHOENIX),
     "Phoenix: Skill Point: Monkeying Around": LocData(50030033, RAC3REGION.STARSHIP_PHOENIX),
-    "Phoenix: Long Term Trophy: Titanium Collector": LocData(50030034, "Long Term Trophy"),
+    "Phoenix: Long Term Trophy: Titanium Collector": LocData(50030034, RAC3REGION.LONG_TROPHIES),
     # All Titanium Bolts collected
-    "Phoenix: Long Term Trophy: Friend of the Rangers": LocData(50030035, "Long Term Trophy"),
+    "Phoenix: Long Term Trophy: Friend of the Rangers": LocData(50030035, RAC3REGION.LONG_TROPHIES),
     # All optional Ranger missions completed
-    "Phoenix: Long Term Trophy: Annihilation Nation Champion": LocData(50030036, "Long Term Trophy"),
+    "Phoenix: Long Term Trophy: Annihilation Nation Champion": LocData(50030036, RAC3REGION.LONG_TROPHIES),
     # All Arena completed
-    "Phoenix: Long Term Trophy: Skill Master": LocData(50030037, "Long Term Trophy"),  # All Skill Points collected
+    "Phoenix: Long Term Trophy: Skill Master": LocData(50030037, RAC3REGION.LONG_TROPHIES),
+    # All Skill Points collected
 
     # VidComics
     "Phoenix: Play VidComic 1": LocData(50030008, RAC3REGION.STARSHIP_PHOENIX),  # Infobot: Annihilation Nation
@@ -85,14 +87,17 @@ rac3_locations = {
     "Phoenix: Skill Point: Arriba Amoeba! - set a new record for qwark": LocData(50330003, RAC3REGION.STARSHIP_PHOENIX),
     "Phoenix: Qwark VidComic 3 Clear": LocData(50340000, RAC3REGION.STARSHIP_PHOENIX),
     "Phoenix: T-Bolt: VidComic 3 100%": LocData(50340001, RAC3REGION.STARSHIP_PHOENIX),
-    "Phoenix: Skill Point: Shadow of the robot - set a new record for qwark": LocData(50340003, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Skill Point: Shadow of the robot - set a new record for qwark": LocData(50340003,
+                                                                                      RAC3REGION.STARSHIP_PHOENIX),
     "Phoenix: Play VidComic 4": LocData(50030012, RAC3REGION.STARSHIP_PHOENIX),  # Infobot: Metropolis
     "Phoenix: Qwark VidComic 4 Clear": LocData(50320000, RAC3REGION.STARSHIP_PHOENIX),
     "Phoenix: T-Bolt: VidComic 4 100%": LocData(50320001, RAC3REGION.STARSHIP_PHOENIX),
-    "Phoenix: Skill Point: Deja Q All over Again - set a new record for qwark": LocData(50320003, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Skill Point: Deja Q All over Again - set a new record for qwark": LocData(50320003,
+                                                                                        RAC3REGION.STARSHIP_PHOENIX),
     "Phoenix: Qwark VidComic 5 Clear": LocData(50350000, RAC3REGION.STARSHIP_PHOENIX),
     "Phoenix: T-Bolt: VidComic 5 100%": LocData(50350001, RAC3REGION.STARSHIP_PHOENIX),
-    "Phoenix: Skill Point: The Shaming of the Q - set a new record for qwark": LocData(50350003, RAC3REGION.STARSHIP_PHOENIX),
+    "Phoenix: Skill Point: The Shaming of the Q - set a new record for qwark": LocData(50350003,
+                                                                                       RAC3REGION.STARSHIP_PHOENIX),
     "Phoenix: Play VidComic 5": LocData(50030014, RAC3REGION.STARSHIP_PHOENIX),  # Infobot: Qwarks Hideout
 
     # ----- Planet Marcadia -----#
@@ -183,7 +188,8 @@ rac3_locations = {
     "Tyhrranosis: Trophy: North East Pillar": LocData(50090006, RAC3REGION.TYHRRANOSIS),  # Al Trophy
     # Missions
     "Tyhrranosis: Operation ISLAND STRIKE: Assault on Kavu Island": LocData(50290000, RAC3REGION.TYHRRANOSIS_MISSION),
-    "Tyhrranosis: Operation ISLAND STRIKE: Dogfight over Kavu Island": LocData(50290001, RAC3REGION.TYHRRANOSIS_MISSION),
+    "Tyhrranosis: Operation ISLAND STRIKE: Dogfight over Kavu Island": LocData(50290001,
+                                                                               RAC3REGION.TYHRRANOSIS_MISSION),
     "Tyhrranosis: Operation ISLAND STRIKE: Operation Thunderbolt": LocData(50290002, RAC3REGION.TYHRRANOSIS_MISSION),
     "Tyhrranosis: Operation ISLAND STRIKE: The Final Battle": LocData(50290003, RAC3REGION.TYHRRANOSIS_MISSION),
 
@@ -208,7 +214,8 @@ rac3_locations = {
     "Blackwater City: Received Gravity Boots": LocData(50120000, RAC3REGION.BLACKWATER_CITY),
     "Blackwater City: Infobot: Holostar Studios": LocData(50120001, RAC3REGION.BLACKWATER_CITY),
     # Annihilation Nation 2 Courtney
-    "Blackwater City: Operation BLACK TIDE: The Battle of Blackwater City": LocData(50120002, RAC3REGION.BLACKWATER_CITY),
+    "Blackwater City: Operation BLACK TIDE: The Battle of Blackwater City": LocData(50120002,
+                                                                                    RAC3REGION.BLACKWATER_CITY),
     "Blackwater City: Operation BLACK TIDE: The Bridge": LocData(50120003, RAC3REGION.BLACKWATER_CITY),
     "Blackwater City: Operation BLACK TIDE: Counterattack": LocData(50120004, RAC3REGION.BLACKWATER_CITY),
     "Blackwater City: Skill Point: Bash the party": LocData(50120005, RAC3REGION.BLACKWATER_CITY),
@@ -586,7 +593,7 @@ unstable: list[str] = [
     "Phoenix: Received Infernox Armor",
     "Phoenix: Meet Sasha on the Bridge",
     "Phoenix: Return after winning Grand Prize Bout",
-    "Phoenix: Return after Aquatos Base",
+    "Phoenix: Deliver the Star Map to Qwark",
     "Phoenix: VR Training after Noid Queen",
     "Phoenix: T-Bolt: VR Gadget Training",
     "Phoenix: Received Hacker",
@@ -596,46 +603,58 @@ unstable: list[str] = [
     "Crash Site: Infobot: Aridia"
 ]
 
+infobots: list[str] = []  # Todo: planet coords
+
 location_groups: dict[str, set[str]] = {
     RAC3REGION.VELDIN: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.VELDIN),
     RAC3REGION.FLORANA: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.FLORANA),
-    RAC3REGION.STARSHIP_PHOENIX: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.STARSHIP_PHOENIX),
+    RAC3REGION.STARSHIP_PHOENIX: set(
+        loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.STARSHIP_PHOENIX),
     RAC3REGION.MARCADIA: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.MARCADIA),
     RAC3REGION.ANNIHILATION_NATION: set(loc for loc in location_table.keys() if
-                               location_table[loc].region == RAC3REGION.ANNIHILATION_NATION
-                               or location_table[loc].region == "Annihilation Nation 2"),
+                                        location_table[loc].region == RAC3REGION.ANNIHILATION_NATION
+                                        or location_table[loc].region == RAC3REGION.ANNIHILATION_NATION_2),
     RAC3REGION.AQUATOS: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.AQUATOS),
     RAC3REGION.TYHRRANOSIS: set(loc for loc in location_table.keys() if
-                       location_table[loc].region == RAC3REGION.TYHRRANOSIS
-                       or location_table[loc].region == RAC3REGION.TYHRRANOSIS_MISSION),
+                                location_table[loc].region == RAC3REGION.TYHRRANOSIS
+                                or location_table[loc].region == RAC3REGION.TYHRRANOSIS_MISSION),
     RAC3REGION.DAXX: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.DAXX),
-    RAC3REGION.OBANI_GEMINI: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.OBANI_GEMINI),
-    RAC3REGION.BLACKWATER_CITY: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.BLACKWATER_CITY),
-    RAC3REGION.HOLOSTAR_STUDIOS: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.HOLOSTAR_STUDIOS),
-    RAC3REGION.OBANI_DRACO: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.OBANI_DRACO),
-    RAC3REGION.ZELDRIN_STARPORT: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.ZELDRIN_STARPORT),
+    RAC3REGION.OBANI_GEMINI: set(
+        loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.OBANI_GEMINI),
+    RAC3REGION.BLACKWATER_CITY: set(
+        loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.BLACKWATER_CITY),
+    RAC3REGION.HOLOSTAR_STUDIOS: set(
+        loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.HOLOSTAR_STUDIOS),
+    RAC3REGION.OBANI_DRACO: set(
+        loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.OBANI_DRACO),
+    RAC3REGION.ZELDRIN_STARPORT: set(
+        loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.ZELDRIN_STARPORT),
     RAC3REGION.METROPOLIS: set(loc for loc in location_table.keys() if
-                      location_table[loc].region == RAC3REGION.METROPOLIS
-                      or location_table[loc].region == RAC3REGION.METROPOLIS_MISSION),
-    RAC3REGION.CRASH_SITE: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.CRASH_SITE),
+                               location_table[loc].region == RAC3REGION.METROPOLIS
+                               or location_table[loc].region == RAC3REGION.METROPOLIS_MISSION),
+    RAC3REGION.CRASH_SITE: set(
+        loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.CRASH_SITE),
     RAC3REGION.ARIDIA: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.ARIDIA),
-    RAC3REGION.QWARKS_HIDEOUT: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.QWARKS_HIDEOUT),
+    RAC3REGION.QWARKS_HIDEOUT: set(
+        loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.QWARKS_HIDEOUT),
     RAC3REGION.KOROS: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.KOROS),
-    RAC3REGION.COMMAND_CENTER: set(loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.COMMAND_CENTER),
-    "Skill Point": set(loc for loc in location_table.keys() if "Skill" in loc),
-    "T-Bolt": set(loc for loc in location_table.keys() if "T-Bolt" in loc),
-    "Crystal": set(loc for loc in location_table.keys() if ("Sewer" in loc)
-                   or (loc == "Aquatos: Skill Point: Hit the motherload")),
-    "VidComic": set(loc for loc in location_table.keys() if "VidComic" in loc),
-    "Trophy": set(loc for loc in location_table.keys() if "Trophy" in loc),  # All trophies including long term
-    "Long Term Trophy": set(loc for loc in location_table.keys() if "Long Term" in loc),  # Long Term trophies only
-    "Rangers": set(loc for loc in rangers),
-    "Arena": set(loc for loc in location_table.keys() if
-                 (50070002 <= location_table[loc].ap_code < 50080000) or ("VR" in loc) or ("Grand" in loc)),
-    "Nanotech": set(loc for loc in location_table.keys() if "Nanotech" in loc),
-    "Unstable": set(loc for loc in unstable),
-    "Weapons": set(loc for loc in weapons),
-    "Gadgets": set(loc for loc in gadgets)
+    RAC3REGION.COMMAND_CENTER: set(
+        loc for loc in location_table.keys() if location_table[loc].region == RAC3REGION.COMMAND_CENTER),
+    RAC3TAG.SKILLPOINT: set(loc for loc in location_table.keys() if "Skill" in loc),
+    RAC3TAG.T_BOLT: set(loc for loc in location_table.keys() if "T-Bolt" in loc),
+    RAC3TAG.SEWER: set(loc for loc in location_table.keys() if
+                       ("Sewer" in loc) or (loc == "Aquatos: Skill Point: Hit the motherload")),
+    RAC3TAG.VIDCOMIC: set(loc for loc in location_table.keys() if "VidComic" in loc),
+    RAC3TAG.TROPHY: set(loc for loc in location_table.keys() if "Trophy" in loc),  # All trophies including long term
+    RAC3TAG.LONG_TROPHY: set(loc for loc in location_table.keys() if "Long Term" in loc),  # Long Term trophies only
+    RAC3TAG.RANGERS: set(loc for loc in rangers),
+    RAC3TAG.ARENA: set(loc for loc in location_table.keys() if
+                       (50070002 <= location_table[loc].ap_code < 50080000) or ("VR" in loc) or ("Grand" in loc)),
+    RAC3TAG.NANOTECH: set(loc for loc in location_table.keys() if "Nanotech" in loc),
+    RAC3TAG.UNSTABLE: set(loc for loc in unstable),
+    RAC3TAG.WEAPONS: set(loc for loc in weapons),
+    RAC3TAG.GADGETS: set(loc for loc in gadgets),
+    RAC3TAG.INFOBOT: set(loc for loc in infobots)
 }
 
 

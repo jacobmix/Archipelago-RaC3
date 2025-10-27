@@ -2,7 +2,7 @@ import logging
 from typing import List, TYPE_CHECKING
 
 from BaseClasses import Item, ItemClassification
-from Rac3Addresses import (FILLER_LIST, GADGET_LIST, PLANET_LIST, PROGRESSIVE_DICT, RAC3_ITEM_DATA_TABLE, RAC3DATA,
+from Rac3Addresses import (FILLER_LIST, GADGET_LIST, PLANET_LIST, PROGRESSIVE_DICT, RAC3_ITEM_DATA_TABLE, RAC3ITEMDATA,
                            RAC3OPTION, WEAPON_LIST)
 from worlds.rac3 import RAC3ITEM
 
@@ -87,15 +87,15 @@ def get_filler_item_selection(world: "RaC3World"):
     return [name for name, count in frequencies.items() for _ in range(count)]
 
 
-def get_dict(item_list) -> dict[str, RAC3DATA]:
+def get_dict(item_list) -> dict[str, RAC3ITEMDATA]:
     return dict(filter(lambda data_kv: data_kv[0] in item_list, RAC3_ITEM_DATA_TABLE.items()))
 
 
-weapon_dict: dict[str, RAC3DATA] = get_dict(WEAPON_LIST)
-prog_dict: dict[str, RAC3DATA] = get_dict(PROGRESSIVE_DICT.keys())
-gadget_dict: dict[str, RAC3DATA] = get_dict(GADGET_LIST)
-planet_dict: dict[str, RAC3DATA] = get_dict(PLANET_LIST)
-filler_dict: dict[str, RAC3DATA] = get_dict(FILLER_LIST)
+weapon_dict: dict[str, RAC3ITEMDATA] = get_dict(WEAPON_LIST)
+prog_dict: dict[str, RAC3ITEMDATA] = get_dict(PROGRESSIVE_DICT.keys())
+gadget_dict: dict[str, RAC3ITEMDATA] = get_dict(GADGET_LIST)
+planet_dict: dict[str, RAC3ITEMDATA] = get_dict(PLANET_LIST)
+filler_dict: dict[str, RAC3ITEMDATA] = get_dict(FILLER_LIST)
 
 item_counts: dict[str, int] = {
     **dict.fromkeys(weapon_dict.keys(), 1),
@@ -107,7 +107,7 @@ item_counts: dict[str, int] = {
 
 
 
-item_table: dict[str, RAC3DATA] = {
+item_table: dict[str, RAC3ITEMDATA] = {
     **weapon_dict,
     **prog_dict,
     **gadget_dict,

@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from enum import Enum
 from typing import Optional
 
 from BaseClasses import ItemClassification
@@ -13,242 +14,89 @@ CHECK_TYPE = {
     "long": 6,
     "nibble": 7,
 }
+
+
+class CHECKTYPE(Enum):
+    """
+    What memory size are we checking when reading memory:
+    - BIT: a single bit, either 0 or 1
+    - BYTE: 8 bits, 0x00 to 0xFF
+    - SHORT: 16 bits, 2 bytes, 0x0000 to 0xFFFF
+    - INT: 32 bits, 4 bytes, 0x00000000 to 0xFFFFFFFF
+    What comparison is being done:
+    - set or unset for individual bits
+    - Equal, Not Equal, Greater Than, Less Than, Greater or Equal, Less than or Equal
+    """
+    BIT_SET = 0
+    BIT_UNSET = 1
+    BYTE_EQ = 2
+    BYTE_NE = 3
+    BYTE_GT = 4
+    BYTE_LT = 5
+    BYTE_GE = 6
+    BYTE_LE = 7
+    SHORT_EQ = 8
+    SHORT_NE = 9
+    SHORT_GT = 10
+    SHORT_LT = 11
+    SHORT_GE = 12
+    SHORT_LE = 13
+    INT_EQ = 14
+    INT_NE = 15
+    INT_GT = 16
+    INT_LT = 17
+    INT_GE = 18
+    INT_LE = 19
+
+
 COMPARE_TYPE = {
     "Match": 0,
     "GreaterThan": 1,
     "LessThan": 2,
 }
 
-ADDRESSES = {
-    "SCUS-97353": {
-        "Weapons": {
-            "Shock Blaster": {"unlockAddress": 0x00142CC7, "id": 39, "ammoAddress": 0x0014288C, "lv1Ammo": 30, },
-            "Nitro Launcher": {"unlockAddress": 0x00142D17, "id": 119, "ammoAddress": 0x001429CC, "lv1Ammo": 8, },
-            "N60 Storm": {"unlockAddress": 0x00142CCF, "id": 47, "ammoAddress": 0x001428AC, "lv1Ammo": 150, },
-            "Plasma Whip": {"unlockAddress": 0x00142D1F, "id": 127, "ammoAddress": 0x001429EC, "lv1Ammo": 25, },
-            "Infector": {"unlockAddress": 0x00142CD7, "id": 55, "ammoAddress": 0x001428CC, "lv1Ammo": 15, },
-            "Suck Cannon": {"unlockAddress": 0x00142D27, "id": 135, "ammoAddress": 0x00000000, "lv1Ammo": 0, },
-            "Spitting Hydra": {"unlockAddress": 0x00142CE7, "id": 71, "ammoAddress": 0x0014290C, "lv1Ammo": 15, },
-            "Agents of Doom": {"unlockAddress": 0x00142CF7, "id": 87, "ammoAddress": 0x0014294C, "lv1Ammo": 6, },
-            "Flux Rifle": {"unlockAddress": 0x00142D0F, "id": 111, "ammoAddress": 0x001429AC, "lv1Ammo": 10, },
-            "Annihilator": {"unlockAddress": 0x00142CDF, "id": 63, "ammoAddress": 0x001428EC, "lv1Ammo": 20, },
-            "Holo-Shield Glove": {"unlockAddress": 0x00142D07, "id": 103, "ammoAddress": 0x0014298C, "lv1Ammo": 8, },
-            "Disc-Blade Gun": {"unlockAddress": 0x00142CEF, "id": 79, "ammoAddress": 0x0014292C, "lv1Ammo": 25, },
-            "Rift Inducer": {"unlockAddress": 0x00142CFF, "id": 95, "ammoAddress": 0x0014296C, "lv1Ammo": 8, },
-            "Qwack-O-Ray": {"unlockAddress": 0x00142D2F, "id": 143, "ammoAddress": 0x00000000, "lv1Ammo": 0, },
-            "RY3N0": {"unlockAddress": 0x00142D37, "id": 151, "ammoAddress": 0x00142A4C, "lv1Ammo": 25, },
-            "Mini-Turret Glove": {"unlockAddress": 0x00142CB5, "id": 21, "ammoAddress": 0x00142844, "lv1Ammo": 10, },
-            "Lava Gun": {"unlockAddress": 0x00142CB1, "id": 17, "ammoAddress": 0x00142834, "lv1Ammo": 150, },
-            "Shield Charger": {"unlockAddress": 0x00142CB6, "id": 22, "ammoAddress": 0x00142848, "lv1Ammo": 3, },
-            "Bouncer": {"unlockAddress": 0x00142CB3, "id": 19, "ammoAddress": 0x0014283C, "lv1Ammo": 10, },
-            "Plasma Coil": {"unlockAddress": 0x00142CB0, "id": 16, "ammoAddress": 0x00142830, "lv1Ammo": 15, },
-        },
-        "Gadgets": {
-            # "Heli-Pack": {"unlockAddress": 0x00142CA2, "id": 0, },
-            # "Thruster-Pack": {"unlockAddress": 0x00142CA3, "id": 0, },
-            "Hacker": {"unlockAddress": 0x00142CB4, "id": 0, },
-            "Hypershot": {"unlockAddress": 0x00142CAB, "id": 11, },
-            "Refractor": {"unlockAddress": 0x00142CB2, "id": 18, },
-            "Tyhrra-Guise": {"unlockAddress": 0x00142CBE, "id": 30, },
-            "Gravity-Boots": {"unlockAddress": 0x00142CAD, "id": 0, },
-            "Bolt Grabber V2": {"unlockAddress": 0x00142CA7, "id": 0, },
-            "Box Breaker": {"unlockAddress": 0x00142CBA, "id": 0, },
-            "Map-O-Matic": {"unlockAddress": 0x00142CA5, "id": 0, },
-            "Nano Pak": {"unlockAddress": 0x00142CC0, "id": 0, },
-            "Warp Pad": {"unlockAddress": 0x00142CBF, "id": 31, },
-            "Gadgetron PDA": {"unlockAddress": 0x00142CC3, "id": 35, },
-            "Charge-Boots": {"unlockAddress": 0x00142CBD, "id": 0, },
-            "Master Plan": {"unlockAddress": 0x00142CC2, "id": 0, },
-        },
-        "VidComics": {
-            "Qwark VidComic 1": {"unlockAddress": 0x001D554F},
-            "Qwark VidComic 2": {"unlockAddress": 0x001D5551},
-            "Qwark VidComic 3": {"unlockAddress": 0x001D5552},
-            "Qwark VidComic 4": {"unlockAddress": 0x001D5550},
-            "Qwark VidComic 5": {"unlockAddress": 0x001D5553},
-        },
-        "PlanetSlots": [
-            0x00143050, 0x00143054, 0x00143058, 0x0014305C,
-            0x00143060, 0x00143064, 0x00143068, 0x0014306C,
-            0x00143070, 0x00143074, 0x00143078, 0x0014307C,
-            0x00143080, 0x00143084, 0x00143088, 0x0014308C,
-            0x00143090, 0x00143094, 0x00143098, 0x0014309C,
-        ],
-        "ShipPlanets": {
-            "Veldin": 1,
-            "Florana": 2,
-            "Starship Phoenix": 3,
-            "Marcadia": 4,
-            "Daxx": 5,
-            "Annihilation Nation": 7,
-            "Aquatos": 8,
-            "Tyhrranosis": 9,
-            "Zeldrin Starport": 10,
-            "Obani Gemini": 11,
-            "Blackwater City": 12,
-            "Holostar Studios": 13,
-            "Koros": 14,
-            "Metropolis": 16,
-            "Crash Site": 17,
-            "Aridia": 18,
-            "Qwarks Hideout": 19,
-            "Obani Draco": 21,
-            "Command Center": 22,
-            "Museum": 24,
-        },
-        "PlanetValues": {
-            "Galaxy": 0,
-            "Veldin": 1,
-            "Florana": 2,
-            "Starship Phoenix": 3,
-            "Marcadia": 4,
-            "Daxx": 5,
-            "Phoenix Assault": 6,
-            "Annihilation Nation": 7,
-            "Aquatos": 8,
-            "Tyhrranosis": 9,
-            "Zeldrin Starport": 10,
-            "Obani Gemini": 11,
-            "Blackwater City": 12,
-            "Holostar Studios": 13,
-            "Koros": 14,
-            "Unused": 15,
-            "Metropolis": 16,
-            "Crash Site": 17,
-            "Aridia": 18,
-            "Qwarks Hideout": 19,
-            "Command Center 2": 20,
-            "Obani Draco": 21,
-            "Command Center": 22,
-            "Holostar Studios Clank": 23,
-            "Museum": 24,
-            "Unused2": 25,
-            "Metropolis: Mission": 26,
-            "Aquatos Base": 27,
-            "Aquatos Sewers": 28,
-            "Tyhrranosis: Mission": 29,
-            # "Qwark VidComic Unused 1": 30
-            # "Qwark VidComic 1": 31
-            # "Qwark VidComic 4": 32
-            # "Qwark VidComic 2": 33
-            # "Qwark VidComic 3": 34
-            # "Qwark VidComic 5": 35
-            # "Qwark VidComic Unused 2": 36
-            # 40-55 Multiplayer maps
-        },
-        "QuickSelectSlots": [
-            # Slot 1
-            0x001D4C60, 0x001D4C64, 0x001D4C68, 0x001D4C6C,
-            0x001D4C70, 0x001D4C74, 0x001D4C78, 0x001D4C7C,
-            # Slot 2(With R1 button)
-            0x001D4C80, 0x001D4C84, 0x001D4C88, 0x001D4C8C,
-            0x001D4C90, 0x001D4C94, 0x001D4C98, 0x001D4C9C,
-        ],
-        "Progress": 0x00142720,  # 2,  florana + 4,
-        "Something 3": 0x001427AC,  # 1
-        "Something 1": 0x00142BA0,  # 2
-        "Finish Veldin": 0x00142BA9,  # 1
-        "Collect Shock cannon": 0x00142C04,  # 40
-        "Collect Nitro Launcher": 0x00142C04,  # 80
-        "Veldin ship": 0x00142C09,  # 1
 
-        "MainMenu": 0x0016C598,
-        "CurrentEquipped": 0x001D4C40,
-        "HoldingWeapon": 0x001A5E08,
-        "LastUsed": [0x00142670, 0x00142674, 0x00142678],
-        "ArmorVersion": 0x001426A0,
-        "boltXPMultiplier": 0x001426BA,
-        "Bolt": 0x00142660,
-        "JackpotActive": 0x001A74A8,
-        "JackpotTimer": 0x001A4E10,
-        "InfernoTimer": 0x001A4E14,
-        "Wrench Equipped": 0x00142690,
-        "Challenge Mode Count": 0x00142692,
-        "NanotechExp": 0x00142694,
-        "CurrentHealth": 0x001A7430,
-        "MaxHealth": 0x00142668,
-        "CurrentPlanet": 0x001D545C,
-        "SewerCrystalsInPossession": 0x001426A2,
-        "Robonoids active": 0x0014275C,
-        "AllowedInShip": 0x001D5533,
-        "MapCheck": 0x0016C5A0,
-        "Skill Points": {
-            "Go for hang time": 0x001D54B0,
-            "Stay Squeaky Clean": 0x001D54B1,
-            "Strive for arcade perfection": 0x001D54B2,
-            "Beat Helga's best time": 0x001D54B3,
-            "Turn Up The Heat": 0x001D54B4,
-            "Monkeying around": 0x001D54B5,
-            "Reflect on how to score": 0x001D54B6,
-            "Bugs to Birdie": 0x001D54B7,
-            "Bash the bug": 0x001D54B8,
-            "Be an eight time champ": 0x001D54B9,
-            "Flee Flawlessly": 0x001D54BA,
-            "Lights, camera action!": 0x001D54BB,
-            "Search for sunken treasure": 0x001D54BC,
-            "Be a Sharpshooter": 0x001D54BD,
-            "Get to the belt": 0x001D54BE,
-            "Bash the party": 0x001D54BF,
-            "Feeling Lucky": 0x001D54C0,
-            "You break it, you win it": 0x001D54C1,
-            "2002 was a good year in the city": 0x001D54C2,
-            "Suck it up!": 0x001D54C3,
-            "Aim High": 0x001D54C4,
-            "Zap back at ya'": 0x001D54C5,
-            "Break the Dan": 0x001D54C6,
-            "Spread your germs": 0x001D54C7,
-            "Hit the motherload": 0x001D54C8,
-            "Pirate booty - set a new record for qwark": 0x001D54C9,
-            "Deja Q All over Again - set a new record for qwark": 0x001D54CA,
-            "Arriba Amoeba! - set a new record for qwark": 0x001D54CB,
-            "Shadow of the robot - set a new record for qwark": 0x001D54CC,
-            "The Shaming of the Q - set a new record for qwark": 0x001D54CD
-        },
-        "Missions": {
-            "First Ranger gives weapon": 0x001426E0,
-            "Second Ranger gives weapon": 0x001426E1,
-            "Zeldrin starport: Find Nefarious": 0x001426E2,
-            "Save Veldin": 0x001426E3,
-            "Veldin: Eliminate the Enemy Forces": 0x001426E4,
-            "Florana: Find the mysterious man": 0x001426E5,
-            "Florana: Walk the path of death!": 0x001426E6,
-            "Defeat Qwark": 0x001426E7,
-            "Take Qwark to Cage": 0x001426E8,
-            "Meet Sasha bridge": 0x001426E9,
-            "Meet Al on Marcadia": 0x001426EA,
-            "Play VidComic1": 0x001426EB,
-            "Marcadia: Get to the Palace": 0x001426EF,
-            "Marcadia: Repair the LDS": 0x001426F1,
-            "Marcadia: Secure the Area": 0x001426F2,
-            "Annihilation Nation: Return": 0x001426F3,
-            "Phoenix Rescue": 0x001426F4,
-            "Annihilation Nation: Grand Prize Bout": 0x001426F5,
-            "Return to Phoenix after Annihilation Nation 2": 0x001426F6,
-            "Aquatos: Infiltrate the Base": 0x001426F7,
-            "Tyhrranosis: Destroy the Plasma Cannon Turrets": 0x001426F9,
-            "Obani Gemini: ???": 0x00142701,
-            "Save Blackwater City": 0x00142704,
-            "Blackwater: Destroy the Base": 0x00142705,
-            "Metropolis: Defeat Klunk": 0x00142708,
-            "Obani Draco: Defeat Courtney Gears": 0x0014270D,
-            "Defeat Dr Nefarious": 0x0014270F,
-            "Destroy the Biobliterator": 0x00142710,  # Doesn't get written to
-            "Holostar: Film Episode": 0x00142712,
-            "Holostar: Return to your ship": 0x00142713,
-            "Metropolis: Complete Ranger Missions": 0x00142714,
-            "Aquatos: Gather Sewer Crystals": 0x00142715,
-            "Tyhrranosis: Destroy the Encampment": 0x00142717,
-            "Tyhrranosis: Destroy the Momma Tyhrranoid": 0x0014271D,
-        },
-        "Enemies": {
-            "First of two noids - Mylon Landing Point": 0x001C169E,
-            "Second of two noids - Mylon Landing Point": 0x001C16F4
-        }
-    }
-}
+# "Missions": {
+#     "First Ranger gives weapon": 0x001426E0,
+#     "Second Ranger gives weapon": 0x001426E1,
+#     "Zeldrin starport: Find Nefarious": 0x001426E2,
+#     "Save Veldin": 0x001426E3,
+#     "Veldin: Eliminate the Enemy Forces": 0x001426E4,
+#     "Florana: Find the mysterious man": 0x001426E5,
+#     "Florana: Walk the path of death!": 0x001426E6,
+#     "Defeat Qwark": 0x001426E7,
+#     "Take Qwark to Cage": 0x001426E8,
+#     "Meet Sasha bridge": 0x001426E9,
+#     "Meet Al on Marcadia": 0x001426EA,
+#     "Play VidComic1": 0x001426EB,
+#     "Marcadia: Get to the Palace": 0x001426EF,
+#     "Marcadia: Repair the LDS": 0x001426F1,
+#     "Marcadia: Secure the Area": 0x001426F2,
+#     "Annihilation Nation: Return": 0x001426F3,
+#     "Phoenix Rescue": 0x001426F4,
+#     "Annihilation Nation: Grand Prize Bout": 0x001426F5,
+#     "Return to Phoenix after Annihilation Nation 2": 0x001426F6,
+#     "Aquatos: Infiltrate the Base": 0x001426F7,
+#     "Tyhrranosis: Destroy the Plasma Cannon Turrets": 0x001426F9,
+#     "Obani Gemini: ???": 0x00142701,
+#     "Save Blackwater City": 0x00142704,
+#     "Blackwater: Destroy the Base": 0x00142705,
+#     "Metropolis: Defeat Klunk": 0x00142708,
+#     "Obani Draco: Defeat Courtney Gears": 0x0014270D,
+#     "Defeat Dr Nefarious": 0x0014270F,
+#     "Destroy the Biobliterator": 0x00142710,  # Doesn't get written to
+#     "Holostar: Film Episode": 0x00142712,
+#     "Holostar: Return to your ship": 0x00142713,
+#     "Metropolis: Complete Ranger Missions": 0x00142714,
+#     "Aquatos: Gather Sewer Crystals": 0x00142715,
+#     "Tyhrranosis: Destroy the Encampment": 0x00142717,
+#     "Tyhrranosis: Destroy the Momma Tyhrranoid": 0x0014271D,
+#
+# "Enemies":
+#     "First of two noids - Mylon Landing Point": 0x001C169E,
+#     "Second of two noids - Mylon Landing Point": 0x001C16F4
 
 
-# Todo: add Options for slot data
 class RAC3OPTION:
     OPTIONS = "options"
     GAME_TITLE = "Rac3"
@@ -338,6 +186,7 @@ class RAC3ITEM:
     LIQUID_NITROGEN_V7 = "Liquid Nitrogen Gun V7"
     LIQUID_NITROGEN_V8 = "Liquid Nitrogen Gun V8"
     MAP_O_MATIC = "Map-O-Matic"
+    STAR_MAP = "Star-Map"
     MASTER_PLAN = "Master Plan"
     MINI_TURRET = "Mini-Turret Glove"
     MINI_TURRET_V2 = "Mini-Turret Glove V2"
@@ -548,6 +397,7 @@ class RAC3ITEM:
 
 
 class RAC3REGION:
+    MENU = "Menu"
     GALAXY = "Galaxy"
     VELDIN = "Veldin"
     FLORANA = "Florana"
@@ -556,12 +406,14 @@ class RAC3REGION:
     DAXX = "Daxx"
     PHOENIX_ASSAULT = "Phoenix Assault"
     ANNIHILATION_NATION = "Annihilation Nation"
+    ANNIHILATION_NATION_2 = "Annihilation Nation 2"
     AQUATOS = "Aquatos"
     TYHRRANOSIS = "Tyhrranosis"
     ZELDRIN_STARPORT = "Zeldrin Starport"
     OBANI_GEMINI = "Obani Gemini"
     BLACKWATER_CITY = "Blackwater City"
     HOLOSTAR_STUDIOS = "Holostar Studios"
+    SKIDD_CUTSCENE = "Skidd Cutscene"
     KOROS = "Koros"
     UNUSED = "Unused"
     METROPOLIS = "Metropolis"
@@ -585,6 +437,9 @@ class RAC3REGION:
     QWARK_VID_COMIC_3 = "Qwark VidComic 3"
     QWARK_VID_COMIC_5 = "Qwark VidComic 5"
     QWARK_VID_COMIC_UNUSED_2 = "Qwark VidComic Unused 2"
+    NANOTECH = "Nanotech"
+    UPGRADES = "Upgrades"
+    LONG_TROPHIES = "Long Term Trophy"
     SLOT_0 = "Planet Slot 0x00"
     SLOT_1 = "Planet Slot 0x01"
     SLOT_2 = "Planet Slot 0x02"
@@ -607,13 +462,62 @@ class RAC3REGION:
     SLOT_13 = "Planet Slot 0x13"
 
 
+class RAC3TAG:
+    SKILLPOINT = "SkillPoint"
+    T_BOLT = "T-Bolt"
+    SEWER = "Sewer"
+    VIDCOMIC = "VidComic"
+    TROPHY = "Trophy"
+    LONG_TROPHY = "Long Term Trophy"
+    RANGERS = "Rangers"
+    ARENA = "Arena"
+    NANOTECH = "Nanotech"
+    UNSTABLE = "Unstable"
+    WEAPONS = "Weapons"
+    GADGETS = "Gadgets"
+    INFOBOT = "Infobot"
+
+
 # Todo: Missions, Skill Points, and anything that will trigger an item collection
 class RAC3LOCATION:
     pass
 
 
-# Todo: Values such as "CurrentEquipped", affects/describes gameplay
+class RAC3SKILLPOINT:
+    GO_FOR_HANG_TIME = "Go for hang time"  # 0x001D54B0,
+    STAY_SQUEAKY_CLEAN = "Stay Squeaky Clean"  # 0x001D54B1,
+    ARCADE_PERFECTION = "Strive for arcade perfection"  # 0x001D54B2,
+    BEAT_HELGAS_BEST_TIME = "Beat Helga's best time"  # 0x001D54B3,
+    TURN_UP_THE_HEAT = "Turn Up The Heat"  # 0x001D54B4,
+    MONKEYING_AROUND = "Monkeying around"  # 0x001D54B5,
+    REFLECT_TO_SCORE = "Reflect on how to score"  # 0x001D54B6,
+    BUGS_TO_BIRDIE = "Bugs to Birdie"  # 0x001D54B7,
+    BASH_THE_BUG = "Bash the bug"  # 0x001D54B8,
+    EIGHT_TIME_CHAMP = "Be an eight time champ"  # 0x001D54B9,
+    FLEE_FLAWLESSLY = "Flee Flawlessly"  # 0x001D54BA,
+    LIGHTS_CAMERA_ACTION = "Lights, camera action!"  # 0x001D54BB,
+    SUNKEN_TREASURE = "Search for sunken treasure"  # 0x001D54BC,
+    BE_A_SHARPSHOOTER = "Be a Sharpshooter"  # 0x001D54BD,
+    GET_TO_THE_BELT = "Get to the belt"  # 0x001D54BE,
+    BASH_THE_PARTY = "Bash the party"  # 0x001D54BF,
+    FEELING_LUCKY = "Feeling Lucky"  # 0x001D54C0,
+    YOU_BREAK_IT = "You break it, you win it"  # 0x001D54C1,
+    GOOD_YEAR = "2002 was a good year in the city"  # 0x001D54C2,
+    SUCK_IT_UP = "Suck it up!"  # 0x001D54C3,
+    AIM_HIGH = "Aim High"  # 0x001D54C4,
+    ZAP_BACK_AT_YA = "Zap back at ya'"  # 0x001D54C5,
+    BREAK_THE_DAN = "Break the Dan"  # 0x001D54C6,
+    SPREAD_YOUR_GERMS = "Spread your germs"  # 0x001D54C7,
+    HIT_THE_MOTHERLOAD = "Hit the motherload"  # 0x001D54C8,
+    PIRATE_BOOTY = "Pirate booty - set a new record for qwark"  # 0x001D54C9,
+    DEJA_Q_ALL_OVER_AGAIN = "Deja Q All over Again - set a new record for qwark"  # 0x001D54CA,
+    ARRIBA_AMOEBA = "Arriba Amoeba! - set a new record for qwark"  # 0x001D54CB,
+    SHADOW_OF_THE_ROBOT = "Shadow of the robot - set a new record for qwark"  # 0x001D54CC,
+    THE_SHAMING_OF_THE_Q = "The Shaming of the Q - set a new record for qwark"  # 0x001D54CD,
+
+
 class RAC3STATUS:
+    GAME_ID = "SCUS-97353"
     LEVEL_TABLE = 0x001425C0
     BOLTS = 0x00142660
     MAX_HEALTH = 0x00142668
@@ -645,449 +549,6 @@ class RAC3STATUS:
     PLANET = 0x001D545C
     ALLOW_SHIP = 0x001D5533
 
-
-@dataclass
-class RAC3DATA:
-    AP_CODE = None
-    AP_CLASSIFICATION = None
-    UNLOCK_ADDRESS = None
-    UNLOCK_ADDRESS_2 = None
-    ID = None
-    AMMO_ADDRESS = None
-    AMMO = None
-    XP_ADDRESS = None
-    XP_THRESHOLD = None
-    SLOT_ADDRESS = None
-    POWER = None
-    ARMOR = None
-    VALUE = None
-    LEVEL = None
-
-
-@dataclass
-class RAC3STATUSDATA(RAC3DATA):
-    def __init__(self, slot: Optional[int] = None):
-        self.SLOT_ADDRESS: int = 4 * slot + RAC3STATUS.QUICK_SELECT
-
-
-@dataclass
-class RAC3ITEMDATA(RAC3DATA):
-    def __init__(self,
-                 idx: Optional[int] = None,
-                 power: Optional[int] = None,
-                 ammo: Optional[int] = None,
-                 xp: Optional[int] = None,
-                 address: Optional[int] = None,
-                 value: Optional[int] = None,
-                 ap_code: Optional[int] = None,
-                 ap_classification: Optional[ItemClassification] = None, ):
-        self.ID: Optional[int] = idx
-        self.LEVEL: Optional[int] = idx + RAC3STATUS.LEVEL_TABLE
-        if address:
-            self.UNLOCK_ADDRESS = address
-        elif idx < 0x9C:
-            self.UNLOCK_ADDRESS: int = idx + RAC3STATUS.ITEM_UNLOCK_ADDRESS
-            self.UNLOCK_ADDRESS_2: int = self.UNLOCK_ADDRESS + RAC3STATUS.ITEM_UNLOCK_ADDRESS_2_OFFSET
-        elif idx < 0xDA:
-            self.UNLOCK_ADDRESS: int = (idx - 0xCB) * 8 + 0x27 + RAC3STATUS.ITEM_UNLOCK_ADDRESS
-            self.UNLOCK_ADDRESS_2: int = self.UNLOCK_ADDRESS + RAC3STATUS.ITEM_UNLOCK_ADDRESS_2_OFFSET
-        elif idx < 0xE1:
-            self.UNLOCK_ADDRESS: int = idx - 0xCA + RAC3STATUS.ITEM_UNLOCK_ADDRESS
-            self.UNLOCK_ADDRESS_2: int = self.UNLOCK_ADDRESS + RAC3STATUS.ITEM_UNLOCK_ADDRESS_2_OFFSET
-
-        if power:
-            if idx < 0xDF:
-                self.XP_ADDRESS: int = 4 * idx + RAC3STATUS.ITEM_XP_ADDRESS
-                self.POWER: int = power
-                if xp:
-                    self.XP_THRESHOLD: int = 32 * xp
-            else:
-                self.ARMOR: float = power / 30
-        if ammo:
-            self.AMMO_ADDRESS: Optional[int] = 4 * idx + RAC3STATUS.ITEM_AMMO_ADDRESS
-            self.AMMO: Optional[int] = ammo
-        if value:
-            self.VALUE: int = value
-        if ap_code:
-            self.AP_CODE: int = ap_code
-        else:
-            self.AP_CODE: int = idx + 50000000
-
-        if ap_classification:
-            self.AP_CLASSIFICATION: ItemClassification = ap_classification
-        # elif idx > 0x26:
-        #     lv0 = idx - ((idx - 0x27) % 8)
-        #     self.AP_CLASSIFICATION: ItemClassification = RAC3_ITEM_DATA_TABLE[ITEM_NAME_FROM_ID[lv0]].AP_CLASSIFICATION
-
-
-@dataclass
-class RAC3REGIONDATA(RAC3DATA):
-    def __init__(self,
-                 idx: Optional[int] = None,
-                 slot: Optional[int] = None):
-        self.ID: Optional[int] = idx
-        if slot:
-            self.SLOT_ADDRESS: Optional[int] = 4 * slot + RAC3STATUS.PLANET_SLOT_ADDRESS
-
-
-RAC3_ITEM_DATA_TABLE: dict[str, RAC3DATA] = {
-    # Items
-    # 0x01
-    RAC3ITEM.HELI_PACK: RAC3ITEMDATA(0x02, ap_classification=ItemClassification.useful),  # Unused
-    RAC3ITEM.THRUSTER_PACK: RAC3ITEMDATA(0x03, ap_classification=ItemClassification.useful),  # Unused
-    RAC3ITEM.HYDRO_PACK: RAC3ITEMDATA(0x04),  # Unused
-    RAC3ITEM.MAP_O_MATIC: RAC3ITEMDATA(0x05, ap_classification=ItemClassification.useful),
-    RAC3ITEM.COMMANDO_SUIT: RAC3ITEMDATA(0x06),  # Unused
-    RAC3ITEM.BOLT_GRABBER: RAC3ITEMDATA(0x07, ap_classification=ItemClassification.useful),
-    RAC3ITEM.LEVITATOR: RAC3ITEMDATA(0x08),  # Unused
-    RAC3ITEM.WRENCH: RAC3ITEMDATA(0x09),
-    RAC3ITEM.BOMB_GLOVE: RAC3ITEMDATA(0x0A, ammo=40),  # Unused
-    RAC3ITEM.HYPERSHOT: RAC3ITEMDATA(0x0B, ap_classification=ItemClassification.progression),
-    RAC3ITEM.MORPH_O_RAY: RAC3ITEMDATA(0x0C),  # Unused
-    RAC3ITEM.GRAV_BOOTS: RAC3ITEMDATA(0x0D, ap_classification=ItemClassification.progression),
-    RAC3ITEM.GRIND_BOOTS: RAC3ITEMDATA(0x0E),  # Unused
-    RAC3ITEM.GLIDER: RAC3ITEMDATA(0x0F),  # Unused
-    RAC3ITEM.PLASMA_COIL: RAC3ITEMDATA(0x10, 2400, 15, ap_classification=ItemClassification.useful),
-    RAC3ITEM.LAVA_GUN: RAC3ITEMDATA(0x11, 160, 150, ap_classification=ItemClassification.useful),
-    RAC3ITEM.REFRACTOR: RAC3ITEMDATA(0x12, ap_classification=ItemClassification.progression),
-    RAC3ITEM.BOUNCER: RAC3ITEMDATA(0x13, 1200, 10, ap_classification=ItemClassification.useful),
-    RAC3ITEM.HACKER: RAC3ITEMDATA(0x14, ap_classification=ItemClassification.progression),
-    RAC3ITEM.MINI_TURRET: RAC3ITEMDATA(0x15, 600, 10, ap_classification=ItemClassification.useful),
-    RAC3ITEM.SHIELD_CHARGER: RAC3ITEMDATA(0x16, 60, 3, ap_classification=ItemClassification.useful),
-    # 0x17 Set on new file, Empty Hand
-    RAC3ITEM.HELMET: RAC3ITEMDATA(0x18),  # Unused
-    # 0x19 SEVERE CRASH RISK
-    RAC3ITEM.BOX_BREAKER: RAC3ITEMDATA(0x1A, ap_classification=ItemClassification.progression),
-    RAC3ITEM.HASH: RAC3ITEMDATA(0x1B),  # Unused
-    RAC3ITEM.GRIND_BOOTS_2: RAC3ITEMDATA(0x1C),  # Unused
-    RAC3ITEM.CHARGE_BOOTS: RAC3ITEMDATA(0x1D, ap_classification=ItemClassification.progression),
-    RAC3ITEM.TYHRRA_GUISE: RAC3ITEMDATA(0x1E, ap_classification=ItemClassification.progression),
-    RAC3ITEM.WARP_PAD: RAC3ITEMDATA(0x1F, ap_classification=ItemClassification.progression),
-    RAC3ITEM.NANO_PAK: RAC3ITEMDATA(0x20, ap_classification=ItemClassification.useful),
-    # 0x21 SEVERE CRASH RISK
-    RAC3ITEM.MASTER_PLAN: RAC3ITEMDATA(0x22, ap_classification=ItemClassification.progression),
-    RAC3ITEM.PDA: RAC3ITEMDATA(0x23, ap_classification=ItemClassification.useful),
-    RAC3ITEM.THIRD_PERSON: RAC3ITEMDATA(0x24),
-    RAC3ITEM.FIRST_PERSON: RAC3ITEMDATA(0x25),
-    RAC3ITEM.LOCK_STRAFE: RAC3ITEMDATA(0x26),
-    RAC3ITEM.SHOCK_BLASTER: RAC3ITEMDATA(0x27, 40, 30, ap_classification=ItemClassification.useful),
-    RAC3ITEM.SHOCK_BLASTER_V2: RAC3ITEMDATA(0x28, 50, 35, 150),
-    RAC3ITEM.SHOCK_BLASTER_V3: RAC3ITEMDATA(0x29, 60, 40, 400),
-    RAC3ITEM.SHOCK_BLASTER_V4: RAC3ITEMDATA(0x2A, 80, 40, 700),
-    RAC3ITEM.SHOCK_CANNON_V5: RAC3ITEMDATA(0x2B, 100, 50, 1000),
-    RAC3ITEM.SHOCK_CANNON_V6: RAC3ITEMDATA(0x2C, 1100, 50),
-    RAC3ITEM.SHOCK_CANNON_V7: RAC3ITEMDATA(0x2D, 1400, 55, 10000),
-    RAC3ITEM.SHOCK_CANNON_V8: RAC3ITEMDATA(0x2E, 2100, 60, 25000),
-    RAC3ITEM.N60_STORM: RAC3ITEMDATA(0x2F, 150, 150, ap_classification=ItemClassification.useful),
-    RAC3ITEM.N60_STORM_V2: RAC3ITEMDATA(0x30, 175, 175, 200),
-    RAC3ITEM.N60_STORM_V3: RAC3ITEMDATA(0x31, 200, 200, 500),
-    RAC3ITEM.N60_STORM_V4: RAC3ITEMDATA(0x32, 250, 225, 1500),
-    RAC3ITEM.N60_HURRICANE_V5: RAC3ITEMDATA(0x33, 350, 300, 3300),
-    RAC3ITEM.N60_HURRICANE_V6: RAC3ITEMDATA(0x34, 3500, 300),
-    RAC3ITEM.N60_HURRICANE_V7: RAC3ITEMDATA(0x35, 5000, 350, 15000),
-    RAC3ITEM.N60_HURRICANE_V8: RAC3ITEMDATA(0x36, 6000, 400, 37500),
-    RAC3ITEM.INFECTOR: RAC3ITEMDATA(0x37, 180, 15, ap_classification=ItemClassification.progression),
-    RAC3ITEM.INFECTOR_V2: RAC3ITEMDATA(0x38, 240, 15, 400),
-    RAC3ITEM.INFECTOR_V3: RAC3ITEMDATA(0x39, 320, 18, 800),
-    RAC3ITEM.INFECTOR_V4: RAC3ITEMDATA(0x3A, 400, 18, 2000),
-    RAC3ITEM.INFECTO_BOMB_V5: RAC3ITEMDATA(0x3B, 600, 20, 3800),
-    RAC3ITEM.INFECTO_BOMB_V6: RAC3ITEMDATA(0x3C, 4000, 20),
-    RAC3ITEM.INFECTO_BOMB_V7: RAC3ITEMDATA(0x3D, 5000, 25, 10000),
-    RAC3ITEM.INFECTO_BOMB_V8: RAC3ITEMDATA(0x3E, 6000, 30, 15000),
-    RAC3ITEM.ANNIHILATOR: RAC3ITEMDATA(0x3F, 500, 20, ap_classification=ItemClassification.progression),
-    RAC3ITEM.ANNIHILATOR_V2: RAC3ITEMDATA(0x40, 600, 20, 800),
-    RAC3ITEM.ANNIHILATOR_V3: RAC3ITEMDATA(0x41, 800, 20, 2400),
-    RAC3ITEM.ANNIHILATOR_V4: RAC3ITEMDATA(0x42, 1100, 22, 6400),
-    RAC3ITEM.DECIMATOR_V5: RAC3ITEMDATA(0x43, 1400, 25, 12400),
-    RAC3ITEM.DECIMATOR_V6: RAC3ITEMDATA(0x44, 3000, 25),
-    RAC3ITEM.DECIMATOR_V7: RAC3ITEMDATA(0x45, 4000, 28, 10000),
-    RAC3ITEM.DECIMATOR_V8: RAC3ITEMDATA(0x46, 5000, 30, 25000),
-    RAC3ITEM.SPITTING_HYDRA: RAC3ITEMDATA(0x47, 200, 15, ap_classification=ItemClassification.progression),
-    RAC3ITEM.SPITTING_HYDRA_V2: RAC3ITEMDATA(0x48, 240, 15, 300),
-    RAC3ITEM.SPITTING_HYDRA_V3: RAC3ITEMDATA(0x49, 280, 15, 900),
-    RAC3ITEM.SPITTING_HYDRA_V4: RAC3ITEMDATA(0x4A, 320, 15, 1800),
-    RAC3ITEM.TEMPEST_V5: RAC3ITEMDATA(0x4B, 400, 15, 3000),
-    RAC3ITEM.TEMPEST_V6: RAC3ITEMDATA(0x4C, 3200, 15),
-    RAC3ITEM.TEMPEST_V7: RAC3ITEMDATA(0x4D, 5400, 18, 15000),
-    RAC3ITEM.TEMPEST_V8: RAC3ITEMDATA(0x4E, 6000, 20, 37500),
-    RAC3ITEM.DISC_BLADE: RAC3ITEMDATA(0x4F, 500, 25, ap_classification=ItemClassification.progression),
-    RAC3ITEM.DISC_BLADE_V2: RAC3ITEMDATA(0x50, 600, 25, 700),
-    RAC3ITEM.DISC_BLADE_V3: RAC3ITEMDATA(0x51, 1400, 25, 2100),
-    RAC3ITEM.DISC_BLADE_V4: RAC3ITEMDATA(0x52, 2400, 25, 6100),
-    RAC3ITEM.MULTI_DISC_V5: RAC3ITEMDATA(0x53, 3600, 25, 12100),
-    RAC3ITEM.MULTI_DISC_V6: RAC3ITEMDATA(0x54, 4400, 25),
-    RAC3ITEM.MULTI_DISC_V7: RAC3ITEMDATA(0x55, 5600, 28, 10000),
-    RAC3ITEM.MULTI_DISC_V8: RAC3ITEMDATA(0x56, 8400, 30, 25000),
-    RAC3ITEM.AGENTS_OF_DOOM: RAC3ITEMDATA(0x57, 240, 6, ap_classification=ItemClassification.useful),
-    RAC3ITEM.AGENTS_OF_DOOM_V2: RAC3ITEMDATA(0x58, 400, 6, 400),
-    RAC3ITEM.AGENTS_OF_DOOM_V3: RAC3ITEMDATA(0x59, 660, 6, 1000),
-    RAC3ITEM.AGENTS_OF_DOOM_V4: RAC3ITEMDATA(0x5A, 2000, 8, 3000),
-    RAC3ITEM.AGENTS_OF_DREAD_V5: RAC3ITEMDATA(0x5B, 6000, 8, 6000),
-    RAC3ITEM.AGENTS_OF_DREAD_V6: RAC3ITEMDATA(0x5C, 8000, 8),
-    RAC3ITEM.AGENTS_OF_DREAD_V7: RAC3ITEMDATA(0x5D, 10000, 10, 7500),
-    RAC3ITEM.AGENTS_OF_DREAD_V8: RAC3ITEMDATA(0x5E, 12000, 12, 20000),
-    RAC3ITEM.RIFT_INDUCER: RAC3ITEMDATA(0x5F, 1000, 8, ap_classification=ItemClassification.progression),
-    RAC3ITEM.RIFT_INDUCER_V2: RAC3ITEMDATA(0x60, 1300, 8, 800),
-    RAC3ITEM.RIFT_INDUCER_V3: RAC3ITEMDATA(0x61, 1500, 10, 2400),
-    RAC3ITEM.RIFT_INDUCER_V4: RAC3ITEMDATA(0x62, 1700, 10, 6400),
-    RAC3ITEM.RIFT_RIPPER_V5: RAC3ITEMDATA(0x63, 2000, 12, 12400),
-    RAC3ITEM.RIFT_RIPPER_V6: RAC3ITEMDATA(0x64, 4000, 12),
-    RAC3ITEM.RIFT_RIPPER_V7: RAC3ITEMDATA(0x65, 5000, 14, 15000),
-    RAC3ITEM.RIFT_RIPPER_V8: RAC3ITEMDATA(0x66, 6000, 16, 37500),
-    RAC3ITEM.HOLO_SHIELD: RAC3ITEMDATA(0x67, 200, 8, ap_classification=ItemClassification.useful),
-    RAC3ITEM.HOLO_SHIELD_V2: RAC3ITEMDATA(0x68, 300, 8, 150),
-    RAC3ITEM.HOLO_SHIELD_V3: RAC3ITEMDATA(0x69, 400, 10, 450),
-    RAC3ITEM.HOLO_SHIELD_V4: RAC3ITEMDATA(0x6A, 500, 10, 1350),
-    RAC3ITEM.ULTRA_SHIELD_V5: RAC3ITEMDATA(0x6B, 600, 12, 2700),
-    RAC3ITEM.ULTRA_SHIELD_V6: RAC3ITEMDATA(0x6C, 1000, 12),
-    RAC3ITEM.ULTRA_SHIELD_V7: RAC3ITEMDATA(0x6D, 1500, 12, 5000),
-    RAC3ITEM.ULTRA_SHIELD_V8: RAC3ITEMDATA(0x6E, 2000, 14, 12500),
-    RAC3ITEM.FLUX_RIFLE: RAC3ITEMDATA(0x6F, 300, 10, ap_classification=ItemClassification.progression),
-    RAC3ITEM.FLUX_RIFLE_V2: RAC3ITEMDATA(0x70, 400, 12, 200),
-    RAC3ITEM.FLUX_RIFLE_V3: RAC3ITEMDATA(0x71, 500, 12, 600),
-    RAC3ITEM.FLUX_RIFLE_V4: RAC3ITEMDATA(0x72, 1600, 12, 1500),
-    RAC3ITEM.SPLITTER_RIFLE_V5: RAC3ITEMDATA(0x73, 2800, 15, 2900),
-    RAC3ITEM.SPLITTER_RIFLE_V6: RAC3ITEMDATA(0x74, 5200, 15),
-    RAC3ITEM.SPLITTER_RIFLE_V7: RAC3ITEMDATA(0x75, 7000, 18, 7500),
-    RAC3ITEM.SPLITTER_RIFLE_V8: RAC3ITEMDATA(0x76, 8400, 20, 20000),
-    RAC3ITEM.NITRO_LAUNCHER: RAC3ITEMDATA(0x77, 200, 8, ap_classification=ItemClassification.useful),
-    RAC3ITEM.NITRO_LAUNCHER_V2: RAC3ITEMDATA(0x78, 240, 8, 200),
-    RAC3ITEM.NITRO_LAUNCHER_V3: RAC3ITEMDATA(0x79, 300, 10, 500),
-    RAC3ITEM.NITRO_LAUNCHER_V4: RAC3ITEMDATA(0x7A, 400, 10, 1100),
-    RAC3ITEM.NITRO_ERUPTOR_V5: RAC3ITEMDATA(0x7B, 800, 12, 2600),
-    RAC3ITEM.NITRO_ERUPTOR_V6: RAC3ITEMDATA(0x7C, 4200, 12),
-    RAC3ITEM.NITRO_ERUPTOR_V7: RAC3ITEMDATA(0x7D, 5000, 14, 7500),
-    RAC3ITEM.NITRO_ERUPTOR_V8: RAC3ITEMDATA(0x7E, 6000, 16, 20000),
-    RAC3ITEM.PLASMA_WHIP: RAC3ITEMDATA(0x7F, 40, 25, ap_classification=ItemClassification.progression),
-    RAC3ITEM.PLASMA_WHIP_V2: RAC3ITEMDATA(0x80, 50, 30, 200),
-    RAC3ITEM.PLASMA_WHIP_V3: RAC3ITEMDATA(0x81, 70, 35, 800),
-    RAC3ITEM.PLASMA_WHIP_V4: RAC3ITEMDATA(0x82, 100, 40, 1800),
-    RAC3ITEM.QUANTUM_WHIP_V5: RAC3ITEMDATA(0x83, 140, 40, 3300),
-    RAC3ITEM.QUANTUM_WHIP_V6: RAC3ITEMDATA(0x84, 1400, 50),
-    RAC3ITEM.QUANTUM_WHIP_V7: RAC3ITEMDATA(0x85, 1800, 55, 10000),
-    RAC3ITEM.QUANTUM_WHIP_V8: RAC3ITEMDATA(0x86, 2400, 60, 25000),
-    RAC3ITEM.SUCK_CANNON: RAC3ITEMDATA(0x87, 200, ap_classification=ItemClassification.progression),
-    RAC3ITEM.SUCK_CANNON_V2: RAC3ITEMDATA(0x88, 260, xp=200),
-    RAC3ITEM.SUCK_CANNON_V3: RAC3ITEMDATA(0x89, 320, xp=600),
-    RAC3ITEM.SUCK_CANNON_V4: RAC3ITEMDATA(0x8A, 400, xp=1200),
-    RAC3ITEM.VORTEX_CANNON_V5: RAC3ITEMDATA(0x8B, 600, xp=2000),
-    RAC3ITEM.VORTEX_CANNON_V6: RAC3ITEMDATA(0x8C, 4200),
-    RAC3ITEM.VORTEX_CANNON_V7: RAC3ITEMDATA(0x8D, 5000, xp=5000),
-    RAC3ITEM.VORTEX_CANNON_V8: RAC3ITEMDATA(0x8E, 6000, xp=12500),
-    RAC3ITEM.QWACK_O_RAY: RAC3ITEMDATA(0x8F, 1000, ap_classification=ItemClassification.progression),
-    RAC3ITEM.QWACK_O_RAY_V2: RAC3ITEMDATA(0x90, 1500, xp=1000),
-    RAC3ITEM.QWACK_O_RAY_V3: RAC3ITEMDATA(0x91, 2000, xp=3000),
-    RAC3ITEM.QWACK_O_RAY_V4: RAC3ITEMDATA(0x92, 2500, xp=8000),
-    RAC3ITEM.QWACK_O_BLITZER_V5: RAC3ITEMDATA(0x93, 3000, xp=16000),
-    RAC3ITEM.QWACK_O_BLITZER_V6: RAC3ITEMDATA(0x94, 4000),
-    RAC3ITEM.QWACK_O_BLITZER_V7: RAC3ITEMDATA(0x95, 5000, xp=10000),
-    RAC3ITEM.QWACK_O_BLITZER_V8: RAC3ITEMDATA(0x96, 6000, xp=25000),
-    RAC3ITEM.RY3N0: RAC3ITEMDATA(0x97, 6000, 25, ap_classification=ItemClassification.progression),
-    RAC3ITEM.RY3NO_V2: RAC3ITEMDATA(0x98, 7000, 30, 20000),
-    RAC3ITEM.RY3NO_V3: RAC3ITEMDATA(0x99, 8000, 35, 50000),
-    RAC3ITEM.RY3NO_V4: RAC3ITEMDATA(0x9A, 9000, 40, 90000),
-    RAC3ITEM.RYNOCIRATOR: RAC3ITEMDATA(0x9B, 10000, 50, 140000),
-    RAC3ITEM.PLASMA_COIL_V2: RAC3ITEMDATA(0xA0, 3000, 15, 8000),
-    RAC3ITEM.LAVA_GUN_V2: RAC3ITEMDATA(0xA1, 240, 150, 600),
-    RAC3ITEM.MINI_TURRET_V2: RAC3ITEMDATA(0xA2, 800, 10, 400),
-    RAC3ITEM.WRENCH_V2: RAC3ITEMDATA(0xA4),
-    RAC3ITEM.WRENCH_V3: RAC3ITEMDATA(0xA5),
-    RAC3ITEM.BOUNCER_V2: RAC3ITEMDATA(0xA6, 1400, 10, 2500),
-    RAC3ITEM.SHIELD_CHARGER_V2: RAC3ITEMDATA(0xA7, 100, 3, 2200),
-    RAC3ITEM.MINI_TURRET_V3: RAC3ITEMDATA(0xA8, 1000, 12, 1000),
-    RAC3ITEM.MINI_TURRET_V4: RAC3ITEMDATA(0xA9, 1200, 12, 2000),
-    RAC3ITEM.MEGA_TURRET_V5: RAC3ITEMDATA(0xAA, 2080, 12, 3500),
-    RAC3ITEM.MEGA_TURRET_V6: RAC3ITEMDATA(0xAB, 10400, 12),
-    RAC3ITEM.MEGA_TURRET_V7: RAC3ITEMDATA(0xAC, 13000, 14, 10000),
-    RAC3ITEM.MEGA_TURRET_V8: RAC3ITEMDATA(0xAD, 15600, 16, 25000),
-    RAC3ITEM.LAVA_GUN_V3: RAC3ITEMDATA(0xAE, 360, 175, 1500),
-    RAC3ITEM.LAVA_GUN_V4: RAC3ITEMDATA(0xAF, 500, 175, 2700),
-    RAC3ITEM.LIQUID_NITROGEN_V5: RAC3ITEMDATA(0xB0, 700, 200, 4200),
-    RAC3ITEM.LIQUID_NITROGEN_V6: RAC3ITEMDATA(0xB1, 2600, 200),
-    RAC3ITEM.LIQUID_NITROGEN_V7: RAC3ITEMDATA(0xB2, 3000, 250, 10000),
-    RAC3ITEM.LIQUID_NITROGEN_V8: RAC3ITEMDATA(0xB3, 3600, 300, 25000),
-    RAC3ITEM.BOUNCER_V3: RAC3ITEMDATA(0xB4, 1400, 12, 8500),
-    RAC3ITEM.BOUNCER_V4: RAC3ITEMDATA(0xB5, 1800, 12, 18500),
-    RAC3ITEM.HEAVY_BOUNCER_V5: RAC3ITEMDATA(0xB6, 2000, 12, 30500),
-    RAC3ITEM.HEAVY_BOUNCER_V6: RAC3ITEMDATA(0xB7, 3000, 12),
-    RAC3ITEM.HEAVY_BOUNCER_V7: RAC3ITEMDATA(0xB8, 3600, 14, 10000),
-    RAC3ITEM.HEAVY_BOUNCER_V8: RAC3ITEMDATA(0xB9, 4400, 16, 25000),
-    RAC3ITEM.PLASMA_COIL_V3: RAC3ITEMDATA(0xBA, 3600, 18, 18000),
-    RAC3ITEM.PLASMA_COIL_V4: RAC3ITEMDATA(0xBB, 4200, 18, 30000),
-    RAC3ITEM.PLASMA_STORM_V5: RAC3ITEMDATA(0xBC, 6000, 20, 44000),
-    RAC3ITEM.PLASMA_STORM_V6: RAC3ITEMDATA(0xBD, 6800, 20),
-    RAC3ITEM.PLASMA_STORM_V7: RAC3ITEMDATA(0xBE, 7600, 22, 15000),
-    RAC3ITEM.PLASMA_STORM_V8: RAC3ITEMDATA(0xBF, 8400, 25, 37500),
-    RAC3ITEM.SHIELD_CHARGER_V3: RAC3ITEMDATA(0xC0, 140, 3, 5000),
-    RAC3ITEM.SHIELD_CHARGER_V4: RAC3ITEMDATA(0xC1, 180, 4, 9600),
-    RAC3ITEM.TESLA_BARRIER_V5: RAC3ITEMDATA(0xC2, 240, 4, 16800),
-    RAC3ITEM.TESLA_BARRIER_V6: RAC3ITEMDATA(0xC3, 300, 4),
-    RAC3ITEM.TESLA_BARRIER_V7: RAC3ITEMDATA(0xC4, 400, 5, 12000),
-    RAC3ITEM.TESLA_BARRIER_V8: RAC3ITEMDATA(0xC5, 500, 5, 30000),
-    RAC3ITEM.WRENCH_V4: RAC3ITEMDATA(0xC6),
-    RAC3ITEM.WRENCH_V5: RAC3ITEMDATA(0xC7),
-    RAC3ITEM.WRENCH_V6: RAC3ITEMDATA(0xC8),
-    RAC3ITEM.WRENCH_V7: RAC3ITEMDATA(0xC9),
-    RAC3ITEM.WRENCH_V8: RAC3ITEMDATA(0xCA),
-    # Progressive
-    RAC3ITEM.PROGRESSIVE_SHOCK_BLASTER: RAC3ITEMDATA(0xCB, ap_classification=ItemClassification.useful),
-    RAC3ITEM.PROGRESSIVE_N60_STORM: RAC3ITEMDATA(0xCC, ap_classification=ItemClassification.useful),
-    RAC3ITEM.PROGRESSIVE_INFECTOR: RAC3ITEMDATA(0xCD, ap_classification=ItemClassification.useful),
-    RAC3ITEM.PROGRESSIVE_ANNIHILATOR: RAC3ITEMDATA(0xCE,
-                                                   ap_classification=ItemClassification.progression_skip_balancing),
-    RAC3ITEM.PROGRESSIVE_SPITTING_HYDRA: RAC3ITEMDATA(0xCF,
-                                                      ap_classification=ItemClassification.progression_skip_balancing),
-    RAC3ITEM.PROGRESSIVE_DISC_BLADE: RAC3ITEMDATA(0xD0,
-                                                  ap_classification=ItemClassification.progression_skip_balancing),
-    RAC3ITEM.PROGRESSIVE_AGENTS_OF_DOOM: RAC3ITEMDATA(0xD1,
-                                                      ap_classification=ItemClassification.progression_skip_balancing),
-    RAC3ITEM.PROGRESSIVE_RIFT_INDUCER: RAC3ITEMDATA(0xD2, ap_classification=ItemClassification.useful),
-    RAC3ITEM.PROGRESSIVE_HOLO_SHIELD: RAC3ITEMDATA(0xD3,
-                                                   ap_classification=ItemClassification.progression_skip_balancing),
-    RAC3ITEM.PROGRESSIVE_FLUX_RIFLE: RAC3ITEMDATA(0xD4,
-                                                  ap_classification=ItemClassification.progression_skip_balancing),
-    RAC3ITEM.PROGRESSIVE_NITRO_LAUNCHER: RAC3ITEMDATA(0xD5, ap_classification=ItemClassification.useful),
-    RAC3ITEM.PROGRESSIVE_PLASMA_WHIP: RAC3ITEMDATA(0xD6,
-                                                   ap_classification=ItemClassification.progression_skip_balancing),
-    RAC3ITEM.PROGRESSIVE_SUCK_CANNON: RAC3ITEMDATA(0xD7,
-                                                   ap_classification=ItemClassification.progression_skip_balancing),
-    RAC3ITEM.PROGRESSIVE_QWACK_O_RAY: RAC3ITEMDATA(0xD8,
-                                                   ap_classification=ItemClassification.progression_skip_balancing),
-    RAC3ITEM.PROGRESSIVE_RY3N0: RAC3ITEMDATA(0xD9, ap_classification=ItemClassification.progression_skip_balancing),
-    RAC3ITEM.PROGRESSIVE_PLASMA_COIL: RAC3ITEMDATA(0xDA, ap_classification=ItemClassification.useful),
-    RAC3ITEM.PROGRESSIVE_LAVA_GUN: RAC3ITEMDATA(0xDB, ap_classification=ItemClassification.useful),
-    RAC3ITEM.PROGRESSIVE_BOUNCER: RAC3ITEMDATA(0xDD, ap_classification=ItemClassification.useful),
-    RAC3ITEM.PROGRESSIVE_MINI_TURRET: RAC3ITEMDATA(0xDF, ap_classification=ItemClassification.useful),
-    RAC3ITEM.PROGRESSIVE_SHIELD_CHARGER: RAC3ITEMDATA(0xE0, ap_classification=ItemClassification.useful),
-    # Infobots
-    RAC3ITEM.VELDIN: RAC3ITEMDATA(0xE1, ap_classification=ItemClassification.progression),
-    RAC3ITEM.FLORANA: RAC3ITEMDATA(0xE2, ap_classification=ItemClassification.progression),
-    RAC3ITEM.STARSHIP_PHOENIX: RAC3ITEMDATA(0xE3, ap_classification=ItemClassification.progression),
-    RAC3ITEM.MARCADIA: RAC3ITEMDATA(0xE4, ap_classification=ItemClassification.progression),
-    RAC3ITEM.ANNIHILATION_NATION: RAC3ITEMDATA(0xE5, ap_classification=ItemClassification.progression),
-    RAC3ITEM.AQUATOS: RAC3ITEMDATA(0xE6, ap_classification=ItemClassification.progression),
-    RAC3ITEM.TYHRRANOSIS: RAC3ITEMDATA(0xE7, ap_classification=ItemClassification.progression),
-    RAC3ITEM.DAXX: RAC3ITEMDATA(0xE8, ap_classification=ItemClassification.progression),
-    RAC3ITEM.OBANI_GEMINI: RAC3ITEMDATA(0xE9, ap_classification=ItemClassification.progression),
-    RAC3ITEM.BLACKWATER_CITY: RAC3ITEMDATA(0xEA, ap_classification=ItemClassification.progression),
-    RAC3ITEM.HOLOSTAR_STUDIOS: RAC3ITEMDATA(0xEB, ap_classification=ItemClassification.progression),
-    RAC3ITEM.OBANI_DRACO: RAC3ITEMDATA(0xEC, ap_classification=ItemClassification.progression),
-    RAC3ITEM.ZELDRIN_STARPORT: RAC3ITEMDATA(0xED, ap_classification=ItemClassification.progression),
-    RAC3ITEM.METROPOLIS: RAC3ITEMDATA(0xEE, ap_classification=ItemClassification.progression),
-    RAC3ITEM.CRASH_SITE: RAC3ITEMDATA(0xEF, ap_classification=ItemClassification.progression),
-    RAC3ITEM.ARIDIA: RAC3ITEMDATA(0xF0, ap_classification=ItemClassification.progression),
-    RAC3ITEM.QWARKS_HIDEOUT: RAC3ITEMDATA(0xF1, ap_classification=ItemClassification.progression),
-    RAC3ITEM.KOROS: RAC3ITEMDATA(0xF2, ap_classification=ItemClassification.progression),
-    RAC3ITEM.COMMAND_CENTER: RAC3ITEMDATA(0xF3, ap_classification=ItemClassification.progression),
-    RAC3ITEM.MUSEUM: RAC3ITEMDATA(0xF4, ap_classification=ItemClassification.progression),
-    # Armor
-    RAC3ITEM.PROGRESSIVE_ARMOR: RAC3ITEMDATA(0xF5, address=RAC3STATUS.ARMOR,
-                                             ap_classification=ItemClassification.progression),
-    RAC3ITEM.MAGNAPLATE: RAC3ITEMDATA(0xF6, 10, address=RAC3STATUS.ARMOR, value=1,
-                                      ap_classification=ItemClassification.progression),
-    RAC3ITEM.ADAMANTINE: RAC3ITEMDATA(0xF7, 15, address=RAC3STATUS.ARMOR, value=2,
-                                      ap_classification=ItemClassification.progression),
-    RAC3ITEM.AEGIS: RAC3ITEMDATA(0xF8, 20, address=RAC3STATUS.ARMOR, value=3,
-                                 ap_classification=ItemClassification.progression),
-    RAC3ITEM.INFERNOX: RAC3ITEMDATA(0xF9, 24, address=RAC3STATUS.ARMOR, value=4,
-                                    ap_classification=ItemClassification.progression),
-    # VidComics
-    RAC3ITEM.PROGRESSIVE_VIDCOMIC: RAC3ITEMDATA(0xFA, value=5, ap_classification=ItemClassification.progression),
-    RAC3ITEM.VIDCOMIC1: RAC3ITEMDATA(0xFB, address=0x001D554F),
-    RAC3ITEM.VIDCOMIC2: RAC3ITEMDATA(0xFC, address=0x001D5551),
-    RAC3ITEM.VIDCOMIC3: RAC3ITEMDATA(0xFD, address=0x001D5552),
-    RAC3ITEM.VIDCOMIC4: RAC3ITEMDATA(0xFE, address=0x001D5550),
-    RAC3ITEM.VIDCOMIC5: RAC3ITEMDATA(0xFF, address=0x001D5553),
-
-    # Filler
-    RAC3ITEM.TITANIUM_BOLT: RAC3ITEMDATA(0x100, ap_classification=ItemClassification.filler),
-    RAC3ITEM.WEAPON_XP: RAC3ITEMDATA(0x101, ap_classification=ItemClassification.filler),
-    RAC3ITEM.PLAYER_XP: RAC3ITEMDATA(0x102, ap_classification=ItemClassification.filler),
-    RAC3ITEM.BOLTS: RAC3ITEMDATA(0x103, address=RAC3STATUS.BOLTS, ap_classification=ItemClassification.filler),
-    RAC3ITEM.INFERNO_MODE: RAC3ITEMDATA(0x104, ap_classification=ItemClassification.filler),
-    RAC3ITEM.JACKPOT: RAC3ITEMDATA(0x105, ap_classification=ItemClassification.filler),
-
-    # Goal
-    RAC3ITEM.VICTORY: RAC3ITEMDATA(0x106, ap_classification=ItemClassification.progression),
-
-    # Quick Select
-    RAC3ITEM.QUICK_SELECT_0: RAC3STATUSDATA(0x0),
-    RAC3ITEM.QUICK_SELECT_1: RAC3STATUSDATA(0x1),
-    RAC3ITEM.QUICK_SELECT_2: RAC3STATUSDATA(0x2),
-    RAC3ITEM.QUICK_SELECT_3: RAC3STATUSDATA(0x3),
-    RAC3ITEM.QUICK_SELECT_4: RAC3STATUSDATA(0x4),
-    RAC3ITEM.QUICK_SELECT_5: RAC3STATUSDATA(0x5),
-    RAC3ITEM.QUICK_SELECT_6: RAC3STATUSDATA(0x6),
-    RAC3ITEM.QUICK_SELECT_7: RAC3STATUSDATA(0x7),
-    RAC3ITEM.QUICK_SELECT_8: RAC3STATUSDATA(0x8),
-    RAC3ITEM.QUICK_SELECT_9: RAC3STATUSDATA(0x9),
-    RAC3ITEM.QUICK_SELECT_A: RAC3STATUSDATA(0xA),
-    RAC3ITEM.QUICK_SELECT_B: RAC3STATUSDATA(0xB),
-    RAC3ITEM.QUICK_SELECT_C: RAC3STATUSDATA(0xC),
-    RAC3ITEM.QUICK_SELECT_D: RAC3STATUSDATA(0xD),
-    RAC3ITEM.QUICK_SELECT_E: RAC3STATUSDATA(0xE),
-    RAC3ITEM.QUICK_SELECT_F: RAC3STATUSDATA(0xF),
-}
-RAC3_REGION_DATA_TABLE: dict[str, RAC3REGIONDATA] = {
-    # Regions
-    RAC3REGION.VELDIN: RAC3REGIONDATA(0x01),
-    RAC3REGION.FLORANA: RAC3REGIONDATA(0x02),
-    RAC3REGION.STARSHIP_PHOENIX: RAC3REGIONDATA(0x03),
-    RAC3REGION.MARCADIA: RAC3REGIONDATA(0x04),
-    RAC3REGION.DAXX: RAC3REGIONDATA(0x05),
-    RAC3REGION.ANNIHILATION_NATION: RAC3REGIONDATA(0x07),
-    RAC3REGION.AQUATOS: RAC3REGIONDATA(0x08),
-    RAC3REGION.TYHRRANOSIS: RAC3REGIONDATA(0x09),
-    RAC3REGION.ZELDRIN_STARPORT: RAC3REGIONDATA(0x0A),
-    RAC3REGION.OBANI_GEMINI: RAC3REGIONDATA(0x0B),
-    RAC3REGION.BLACKWATER_CITY: RAC3REGIONDATA(0x0C),
-    RAC3REGION.HOLOSTAR_STUDIOS: RAC3REGIONDATA(0x0D),
-    RAC3REGION.KOROS: RAC3REGIONDATA(0x0E),
-    RAC3REGION.METROPOLIS: RAC3REGIONDATA(0x10),
-    RAC3REGION.CRASH_SITE: RAC3REGIONDATA(0x11),
-    RAC3REGION.ARIDIA: RAC3REGIONDATA(0x12),
-    RAC3REGION.QWARKS_HIDEOUT: RAC3REGIONDATA(0x13),
-    RAC3REGION.OBANI_DRACO: RAC3REGIONDATA(0x15),
-    RAC3REGION.COMMAND_CENTER: RAC3REGIONDATA(0x16),
-    RAC3REGION.MUSEUM: RAC3REGIONDATA(0x18),
-    RAC3REGION.GALAXY: RAC3REGIONDATA(0x00),
-    RAC3REGION.PHOENIX_ASSAULT: RAC3REGIONDATA(0x06),
-    RAC3REGION.UNUSED: RAC3REGIONDATA(0x0F),
-    RAC3REGION.COMMAND_CENTER_2: RAC3REGIONDATA(0x14),
-    RAC3REGION.HOLOSTAR_STUDIOS_CLANK: RAC3REGIONDATA(0x17),
-    RAC3REGION.UNUSED_2: RAC3REGIONDATA(0x19),
-    RAC3REGION.METROPOLIS_MISSION: RAC3REGIONDATA(0x1A),
-    RAC3REGION.AQUATOS_BASE: RAC3REGIONDATA(0x1B),
-    RAC3REGION.AQUATOS_SEWERS: RAC3REGIONDATA(0x1C),
-    RAC3REGION.TYHRRANOSIS_MISSION: RAC3REGIONDATA(0x1D),
-    RAC3REGION.QWARK_VID_COMIC_UNUSED_1: RAC3REGIONDATA(0x1E),
-    RAC3REGION.QWARK_VID_COMIC_1: RAC3REGIONDATA(0x1F),
-    RAC3REGION.QWARK_VID_COMIC_4: RAC3REGIONDATA(0x20),
-    RAC3REGION.QWARK_VID_COMIC_2: RAC3REGIONDATA(0x21),
-    RAC3REGION.QWARK_VID_COMIC_3: RAC3REGIONDATA(0x22),
-    RAC3REGION.QWARK_VID_COMIC_5: RAC3REGIONDATA(0x23),
-    RAC3REGION.QWARK_VID_COMIC_UNUSED_2: RAC3REGIONDATA(0x24),
-    RAC3REGION.SLOT_0: RAC3REGIONDATA(slot=0x00),
-    RAC3REGION.SLOT_1: RAC3REGIONDATA(slot=0x01),
-    RAC3REGION.SLOT_2: RAC3REGIONDATA(slot=0x02),
-    RAC3REGION.SLOT_3: RAC3REGIONDATA(slot=0x03),
-    RAC3REGION.SLOT_4: RAC3REGIONDATA(slot=0x04),
-    RAC3REGION.SLOT_5: RAC3REGIONDATA(slot=0x05),
-    RAC3REGION.SLOT_6: RAC3REGIONDATA(slot=0x06),
-    RAC3REGION.SLOT_7: RAC3REGIONDATA(slot=0x07),
-    RAC3REGION.SLOT_8: RAC3REGIONDATA(slot=0x08),
-    RAC3REGION.SLOT_9: RAC3REGIONDATA(slot=0x09),
-    RAC3REGION.SLOT_A: RAC3REGIONDATA(slot=0x0A),
-    RAC3REGION.SLOT_B: RAC3REGIONDATA(slot=0x0B),
-    RAC3REGION.SLOT_C: RAC3REGIONDATA(slot=0x0C),
-    RAC3REGION.SLOT_D: RAC3REGIONDATA(slot=0x0D),
-    RAC3REGION.SLOT_E: RAC3REGIONDATA(slot=0x0E),
-    RAC3REGION.SLOT_F: RAC3REGIONDATA(slot=0x0F),
-    RAC3REGION.SLOT_10: RAC3REGIONDATA(slot=0x10),
-    RAC3REGION.SLOT_11: RAC3REGIONDATA(slot=0x11),
-    RAC3REGION.SLOT_12: RAC3REGIONDATA(slot=0x12),
-    RAC3REGION.SLOT_13: RAC3REGIONDATA(slot=0x13),
-}
 
 WEAPON_LIST: list[str] = [
     RAC3ITEM.SHOCK_BLASTER,
@@ -1136,13 +597,6 @@ UPGRADE_DICT: dict[str, list[int]] = {
     RAC3ITEM.WRENCH: [0x09, 0xA4, 0xA5, 0xC6, 0xC7, 0xC8, 0xC9, 0xCA]
 }
 
-ITEM_FROM_AP_CODE: dict[int, str] = dict(
-    (kv[1].AP_CODE, kv[0]) for kv in
-    filter(lambda data_kv: data_kv[1].AP_CODE is not None, RAC3_ITEM_DATA_TABLE.items()))
-
-ITEM_NAME_FROM_ID: dict[int, str] = dict(
-    (kv[1].ID, kv[0]) for kv in filter(lambda data_kv: data_kv[1].ID is not None, RAC3_ITEM_DATA_TABLE.items()))
-
 GADGET_LIST: list[str] = [
     RAC3ITEM.HELI_PACK,
     RAC3ITEM.THRUSTER_PACK,
@@ -1158,6 +612,7 @@ GADGET_LIST: list[str] = [
     RAC3ITEM.WARP_PAD,
     RAC3ITEM.PDA,
     RAC3ITEM.CHARGE_BOOTS,
+    RAC3ITEM.STAR_MAP,
     RAC3ITEM.MASTER_PLAN
 ]
 
@@ -1324,6 +779,578 @@ FILLER_LIST: list[str] = [
     RAC3ITEM.INFERNO_MODE,
     RAC3ITEM.JACKPOT,
 ]
+SIMPLE_SKILL_POINTS = [
+    RAC3SKILLPOINT.REFLECT_TO_SCORE,
+    RAC3SKILLPOINT.LIGHTS_CAMERA_ACTION,
+    RAC3SKILLPOINT.SUNKEN_TREASURE,
+    RAC3SKILLPOINT.BE_A_SHARPSHOOTER,
+    RAC3SKILLPOINT.BUGS_TO_BIRDIE,
+    RAC3SKILLPOINT.GET_TO_THE_BELT,
+    RAC3SKILLPOINT.BASH_THE_PARTY,
+    RAC3SKILLPOINT.GOOD_YEAR,
+    RAC3SKILLPOINT.AIM_HIGH,
+    RAC3SKILLPOINT.SUCK_IT_UP,
+    RAC3SKILLPOINT.GO_FOR_HANG_TIME,
+    RAC3SKILLPOINT.ZAP_BACK_AT_YA,
+    RAC3SKILLPOINT.BREAK_THE_DAN,
+    RAC3SKILLPOINT.YOU_BREAK_IT,
+    RAC3SKILLPOINT.SPREAD_YOUR_GERMS,
+    # RAC3SKILLPOINT.STAY_SQUEAKY_CLEAN,
+    # RAC3SKILLPOINT.MONKEYING_AROUND,
+    # RAC3SKILLPOINT.BEAT_HELGAS_BEST_TIME,
+    # RAC3SKILLPOINT.TURN_UP_THE_HEAT,
+    # RAC3SKILLPOINT.FLEE_FLAWLESSLY,
+    # RAC3SKILLPOINT.BASH_THE_BUG,
+    # RAC3SKILLPOINT.FEELING_LUCKY,
+    # RAC3SKILLPOINT.EIGHT_TIME_CHAMP,
+    # RAC3SKILLPOINT.HIT_THE_MOTHERLOAD,
+    # RAC3SKILLPOINT.PIRATE_BOOTY,
+    # RAC3SKILLPOINT.DEJA_Q_ALL_OVER_AGAIN,
+    # RAC3SKILLPOINT.ARRIBA_AMOEBA,
+    # RAC3SKILLPOINT.SHADOW_OF_THE_ROBOT,
+    # RAC3SKILLPOINT.THE_SHAMING_OF_THE_Q,
+    # RAC3SKILLPOINT.ARCADE_PERFECTION,
+]
+
+
+@dataclass
+class RAC3STATUSDATA:
+    SLOT_ADDRESS = None
+
+    def __init__(self, slot: Optional[int] = None):
+        self.SLOT_ADDRESS: int = 4 * slot + RAC3STATUS.QUICK_SELECT
+
+
+@dataclass
+class RAC3ITEMDATA:
+    ID = None
+    LEVEL = None
+    UNLOCK_ADDRESS = None
+    UNLOCK_ADDRESS_2 = None
+    XP_ADDRESS = None
+    XP_THRESHOLD = None
+    POWER = None
+    ARMOR = None
+    AMMO_ADDRESS = None
+    AMMO = None
+    AP_CODE = None
+    AP_CLASSIFICATION = None
+
+    def __init__(self,
+                 idx: int,
+                 address: Optional[int] = None,
+                 address_2: Optional[int] = None,
+                 power: Optional[int] = None,
+                 ammo: Optional[int] = None,
+                 xp: Optional[int] = None,
+                 level: Optional[int] = None,
+                 armor: Optional[float] = None,
+                 ap_classification: Optional[ItemClassification] = ItemClassification.filler):
+        self.ID: int = idx
+        self.AP_CODE: int = idx + 50000000
+        self.AP_CLASSIFICATION: ItemClassification = ap_classification
+        self.LEVEL: Optional[int] = level
+        self.UNLOCK_ADDRESS: Optional[int] = address
+        self.UNLOCK_ADDRESS_2: Optional[int] = address_2
+        self.XP_ADDRESS: int = 4 * idx + RAC3STATUS.ITEM_XP_ADDRESS
+        self.XP_THRESHOLD: Optional[int] = xp
+        self.POWER: Optional[int] = power
+        self.ARMOR: Optional[float] = armor
+        self.AMMO_ADDRESS: int = 4 * idx + RAC3STATUS.ITEM_AMMO_ADDRESS
+        self.AMMO: Optional[int] = ammo
+
+    @staticmethod
+    def construct_unused(idx: int,
+                         ammo: Optional[int] = None):
+        return RAC3ITEMDATA(idx, ammo=ammo)
+
+    @staticmethod
+    def construct_gadget(idx: int,
+                         ap_classification: ItemClassification):
+        address: int = idx + RAC3STATUS.ITEM_UNLOCK_ADDRESS
+        address_2: int = address + RAC3STATUS.ITEM_UNLOCK_ADDRESS_2_OFFSET
+        return RAC3ITEMDATA(idx, address, address_2, ap_classification=ap_classification)
+
+    @staticmethod
+    def construct_weapon(idx: int,
+                         power: int,
+                         ammo: Optional[int] = None,
+                         ap_classification: Optional[ItemClassification] = None):
+        address: int = idx + RAC3STATUS.ITEM_UNLOCK_ADDRESS
+        address_2: int = address + RAC3STATUS.ITEM_UNLOCK_ADDRESS_2_OFFSET
+        return RAC3ITEMDATA(idx, address, address_2, power, ammo, level=idx, ap_classification=ap_classification)
+
+    @staticmethod
+    def construct_weapon_level(idx: int,
+                               power: int,
+                               ammo: Optional[int] = None,
+                               xp: Optional[int] = 0):
+        base: int = [weapon[0] for weapon in UPGRADE_DICT.values() if idx in weapon][0] + RAC3STATUS.LEVEL_TABLE
+        amount: int = 32 * xp
+        return RAC3ITEMDATA(base, power=power, ammo=ammo, xp=amount, level=base)
+
+    @staticmethod
+    def construct_weapon_prog(idx: int,
+                              ap_classification: ItemClassification):
+        address: int = (idx - 0xCB) * 8 + 0x27 + RAC3STATUS.ITEM_UNLOCK_ADDRESS
+        address_2: int = address + RAC3STATUS.ITEM_UNLOCK_ADDRESS_2_OFFSET
+        return RAC3ITEMDATA(idx, address, address_2, ap_classification=ap_classification)
+
+    @staticmethod
+    def construct_rac2_prog(idx: int,
+                            ap_classification: ItemClassification):
+        address: int = idx - 0xCA + RAC3STATUS.ITEM_UNLOCK_ADDRESS
+        address_2: int = address + RAC3STATUS.ITEM_UNLOCK_ADDRESS_2_OFFSET
+        return RAC3ITEMDATA(idx, address, address_2, ap_classification=ap_classification)
+
+    @staticmethod
+    def construct_infobot(idx: int,
+                          ap_classification: ItemClassification):
+        return RAC3ITEMDATA(idx, ap_classification=ap_classification)
+
+    @staticmethod
+    def construct_armor(idx: int,
+                        ap_classification: ItemClassification,
+                        armor: int):
+        address: int = RAC3STATUS.ARMOR
+        reduction: float = armor / 30
+        return RAC3ITEMDATA(idx, address, armor=reduction, ap_classification=ap_classification)
+
+    @staticmethod
+    def construct_vidcomic(idx: int):
+        address = idx + 0x001D5454
+        return RAC3ITEMDATA(idx, address, ap_classification=ItemClassification.progression)
+
+    @staticmethod
+    def construct_other(idx: int,
+                        address: Optional[int] = None):
+        return RAC3ITEMDATA(idx, address, ap_classification=ItemClassification.filler)
+
+    @staticmethod
+    def construct_goal(idx: int):
+        return RAC3ITEMDATA(idx, ItemClassification.progression)
+
+
+@dataclass
+class RAC3REGIONDATA:
+    ID: Optional[int] = None
+    SLOT_ADDRESS: Optional[int] = None
+
+    def __init__(self,
+                 idx: Optional[int] = None,
+                 slot: Optional[int] = None):
+        self.ID: Optional[int] = idx
+        if slot:
+            self.SLOT_ADDRESS: Optional[int] = 4 * slot + RAC3STATUS.PLANET_SLOT_ADDRESS
+
+
+RAC3_ITEM_DATA_TABLE: dict[str, RAC3ITEMDATA] = {
+    # Items
+    # 0x01
+    RAC3ITEM.HELI_PACK: RAC3ITEMDATA.construct_gadget(0x02, ap_classification=ItemClassification.useful),
+    RAC3ITEM.THRUSTER_PACK: RAC3ITEMDATA.construct_gadget(0x03, ap_classification=ItemClassification.useful),
+    RAC3ITEM.HYDRO_PACK: RAC3ITEMDATA.construct_unused(0x04),  # Unused
+    RAC3ITEM.MAP_O_MATIC: RAC3ITEMDATA.construct_gadget(0x05, ap_classification=ItemClassification.useful),
+    RAC3ITEM.COMMANDO_SUIT: RAC3ITEMDATA.construct_unused(0x06),  # Unused
+    RAC3ITEM.BOLT_GRABBER: RAC3ITEMDATA.construct_gadget(0x07, ap_classification=ItemClassification.useful),
+    RAC3ITEM.LEVITATOR: RAC3ITEMDATA.construct_unused(0x08),  # Unused
+    RAC3ITEM.WRENCH: RAC3ITEMDATA.construct_unused(0x09),
+    RAC3ITEM.BOMB_GLOVE: RAC3ITEMDATA.construct_unused(0x0A, 40),  # Unused
+    RAC3ITEM.HYPERSHOT: RAC3ITEMDATA.construct_gadget(0x0B, ap_classification=ItemClassification.progression),
+    RAC3ITEM.MORPH_O_RAY: RAC3ITEMDATA.construct_unused(0x0C),  # Unused
+    RAC3ITEM.GRAV_BOOTS: RAC3ITEMDATA.construct_gadget(0x0D, ap_classification=ItemClassification.progression),
+    RAC3ITEM.GRIND_BOOTS: RAC3ITEMDATA.construct_unused(0x0E),  # Unused
+    RAC3ITEM.GLIDER: RAC3ITEMDATA.construct_unused(0x0F),  # Unused
+    RAC3ITEM.PLASMA_COIL:
+        RAC3ITEMDATA.construct_weapon(0x10, 2400, 15, ap_classification=ItemClassification.useful),
+    RAC3ITEM.LAVA_GUN: RAC3ITEMDATA.construct_weapon(0x11, 160, 150, ap_classification=ItemClassification.useful),
+    RAC3ITEM.REFRACTOR: RAC3ITEMDATA.construct_gadget(0x12, ap_classification=ItemClassification.progression),
+    RAC3ITEM.BOUNCER: RAC3ITEMDATA.construct_weapon(0x13, 1200, 10, ap_classification=ItemClassification.useful),
+    RAC3ITEM.HACKER: RAC3ITEMDATA.construct_gadget(0x14, ap_classification=ItemClassification.progression),
+    RAC3ITEM.MINI_TURRET:
+        RAC3ITEMDATA.construct_weapon(0x15, 600, 10, ap_classification=ItemClassification.useful),
+    RAC3ITEM.SHIELD_CHARGER:
+        RAC3ITEMDATA.construct_weapon(0x16, 60, 3, ap_classification=ItemClassification.useful),
+    # 0x17 Set on new file, Empty Hand
+    RAC3ITEM.HELMET: RAC3ITEMDATA.construct_unused(0x18),  # Unused
+    # 0x19 SEVERE CRASH RISK
+    RAC3ITEM.BOX_BREAKER: RAC3ITEMDATA.construct_gadget(0x1A, ap_classification=ItemClassification.progression),
+    RAC3ITEM.HASH: RAC3ITEMDATA.construct_unused(0x1B),  # Unused
+    RAC3ITEM.GRIND_BOOTS_2: RAC3ITEMDATA.construct_unused(0x1C),  # Unused
+    RAC3ITEM.CHARGE_BOOTS: RAC3ITEMDATA.construct_gadget(0x1D, ap_classification=ItemClassification.progression),
+    RAC3ITEM.TYHRRA_GUISE: RAC3ITEMDATA.construct_gadget(0x1E, ap_classification=ItemClassification.progression),
+    RAC3ITEM.WARP_PAD: RAC3ITEMDATA.construct_gadget(0x1F, ap_classification=ItemClassification.progression),
+    RAC3ITEM.NANO_PAK: RAC3ITEMDATA.construct_gadget(0x20, ap_classification=ItemClassification.useful),
+    RAC3ITEM.STAR_MAP: RAC3ITEMDATA.construct_gadget(0x21, ap_classification=ItemClassification.progression),
+    RAC3ITEM.MASTER_PLAN: RAC3ITEMDATA.construct_gadget(0x22, ap_classification=ItemClassification.progression),
+    RAC3ITEM.PDA: RAC3ITEMDATA.construct_gadget(0x23, ap_classification=ItemClassification.useful),
+    RAC3ITEM.THIRD_PERSON: RAC3ITEMDATA.construct_unused(0x24),
+    RAC3ITEM.FIRST_PERSON: RAC3ITEMDATA.construct_unused(0x25),
+    RAC3ITEM.LOCK_STRAFE: RAC3ITEMDATA.construct_unused(0x26),
+    RAC3ITEM.SHOCK_BLASTER: RAC3ITEMDATA.construct_weapon(0x27, 40, 30, ap_classification=ItemClassification.useful),
+    RAC3ITEM.SHOCK_BLASTER_V2: RAC3ITEMDATA.construct_weapon_level(0x28, 50, 35, 150),
+    RAC3ITEM.SHOCK_BLASTER_V3: RAC3ITEMDATA.construct_weapon_level(0x29, 60, 40, 400),
+    RAC3ITEM.SHOCK_BLASTER_V4: RAC3ITEMDATA.construct_weapon_level(0x2A, 80, 40, 700),
+    RAC3ITEM.SHOCK_CANNON_V5: RAC3ITEMDATA.construct_weapon_level(0x2B, 100, 50, 1000),
+    RAC3ITEM.SHOCK_CANNON_V6: RAC3ITEMDATA.construct_weapon_level(0x2C, 1100, 50),
+    RAC3ITEM.SHOCK_CANNON_V7: RAC3ITEMDATA.construct_weapon_level(0x2D, 1400, 55, 10000),
+    RAC3ITEM.SHOCK_CANNON_V8: RAC3ITEMDATA.construct_weapon_level(0x2E, 2100, 60, 25000),
+    RAC3ITEM.N60_STORM: RAC3ITEMDATA.construct_weapon(0x2F, 150, 150, ap_classification=ItemClassification.useful),
+    RAC3ITEM.N60_STORM_V2: RAC3ITEMDATA.construct_weapon_level(0x30, 175, 175, 200),
+    RAC3ITEM.N60_STORM_V3: RAC3ITEMDATA.construct_weapon_level(0x31, 200, 200, 500),
+    RAC3ITEM.N60_STORM_V4: RAC3ITEMDATA.construct_weapon_level(0x32, 250, 225, 1500),
+    RAC3ITEM.N60_HURRICANE_V5: RAC3ITEMDATA.construct_weapon_level(0x33, 350, 300, 3300),
+    RAC3ITEM.N60_HURRICANE_V6: RAC3ITEMDATA.construct_weapon_level(0x34, 3500, 300),
+    RAC3ITEM.N60_HURRICANE_V7: RAC3ITEMDATA.construct_weapon_level(0x35, 5000, 350, 15000),
+    RAC3ITEM.N60_HURRICANE_V8: RAC3ITEMDATA.construct_weapon_level(0x36, 6000, 400, 37500),
+    RAC3ITEM.INFECTOR: RAC3ITEMDATA.construct_weapon(0x37, 180, 15, ap_classification=ItemClassification.progression),
+    RAC3ITEM.INFECTOR_V2: RAC3ITEMDATA.construct_weapon_level(0x38, 240, 15, 400),
+    RAC3ITEM.INFECTOR_V3: RAC3ITEMDATA.construct_weapon_level(0x39, 320, 18, 800),
+    RAC3ITEM.INFECTOR_V4: RAC3ITEMDATA.construct_weapon_level(0x3A, 400, 18, 2000),
+    RAC3ITEM.INFECTO_BOMB_V5: RAC3ITEMDATA.construct_weapon_level(0x3B, 600, 20, 3800),
+    RAC3ITEM.INFECTO_BOMB_V6: RAC3ITEMDATA.construct_weapon_level(0x3C, 4000, 20),
+    RAC3ITEM.INFECTO_BOMB_V7: RAC3ITEMDATA.construct_weapon_level(0x3D, 5000, 25, 10000),
+    RAC3ITEM.INFECTO_BOMB_V8: RAC3ITEMDATA.construct_weapon_level(0x3E, 6000, 30, 15000),
+    RAC3ITEM.ANNIHILATOR:
+        RAC3ITEMDATA.construct_weapon(0x3F, 500, 20, ap_classification=ItemClassification.progression),
+    RAC3ITEM.ANNIHILATOR_V2: RAC3ITEMDATA.construct_weapon_level(0x40, 600, 20, 800),
+    RAC3ITEM.ANNIHILATOR_V3: RAC3ITEMDATA.construct_weapon_level(0x41, 800, 20, 2400),
+    RAC3ITEM.ANNIHILATOR_V4: RAC3ITEMDATA.construct_weapon_level(0x42, 1100, 22, 6400),
+    RAC3ITEM.DECIMATOR_V5: RAC3ITEMDATA.construct_weapon_level(0x43, 1400, 25, 12400),
+    RAC3ITEM.DECIMATOR_V6: RAC3ITEMDATA.construct_weapon_level(0x44, 3000, 25),
+    RAC3ITEM.DECIMATOR_V7: RAC3ITEMDATA.construct_weapon_level(0x45, 4000, 28, 10000),
+    RAC3ITEM.DECIMATOR_V8: RAC3ITEMDATA.construct_weapon_level(0x46, 5000, 30, 25000),
+    RAC3ITEM.SPITTING_HYDRA:
+        RAC3ITEMDATA.construct_weapon(0x47, 200, 15, ap_classification=ItemClassification.progression),
+    RAC3ITEM.SPITTING_HYDRA_V2: RAC3ITEMDATA.construct_weapon_level(0x48, 240, 15, 300),
+    RAC3ITEM.SPITTING_HYDRA_V3: RAC3ITEMDATA.construct_weapon_level(0x49, 280, 15, 900),
+    RAC3ITEM.SPITTING_HYDRA_V4: RAC3ITEMDATA.construct_weapon_level(0x4A, 320, 15, 1800),
+    RAC3ITEM.TEMPEST_V5: RAC3ITEMDATA.construct_weapon_level(0x4B, 400, 15, 3000),
+    RAC3ITEM.TEMPEST_V6: RAC3ITEMDATA.construct_weapon_level(0x4C, 3200, 15),
+    RAC3ITEM.TEMPEST_V7: RAC3ITEMDATA.construct_weapon_level(0x4D, 5400, 18, 15000),
+    RAC3ITEM.TEMPEST_V8: RAC3ITEMDATA.construct_weapon_level(0x4E, 6000, 20, 37500),
+    RAC3ITEM.DISC_BLADE: RAC3ITEMDATA.construct_weapon(0x4F, 500, 25, ap_classification=ItemClassification.progression),
+    RAC3ITEM.DISC_BLADE_V2: RAC3ITEMDATA.construct_weapon_level(0x50, 600, 25, 700),
+    RAC3ITEM.DISC_BLADE_V3: RAC3ITEMDATA.construct_weapon_level(0x51, 1400, 25, 2100),
+    RAC3ITEM.DISC_BLADE_V4: RAC3ITEMDATA.construct_weapon_level(0x52, 2400, 25, 6100),
+    RAC3ITEM.MULTI_DISC_V5: RAC3ITEMDATA.construct_weapon_level(0x53, 3600, 25, 12100),
+    RAC3ITEM.MULTI_DISC_V6: RAC3ITEMDATA.construct_weapon_level(0x54, 4400, 25),
+    RAC3ITEM.MULTI_DISC_V7: RAC3ITEMDATA.construct_weapon_level(0x55, 5600, 28, 10000),
+    RAC3ITEM.MULTI_DISC_V8: RAC3ITEMDATA.construct_weapon_level(0x56, 8400, 30, 25000),
+    RAC3ITEM.AGENTS_OF_DOOM: RAC3ITEMDATA.construct_weapon(0x57, 240, 6, ap_classification=ItemClassification.useful),
+    RAC3ITEM.AGENTS_OF_DOOM_V2: RAC3ITEMDATA.construct_weapon_level(0x58, 400, 6, 400),
+    RAC3ITEM.AGENTS_OF_DOOM_V3: RAC3ITEMDATA.construct_weapon_level(0x59, 660, 6, 1000),
+    RAC3ITEM.AGENTS_OF_DOOM_V4: RAC3ITEMDATA.construct_weapon_level(0x5A, 2000, 8, 3000),
+    RAC3ITEM.AGENTS_OF_DREAD_V5: RAC3ITEMDATA.construct_weapon_level(0x5B, 6000, 8, 6000),
+    RAC3ITEM.AGENTS_OF_DREAD_V6: RAC3ITEMDATA.construct_weapon_level(0x5C, 8000, 8),
+    RAC3ITEM.AGENTS_OF_DREAD_V7: RAC3ITEMDATA.construct_weapon_level(0x5D, 10000, 10, 7500),
+    RAC3ITEM.AGENTS_OF_DREAD_V8: RAC3ITEMDATA.construct_weapon_level(0x5E, 12000, 12, 20000),
+    RAC3ITEM.RIFT_INDUCER:
+        RAC3ITEMDATA.construct_weapon(0x5F, 1000, 8, ap_classification=ItemClassification.progression),
+    RAC3ITEM.RIFT_INDUCER_V2: RAC3ITEMDATA.construct_weapon_level(0x60, 1300, 8, 800),
+    RAC3ITEM.RIFT_INDUCER_V3: RAC3ITEMDATA.construct_weapon_level(0x61, 1500, 10, 2400),
+    RAC3ITEM.RIFT_INDUCER_V4: RAC3ITEMDATA.construct_weapon_level(0x62, 1700, 10, 6400),
+    RAC3ITEM.RIFT_RIPPER_V5: RAC3ITEMDATA.construct_weapon_level(0x63, 2000, 12, 12400),
+    RAC3ITEM.RIFT_RIPPER_V6: RAC3ITEMDATA.construct_weapon_level(0x64, 4000, 12),
+    RAC3ITEM.RIFT_RIPPER_V7: RAC3ITEMDATA.construct_weapon_level(0x65, 5000, 14, 15000),
+    RAC3ITEM.RIFT_RIPPER_V8: RAC3ITEMDATA.construct_weapon_level(0x66, 6000, 16, 37500),
+    RAC3ITEM.HOLO_SHIELD: RAC3ITEMDATA.construct_weapon(0x67, 200, 8, ap_classification=ItemClassification.useful),
+    RAC3ITEM.HOLO_SHIELD_V2: RAC3ITEMDATA.construct_weapon_level(0x68, 300, 8, 150),
+    RAC3ITEM.HOLO_SHIELD_V3: RAC3ITEMDATA.construct_weapon_level(0x69, 400, 10, 450),
+    RAC3ITEM.HOLO_SHIELD_V4: RAC3ITEMDATA.construct_weapon_level(0x6A, 500, 10, 1350),
+    RAC3ITEM.ULTRA_SHIELD_V5: RAC3ITEMDATA.construct_weapon_level(0x6B, 600, 12, 2700),
+    RAC3ITEM.ULTRA_SHIELD_V6: RAC3ITEMDATA.construct_weapon_level(0x6C, 1000, 12),
+    RAC3ITEM.ULTRA_SHIELD_V7: RAC3ITEMDATA.construct_weapon_level(0x6D, 1500, 12, 5000),
+    RAC3ITEM.ULTRA_SHIELD_V8: RAC3ITEMDATA.construct_weapon_level(0x6E, 2000, 14, 12500),
+    RAC3ITEM.FLUX_RIFLE: RAC3ITEMDATA.construct_weapon(0x6F, 300, 10, ap_classification=ItemClassification.progression),
+    RAC3ITEM.FLUX_RIFLE_V2: RAC3ITEMDATA.construct_weapon_level(0x70, 400, 12, 200),
+    RAC3ITEM.FLUX_RIFLE_V3: RAC3ITEMDATA.construct_weapon_level(0x71, 500, 12, 600),
+    RAC3ITEM.FLUX_RIFLE_V4: RAC3ITEMDATA.construct_weapon_level(0x72, 1600, 12, 1500),
+    RAC3ITEM.SPLITTER_RIFLE_V5: RAC3ITEMDATA.construct_weapon_level(0x73, 2800, 15, 2900),
+    RAC3ITEM.SPLITTER_RIFLE_V6: RAC3ITEMDATA.construct_weapon_level(0x74, 5200, 15),
+    RAC3ITEM.SPLITTER_RIFLE_V7: RAC3ITEMDATA.construct_weapon_level(0x75, 7000, 18, 7500),
+    RAC3ITEM.SPLITTER_RIFLE_V8: RAC3ITEMDATA.construct_weapon_level(0x76, 8400, 20, 20000),
+    RAC3ITEM.NITRO_LAUNCHER: RAC3ITEMDATA.construct_weapon(0x77, 200, 8, ap_classification=ItemClassification.useful),
+    RAC3ITEM.NITRO_LAUNCHER_V2: RAC3ITEMDATA.construct_weapon_level(0x78, 240, 8, 200),
+    RAC3ITEM.NITRO_LAUNCHER_V3: RAC3ITEMDATA.construct_weapon_level(0x79, 300, 10, 500),
+    RAC3ITEM.NITRO_LAUNCHER_V4: RAC3ITEMDATA.construct_weapon_level(0x7A, 400, 10, 1100),
+    RAC3ITEM.NITRO_ERUPTOR_V5: RAC3ITEMDATA.construct_weapon_level(0x7B, 800, 12, 2600),
+    RAC3ITEM.NITRO_ERUPTOR_V6: RAC3ITEMDATA.construct_weapon_level(0x7C, 4200, 12),
+    RAC3ITEM.NITRO_ERUPTOR_V7: RAC3ITEMDATA.construct_weapon_level(0x7D, 5000, 14, 7500),
+    RAC3ITEM.NITRO_ERUPTOR_V8: RAC3ITEMDATA.construct_weapon_level(0x7E, 6000, 16, 20000),
+    RAC3ITEM.PLASMA_WHIP: RAC3ITEMDATA.construct_weapon(0x7F, 40, 25, ap_classification=ItemClassification.progression),
+    RAC3ITEM.PLASMA_WHIP_V2: RAC3ITEMDATA.construct_weapon_level(0x80, 50, 30, 200),
+    RAC3ITEM.PLASMA_WHIP_V3: RAC3ITEMDATA.construct_weapon_level(0x81, 70, 35, 800),
+    RAC3ITEM.PLASMA_WHIP_V4: RAC3ITEMDATA.construct_weapon_level(0x82, 100, 40, 1800),
+    RAC3ITEM.QUANTUM_WHIP_V5: RAC3ITEMDATA.construct_weapon_level(0x83, 140, 40, 3300),
+    RAC3ITEM.QUANTUM_WHIP_V6: RAC3ITEMDATA.construct_weapon_level(0x84, 1400, 50),
+    RAC3ITEM.QUANTUM_WHIP_V7: RAC3ITEMDATA.construct_weapon_level(0x85, 1800, 55, 10000),
+    RAC3ITEM.QUANTUM_WHIP_V8: RAC3ITEMDATA.construct_weapon_level(0x86, 2400, 60, 25000),
+    RAC3ITEM.SUCK_CANNON: RAC3ITEMDATA.construct_weapon(0x87, 200, ap_classification=ItemClassification.progression),
+    RAC3ITEM.SUCK_CANNON_V2: RAC3ITEMDATA.construct_weapon_level(0x88, 260, xp=200),
+    RAC3ITEM.SUCK_CANNON_V3: RAC3ITEMDATA.construct_weapon_level(0x89, 320, xp=600),
+    RAC3ITEM.SUCK_CANNON_V4: RAC3ITEMDATA.construct_weapon_level(0x8A, 400, xp=1200),
+    RAC3ITEM.VORTEX_CANNON_V5: RAC3ITEMDATA.construct_weapon_level(0x8B, 600, xp=2000),
+    RAC3ITEM.VORTEX_CANNON_V6: RAC3ITEMDATA.construct_weapon_level(0x8C, 4200),
+    RAC3ITEM.VORTEX_CANNON_V7: RAC3ITEMDATA.construct_weapon_level(0x8D, 5000, xp=5000),
+    RAC3ITEM.VORTEX_CANNON_V8: RAC3ITEMDATA.construct_weapon_level(0x8E, 6000, xp=12500),
+    RAC3ITEM.QWACK_O_RAY: RAC3ITEMDATA.construct_weapon(0x8F, 1000, ap_classification=ItemClassification.progression),
+    RAC3ITEM.QWACK_O_RAY_V2: RAC3ITEMDATA.construct_weapon_level(0x90, 1500, xp=1000),
+    RAC3ITEM.QWACK_O_RAY_V3: RAC3ITEMDATA.construct_weapon_level(0x91, 2000, xp=3000),
+    RAC3ITEM.QWACK_O_RAY_V4: RAC3ITEMDATA.construct_weapon_level(0x92, 2500, xp=8000),
+    RAC3ITEM.QWACK_O_BLITZER_V5: RAC3ITEMDATA.construct_weapon_level(0x93, 3000, xp=16000),
+    RAC3ITEM.QWACK_O_BLITZER_V6: RAC3ITEMDATA.construct_weapon_level(0x94, 4000),
+    RAC3ITEM.QWACK_O_BLITZER_V7: RAC3ITEMDATA.construct_weapon_level(0x95, 5000, xp=10000),
+    RAC3ITEM.QWACK_O_BLITZER_V8: RAC3ITEMDATA.construct_weapon_level(0x96, 6000, xp=25000),
+    RAC3ITEM.RY3N0: RAC3ITEMDATA.construct_weapon(0x97, 6000, 25, ap_classification=ItemClassification.progression),
+    RAC3ITEM.RY3NO_V2: RAC3ITEMDATA.construct_weapon_level(0x98, 7000, 30, 20000),
+    RAC3ITEM.RY3NO_V3: RAC3ITEMDATA.construct_weapon_level(0x99, 8000, 35, 50000),
+    RAC3ITEM.RY3NO_V4: RAC3ITEMDATA.construct_weapon_level(0x9A, 9000, 40, 90000),
+    RAC3ITEM.RYNOCIRATOR: RAC3ITEMDATA.construct_weapon_level(0x9B, 10000, 50, 140000),
+    RAC3ITEM.PLASMA_COIL_V2: RAC3ITEMDATA.construct_weapon_level(0xA0, 3000, 15, 8000),
+    RAC3ITEM.LAVA_GUN_V2: RAC3ITEMDATA.construct_weapon_level(0xA1, 240, 150, 600),
+    RAC3ITEM.MINI_TURRET_V2: RAC3ITEMDATA.construct_weapon_level(0xA2, 800, 10, 400),
+    RAC3ITEM.WRENCH_V2: RAC3ITEMDATA.construct_unused(0xA4),
+    RAC3ITEM.WRENCH_V3: RAC3ITEMDATA.construct_unused(0xA5),
+    RAC3ITEM.BOUNCER_V2: RAC3ITEMDATA.construct_weapon_level(0xA6, 1400, 10, 2500),
+    RAC3ITEM.SHIELD_CHARGER_V2: RAC3ITEMDATA.construct_weapon_level(0xA7, 100, 3, 2200),
+    RAC3ITEM.MINI_TURRET_V3: RAC3ITEMDATA.construct_weapon_level(0xA8, 1000, 12, 1000),
+    RAC3ITEM.MINI_TURRET_V4: RAC3ITEMDATA.construct_weapon_level(0xA9, 1200, 12, 2000),
+    RAC3ITEM.MEGA_TURRET_V5: RAC3ITEMDATA.construct_weapon_level(0xAA, 2080, 12, 3500),
+    RAC3ITEM.MEGA_TURRET_V6: RAC3ITEMDATA.construct_weapon_level(0xAB, 10400, 12),
+    RAC3ITEM.MEGA_TURRET_V7: RAC3ITEMDATA.construct_weapon_level(0xAC, 13000, 14, 10000),
+    RAC3ITEM.MEGA_TURRET_V8: RAC3ITEMDATA.construct_weapon_level(0xAD, 15600, 16, 25000),
+    RAC3ITEM.LAVA_GUN_V3: RAC3ITEMDATA.construct_weapon_level(0xAE, 360, 175, 1500),
+    RAC3ITEM.LAVA_GUN_V4: RAC3ITEMDATA.construct_weapon_level(0xAF, 500, 175, 2700),
+    RAC3ITEM.LIQUID_NITROGEN_V5: RAC3ITEMDATA.construct_weapon_level(0xB0, 700, 200, 4200),
+    RAC3ITEM.LIQUID_NITROGEN_V6: RAC3ITEMDATA.construct_weapon_level(0xB1, 2600, 200),
+    RAC3ITEM.LIQUID_NITROGEN_V7: RAC3ITEMDATA.construct_weapon_level(0xB2, 3000, 250, 10000),
+    RAC3ITEM.LIQUID_NITROGEN_V8: RAC3ITEMDATA.construct_weapon_level(0xB3, 3600, 300, 25000),
+    RAC3ITEM.BOUNCER_V3: RAC3ITEMDATA.construct_weapon_level(0xB4, 1400, 12, 8500),
+    RAC3ITEM.BOUNCER_V4: RAC3ITEMDATA.construct_weapon_level(0xB5, 1800, 12, 18500),
+    RAC3ITEM.HEAVY_BOUNCER_V5: RAC3ITEMDATA.construct_weapon_level(0xB6, 2000, 12, 30500),
+    RAC3ITEM.HEAVY_BOUNCER_V6: RAC3ITEMDATA.construct_weapon_level(0xB7, 3000, 12),
+    RAC3ITEM.HEAVY_BOUNCER_V7: RAC3ITEMDATA.construct_weapon_level(0xB8, 3600, 14, 10000),
+    RAC3ITEM.HEAVY_BOUNCER_V8: RAC3ITEMDATA.construct_weapon_level(0xB9, 4400, 16, 25000),
+    RAC3ITEM.PLASMA_COIL_V3: RAC3ITEMDATA.construct_weapon_level(0xBA, 3600, 18, 18000),
+    RAC3ITEM.PLASMA_COIL_V4: RAC3ITEMDATA.construct_weapon_level(0xBB, 4200, 18, 30000),
+    RAC3ITEM.PLASMA_STORM_V5: RAC3ITEMDATA.construct_weapon_level(0xBC, 6000, 20, 44000),
+    RAC3ITEM.PLASMA_STORM_V6: RAC3ITEMDATA.construct_weapon_level(0xBD, 6800, 20),
+    RAC3ITEM.PLASMA_STORM_V7: RAC3ITEMDATA.construct_weapon_level(0xBE, 7600, 22, 15000),
+    RAC3ITEM.PLASMA_STORM_V8: RAC3ITEMDATA.construct_weapon_level(0xBF, 8400, 25, 37500),
+    RAC3ITEM.SHIELD_CHARGER_V3: RAC3ITEMDATA.construct_weapon_level(0xC0, 140, 3, 5000),
+    RAC3ITEM.SHIELD_CHARGER_V4: RAC3ITEMDATA.construct_weapon_level(0xC1, 180, 4, 9600),
+    RAC3ITEM.TESLA_BARRIER_V5: RAC3ITEMDATA.construct_weapon_level(0xC2, 240, 4, 16800),
+    RAC3ITEM.TESLA_BARRIER_V6: RAC3ITEMDATA.construct_weapon_level(0xC3, 300, 4),
+    RAC3ITEM.TESLA_BARRIER_V7: RAC3ITEMDATA.construct_weapon_level(0xC4, 400, 5, 12000),
+    RAC3ITEM.TESLA_BARRIER_V8: RAC3ITEMDATA.construct_weapon_level(0xC5, 500, 5, 30000),
+    RAC3ITEM.WRENCH_V4: RAC3ITEMDATA.construct_unused(0xC6),
+    RAC3ITEM.WRENCH_V5: RAC3ITEMDATA.construct_unused(0xC7),
+    RAC3ITEM.WRENCH_V6: RAC3ITEMDATA.construct_unused(0xC8),
+    RAC3ITEM.WRENCH_V7: RAC3ITEMDATA.construct_unused(0xC9),
+    RAC3ITEM.WRENCH_V8: RAC3ITEMDATA.construct_unused(0xCA),
+    # Progressive
+    RAC3ITEM.PROGRESSIVE_SHOCK_BLASTER:
+        RAC3ITEMDATA.construct_weapon_prog(0xCB, ItemClassification.useful),
+    RAC3ITEM.PROGRESSIVE_N60_STORM:
+        RAC3ITEMDATA.construct_weapon_prog(0xCC, ItemClassification.useful),
+    RAC3ITEM.PROGRESSIVE_INFECTOR:
+        RAC3ITEMDATA.construct_weapon_prog(0xCD, ItemClassification.useful),
+    RAC3ITEM.PROGRESSIVE_ANNIHILATOR:
+        RAC3ITEMDATA.construct_weapon_prog(0xCE, ItemClassification.progression_skip_balancing),
+    RAC3ITEM.PROGRESSIVE_SPITTING_HYDRA:
+        RAC3ITEMDATA.construct_weapon_prog(0xCF, ItemClassification.progression_skip_balancing),
+    RAC3ITEM.PROGRESSIVE_DISC_BLADE:
+        RAC3ITEMDATA.construct_weapon_prog(0xD0, ItemClassification.progression_skip_balancing),
+    RAC3ITEM.PROGRESSIVE_AGENTS_OF_DOOM:
+        RAC3ITEMDATA.construct_weapon_prog(0xD1, ItemClassification.progression_skip_balancing),
+    RAC3ITEM.PROGRESSIVE_RIFT_INDUCER:
+        RAC3ITEMDATA.construct_weapon_prog(0xD2, ItemClassification.useful),
+    RAC3ITEM.PROGRESSIVE_HOLO_SHIELD:
+        RAC3ITEMDATA.construct_weapon_prog(0xD3, ItemClassification.progression_skip_balancing),
+    RAC3ITEM.PROGRESSIVE_FLUX_RIFLE:
+        RAC3ITEMDATA.construct_weapon_prog(0xD4, ItemClassification.progression_skip_balancing),
+    RAC3ITEM.PROGRESSIVE_NITRO_LAUNCHER:
+        RAC3ITEMDATA.construct_weapon_prog(0xD5, ItemClassification.useful),
+    RAC3ITEM.PROGRESSIVE_PLASMA_WHIP:
+        RAC3ITEMDATA.construct_weapon_prog(0xD6, ItemClassification.progression_skip_balancing),
+    RAC3ITEM.PROGRESSIVE_SUCK_CANNON:
+        RAC3ITEMDATA.construct_weapon_prog(0xD7, ItemClassification.progression_skip_balancing),
+    RAC3ITEM.PROGRESSIVE_QWACK_O_RAY:
+        RAC3ITEMDATA.construct_weapon_prog(0xD8, ItemClassification.progression_skip_balancing),
+    RAC3ITEM.PROGRESSIVE_RY3N0:
+        RAC3ITEMDATA.construct_rac2_prog(0xD9, ItemClassification.progression_skip_balancing),
+    RAC3ITEM.PROGRESSIVE_PLASMA_COIL:
+        RAC3ITEMDATA.construct_rac2_prog(0xDA, ItemClassification.useful),
+    RAC3ITEM.PROGRESSIVE_LAVA_GUN:
+        RAC3ITEMDATA.construct_rac2_prog(0xDB, ItemClassification.useful),
+    RAC3ITEM.PROGRESSIVE_BOUNCER:
+        RAC3ITEMDATA.construct_rac2_prog(0xDD, ItemClassification.useful),
+    RAC3ITEM.PROGRESSIVE_MINI_TURRET:
+        RAC3ITEMDATA.construct_rac2_prog(0xDF, ItemClassification.useful),
+    RAC3ITEM.PROGRESSIVE_SHIELD_CHARGER:
+        RAC3ITEMDATA.construct_rac2_prog(0xE0, ItemClassification.useful),
+    # Infobots
+    RAC3ITEM.VELDIN: RAC3ITEMDATA.construct_infobot(0xE1, ItemClassification.progression),
+    RAC3ITEM.FLORANA: RAC3ITEMDATA.construct_infobot(0xE2, ItemClassification.progression),
+    RAC3ITEM.STARSHIP_PHOENIX: RAC3ITEMDATA.construct_infobot(0xE3, ItemClassification.progression),
+    RAC3ITEM.MARCADIA: RAC3ITEMDATA.construct_infobot(0xE4, ItemClassification.progression),
+    RAC3ITEM.ANNIHILATION_NATION: RAC3ITEMDATA.construct_infobot(0xE5, ItemClassification.progression),
+    RAC3ITEM.AQUATOS: RAC3ITEMDATA.construct_infobot(0xE6, ItemClassification.progression),
+    RAC3ITEM.TYHRRANOSIS: RAC3ITEMDATA.construct_infobot(0xE7, ItemClassification.progression),
+    RAC3ITEM.DAXX: RAC3ITEMDATA.construct_infobot(0xE8, ItemClassification.progression),
+    RAC3ITEM.OBANI_GEMINI: RAC3ITEMDATA.construct_infobot(0xE9, ItemClassification.progression),
+    RAC3ITEM.BLACKWATER_CITY: RAC3ITEMDATA.construct_infobot(0xEA, ItemClassification.progression),
+    RAC3ITEM.HOLOSTAR_STUDIOS: RAC3ITEMDATA.construct_infobot(0xEB, ItemClassification.progression),
+    RAC3ITEM.OBANI_DRACO: RAC3ITEMDATA.construct_infobot(0xEC, ItemClassification.progression),
+    RAC3ITEM.ZELDRIN_STARPORT: RAC3ITEMDATA.construct_infobot(0xED, ItemClassification.progression),
+    RAC3ITEM.METROPOLIS: RAC3ITEMDATA.construct_infobot(0xEE, ItemClassification.progression),
+    RAC3ITEM.CRASH_SITE: RAC3ITEMDATA.construct_infobot(0xEF, ItemClassification.progression),
+    RAC3ITEM.ARIDIA: RAC3ITEMDATA.construct_infobot(0xF0, ItemClassification.progression),
+    RAC3ITEM.QWARKS_HIDEOUT: RAC3ITEMDATA.construct_infobot(0xF1, ItemClassification.progression),
+    RAC3ITEM.KOROS: RAC3ITEMDATA.construct_infobot(0xF2, ItemClassification.progression),
+    RAC3ITEM.COMMAND_CENTER: RAC3ITEMDATA.construct_infobot(0xF3, ItemClassification.progression),
+    RAC3ITEM.MUSEUM: RAC3ITEMDATA.construct_infobot(0xF4, ItemClassification.progression),
+    # Armor
+    RAC3ITEM.PROGRESSIVE_ARMOR: RAC3ITEMDATA.construct_armor(0xF5, ItemClassification.progression, 0),
+    RAC3ITEM.MAGNAPLATE: RAC3ITEMDATA.construct_armor(0xF6, ItemClassification.progression, 10),
+    RAC3ITEM.ADAMANTINE: RAC3ITEMDATA.construct_armor(0xF7, ItemClassification.progression, 15),
+    RAC3ITEM.AEGIS: RAC3ITEMDATA.construct_armor(0xF8, ItemClassification.progression, 20),
+    RAC3ITEM.INFERNOX: RAC3ITEMDATA.construct_armor(0xF9, ItemClassification.progression, 24),
+    # VidComics
+    RAC3ITEM.PROGRESSIVE_VIDCOMIC: RAC3ITEMDATA.construct_vidcomic(0xFA),
+    RAC3ITEM.VIDCOMIC1: RAC3ITEMDATA.construct_vidcomic(0xFB),
+    RAC3ITEM.VIDCOMIC2: RAC3ITEMDATA.construct_vidcomic(0xFC),
+    RAC3ITEM.VIDCOMIC3: RAC3ITEMDATA.construct_vidcomic(0xFD),
+    RAC3ITEM.VIDCOMIC4: RAC3ITEMDATA.construct_vidcomic(0xFE),
+    RAC3ITEM.VIDCOMIC5: RAC3ITEMDATA.construct_vidcomic(0xFF),
+
+    # Filler
+    RAC3ITEM.TITANIUM_BOLT: RAC3ITEMDATA.construct_other(0x100),
+    RAC3ITEM.WEAPON_XP: RAC3ITEMDATA.construct_other(0x101),
+    RAC3ITEM.PLAYER_XP: RAC3ITEMDATA.construct_other(0x102),
+    RAC3ITEM.BOLTS: RAC3ITEMDATA.construct_other(0x103, RAC3STATUS.BOLTS),
+    RAC3ITEM.INFERNO_MODE: RAC3ITEMDATA.construct_other(0x104),
+    RAC3ITEM.JACKPOT: RAC3ITEMDATA.construct_other(0x105),
+
+    # Goal
+    RAC3ITEM.VICTORY: RAC3ITEMDATA.construct_goal(0x106),
+}
+RAC3_STATUS_DATA_TABLE: dict[str, RAC3STATUSDATA] = {
+    # Quick Select
+    RAC3ITEM.QUICK_SELECT_0: RAC3STATUSDATA(0x0),
+    RAC3ITEM.QUICK_SELECT_1: RAC3STATUSDATA(0x1),
+    RAC3ITEM.QUICK_SELECT_2: RAC3STATUSDATA(0x2),
+    RAC3ITEM.QUICK_SELECT_3: RAC3STATUSDATA(0x3),
+    RAC3ITEM.QUICK_SELECT_4: RAC3STATUSDATA(0x4),
+    RAC3ITEM.QUICK_SELECT_5: RAC3STATUSDATA(0x5),
+    RAC3ITEM.QUICK_SELECT_6: RAC3STATUSDATA(0x6),
+    RAC3ITEM.QUICK_SELECT_7: RAC3STATUSDATA(0x7),
+    RAC3ITEM.QUICK_SELECT_8: RAC3STATUSDATA(0x8),
+    RAC3ITEM.QUICK_SELECT_9: RAC3STATUSDATA(0x9),
+    RAC3ITEM.QUICK_SELECT_A: RAC3STATUSDATA(0xA),
+    RAC3ITEM.QUICK_SELECT_B: RAC3STATUSDATA(0xB),
+    RAC3ITEM.QUICK_SELECT_C: RAC3STATUSDATA(0xC),
+    RAC3ITEM.QUICK_SELECT_D: RAC3STATUSDATA(0xD),
+    RAC3ITEM.QUICK_SELECT_E: RAC3STATUSDATA(0xE),
+    RAC3ITEM.QUICK_SELECT_F: RAC3STATUSDATA(0xF),
+}
+RAC3_REGION_DATA_TABLE: dict[str, RAC3REGIONDATA] = {
+    # Regions
+    RAC3REGION.VELDIN: RAC3REGIONDATA(0x01),
+    RAC3REGION.FLORANA: RAC3REGIONDATA(0x02),
+    RAC3REGION.STARSHIP_PHOENIX: RAC3REGIONDATA(0x03),
+    RAC3REGION.MARCADIA: RAC3REGIONDATA(0x04),
+    RAC3REGION.DAXX: RAC3REGIONDATA(0x05),
+    RAC3REGION.ANNIHILATION_NATION: RAC3REGIONDATA(0x07),
+    RAC3REGION.AQUATOS: RAC3REGIONDATA(0x08),
+    RAC3REGION.TYHRRANOSIS: RAC3REGIONDATA(0x09),
+    RAC3REGION.ZELDRIN_STARPORT: RAC3REGIONDATA(0x0A),
+    RAC3REGION.OBANI_GEMINI: RAC3REGIONDATA(0x0B),
+    RAC3REGION.BLACKWATER_CITY: RAC3REGIONDATA(0x0C),
+    RAC3REGION.HOLOSTAR_STUDIOS: RAC3REGIONDATA(0x0D),
+    RAC3REGION.KOROS: RAC3REGIONDATA(0x0E),
+    RAC3REGION.METROPOLIS: RAC3REGIONDATA(0x10),
+    RAC3REGION.CRASH_SITE: RAC3REGIONDATA(0x11),
+    RAC3REGION.ARIDIA: RAC3REGIONDATA(0x12),
+    RAC3REGION.QWARKS_HIDEOUT: RAC3REGIONDATA(0x13),
+    RAC3REGION.OBANI_DRACO: RAC3REGIONDATA(0x15),
+    RAC3REGION.COMMAND_CENTER: RAC3REGIONDATA(0x16),
+    RAC3REGION.MUSEUM: RAC3REGIONDATA(0x18),
+    RAC3REGION.GALAXY: RAC3REGIONDATA(0x00),
+    RAC3REGION.PHOENIX_ASSAULT: RAC3REGIONDATA(0x06),
+    RAC3REGION.UNUSED: RAC3REGIONDATA(0x0F),
+    RAC3REGION.COMMAND_CENTER_2: RAC3REGIONDATA(0x14),
+    RAC3REGION.HOLOSTAR_STUDIOS_CLANK: RAC3REGIONDATA(0x17),
+    RAC3REGION.UNUSED_2: RAC3REGIONDATA(0x19),
+    RAC3REGION.METROPOLIS_MISSION: RAC3REGIONDATA(0x1A),
+    RAC3REGION.AQUATOS_BASE: RAC3REGIONDATA(0x1B),
+    RAC3REGION.AQUATOS_SEWERS: RAC3REGIONDATA(0x1C),
+    RAC3REGION.TYHRRANOSIS_MISSION: RAC3REGIONDATA(0x1D),
+    RAC3REGION.QWARK_VID_COMIC_UNUSED_1: RAC3REGIONDATA(0x1E),
+    RAC3REGION.QWARK_VID_COMIC_1: RAC3REGIONDATA(0x1F),
+    RAC3REGION.QWARK_VID_COMIC_4: RAC3REGIONDATA(0x20),
+    RAC3REGION.QWARK_VID_COMIC_2: RAC3REGIONDATA(0x21),
+    RAC3REGION.QWARK_VID_COMIC_3: RAC3REGIONDATA(0x22),
+    RAC3REGION.QWARK_VID_COMIC_5: RAC3REGIONDATA(0x23),
+    RAC3REGION.QWARK_VID_COMIC_UNUSED_2: RAC3REGIONDATA(0x24),
+    RAC3REGION.SLOT_0: RAC3REGIONDATA(slot=0x00),
+    RAC3REGION.SLOT_1: RAC3REGIONDATA(slot=0x01),
+    RAC3REGION.SLOT_2: RAC3REGIONDATA(slot=0x02),
+    RAC3REGION.SLOT_3: RAC3REGIONDATA(slot=0x03),
+    RAC3REGION.SLOT_4: RAC3REGIONDATA(slot=0x04),
+    RAC3REGION.SLOT_5: RAC3REGIONDATA(slot=0x05),
+    RAC3REGION.SLOT_6: RAC3REGIONDATA(slot=0x06),
+    RAC3REGION.SLOT_7: RAC3REGIONDATA(slot=0x07),
+    RAC3REGION.SLOT_8: RAC3REGIONDATA(slot=0x08),
+    RAC3REGION.SLOT_9: RAC3REGIONDATA(slot=0x09),
+    RAC3REGION.SLOT_A: RAC3REGIONDATA(slot=0x0A),
+    RAC3REGION.SLOT_B: RAC3REGIONDATA(slot=0x0B),
+    RAC3REGION.SLOT_C: RAC3REGIONDATA(slot=0x0C),
+    RAC3REGION.SLOT_D: RAC3REGIONDATA(slot=0x0D),
+    RAC3REGION.SLOT_E: RAC3REGIONDATA(slot=0x0E),
+    RAC3REGION.SLOT_F: RAC3REGIONDATA(slot=0x0F),
+    RAC3REGION.SLOT_10: RAC3REGIONDATA(slot=0x10),
+    RAC3REGION.SLOT_11: RAC3REGIONDATA(slot=0x11),
+    RAC3REGION.SLOT_12: RAC3REGIONDATA(slot=0x12),
+    RAC3REGION.SLOT_13: RAC3REGIONDATA(slot=0x13),
+}
+
+
+@dataclass
+class RAC3LOCATIONDATA:
+    ID: int = 0
+    REGION: RAC3REGION = RAC3REGION.GALAXY
+    CHECK_ADDRESS: set[tuple[int, CHECKTYPE, int]] = None
+    AP_CODE: int = None
+    TAGS: set[str] = None
+    LOCAL_TRACKER: str = None
+    GALAXY_TRACKER: str = None
+
+    def __init__(self,
+                 idx: int,
+                 region: RAC3REGION = RAC3REGION.GALAXY,
+                 check: set[tuple[int, CHECKTYPE, int]] = (),
+                 tags: set[str] = None,
+                 tracker: str = None):
+        self.ID = idx
+        self.REGION = region
+        self.CHECK_ADDRESS = check
+        self.AP_CODE = idx + 50000000
+        self.TAGS = tags
+        self.LOCAL_TRACKER = tracker
+
+
+RAC3_LOCATION_DATA_TABLE: dict[str, RAC3LOCATIONDATA] = {
+
+}
+
+ITEM_FROM_AP_CODE: dict[int, str] = dict(
+    (kv[1].AP_CODE, kv[0]) for kv in
+    filter(lambda data_kv: data_kv[1].AP_CODE is not None, RAC3_ITEM_DATA_TABLE.items()))
+
+ITEM_NAME_FROM_ID: dict[int, str] = dict(
+    (kv[1].ID, kv[0]) for kv in filter(lambda data_kv: data_kv[1].ID is not None, RAC3_ITEM_DATA_TABLE.items()))
 
 ALL_ITEMS_LIST: list[str] = list(ITEM_FROM_AP_CODE.values())
 
@@ -3529,7 +3556,7 @@ LOCATIONS = [
     # Todo: NG+ Long term trophies
     # Nano Finder trophy 0x0014279b
     # Omega Arsenal trophy 0x0014279e
-    # Todo: Nanotech levels
+
     {
         "Name": "Nanotech Levels 11-15/Nanotech Milestone: 11",
         "Id": 50250011,

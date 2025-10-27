@@ -1,31 +1,12 @@
 from BaseClasses import Region
 from typing import TYPE_CHECKING
 
-from Rac3Addresses import RAC3ITEM, RAC3REGION
+from Rac3Addresses import RAC3ITEM, RAC3REGION, SIMPLE_SKILL_POINTS
 from .Types import GameLocation
 from .Locations import location_table
 
 if TYPE_CHECKING:
     from . import RaC3World
-
-# TODO: move to constants file once Myth is done with that
-SIMPLE_SKILL_POINTS = [
-    "Stay squeaky clean",
-    "Beat Helga's Best VR Time",
-    "Reflect on how to score",
-    "Flee Flawlessly",
-    "Lights, camera action!",
-    "Search for sunken treasure",
-    "Be a sharpshooter",
-    "Bugs to Birdie",
-    "Get to the belt",
-    "Feeling Lucky?",
-    "2002 was a good year in the city",
-    "Aim High",
-    "Go for hang time",
-    "You break it, you win it",
-    "Break the Dan"
-]
 
 # Making an array with every 5 nanotech
 every_5_nanotech = [f"Nanotech Milestone: {x}" for x in range(15, 101, 5)]
@@ -39,8 +20,8 @@ every_20_nanotech = [f"Nanotech Milestone: {x}" for x in range(20, 101, 20)]
 
 def create_regions(world: "RaC3World"):
     # ----- Introduction Sequence -----#
-    menu = create_region(world, "Menu")
-    veldin = create_region_and_connect(world, RAC3REGION.VELDIN, f"Menu -> {RAC3REGION.VELDIN}", menu)
+    menu = create_region(world, RAC3REGION.MENU)
+    veldin = create_region_and_connect(world, RAC3REGION.VELDIN, f"{RAC3REGION.MENU} -> {RAC3REGION.VELDIN}", menu)
     florana = create_region(world, RAC3REGION.FLORANA)
     veldin.connect(florana, f"{RAC3REGION.VELDIN} -> {RAC3REGION.FLORANA}",
                    rule=lambda state: state.has(RAC3ITEM.FLORANA, world.player))
@@ -88,7 +69,7 @@ def create_regions(world: "RaC3World"):
     # ----- Split planet connections for gadget reasons -----#
 
     # Annihilation mission is shown after Daxx Region2
-    annihilation_nation_second_half = create_region(world, "Annihilation Nation 2")
+    annihilation_nation_second_half = create_region(world, RAC3REGION.ANNIHILATION_NATION_2)
     annihilation_nation.connect(annihilation_nation_second_half,
                                 rule=lambda state: state.can_reach_location("Daxx: Gunship", player=world.player)),
 
@@ -97,9 +78,11 @@ def create_regions(world: "RaC3World"):
                         rule=lambda state: state.can_reach(RAC3REGION.TYHRRANOSIS, player=world.player)),
 
     # This cutscene requires beating Holostar and Blackwater in any order:
-    skidd_cutscene = create_region(world, "Skidd Cutscene")
-    holostar_studios.connect(skidd_cutscene, rule=lambda state: state.can_reach(RAC3REGION.BLACKWATER_CITY, player=world.player))
-    blackwater_city.connect(skidd_cutscene, rule=lambda state: state.can_reach(RAC3REGION.HOLOSTAR_STUDIOS, player=world.player))
+    skidd_cutscene = create_region(world, RAC3REGION.SKIDD_CUTSCENE)
+    holostar_studios.connect(skidd_cutscene,
+                             rule=lambda state: state.can_reach(RAC3REGION.BLACKWATER_CITY, player=world.player))
+    blackwater_city.connect(skidd_cutscene,
+                            rule=lambda state: state.can_reach(RAC3REGION.HOLOSTAR_STUDIOS, player=world.player))
 
     # You can get Metal-Noids in metropolis with no other requirements
     metropolis_second_half = create_region(world, RAC3REGION.METROPOLIS_MISSION)
@@ -174,8 +157,9 @@ def create_regions(world: "RaC3World"):
 
     # ----- Long Term Trophy Dummy Regions ----- #
     if world.options.trophies.value == 2:
-        long_term_trophy = create_region(world, "Long Term Trophy")
-        menu.connect(long_term_trophy, rule=lambda state: state.can_reach(RAC3REGION.STARSHIP_PHOENIX, player=world.player))
+        long_term_trophy = create_region(world, RAC3REGION.LONG_TROPHIES)
+        menu.connect(long_term_trophy,
+                     rule=lambda state: state.can_reach(RAC3REGION.STARSHIP_PHOENIX, player=world.player))
 
 
 def create_region(world: "RaC3World", name: str) -> Region:

@@ -1,5 +1,6 @@
 from typing import Any, TYPE_CHECKING
-from .Rac3Addresses import LOCATIONS, RAC3_ITEM_DATA_TABLE, RAC3OPTION
+
+from .Rac3Addresses import LOCATIONS, RAC3_REGION_DATA_TABLE, RAC3OPTION
 
 if TYPE_CHECKING:
     from . import RaC3World
@@ -26,10 +27,10 @@ def setup_options_from_slot_data(world: "RaC3World") -> None:
 
 
 def map_page_index(data: Any) -> int:
-    return RAC3_ITEM_DATA_TABLE[data].ID
+    return RAC3_REGION_DATA_TABLE[data].ID
 
 
-def poptracker_data() -> dict[str, int]:
+def tracker_data() -> dict[str, int]:
     return {loc["Name"]: loc["Id"] for loc in LOCATIONS}
 
 
@@ -38,5 +39,5 @@ tracker_world = {
     "map_page_locations": "locations/locations.json",
     "map_page_setting_key": r'rac3_current_planet_{player}_{team}',
     "map_page_index": map_page_index,
-    "poptracker_name_mapping": poptracker_data()
+    "poptracker_name_mapping": tracker_data()
 }
