@@ -289,12 +289,25 @@ jobs:
           new_tag="v${{ steps.semver.outputs.version }}"
           short_sha=$(git rev-parse --short HEAD)
 
-          # Find previous release tag (one before the new tag)
-          prev_tag=$(git tag --sort=-v:refname | head -n 2 | tail -n 1 || true)
-          if [[ -z "$prev_tag" || "$prev_tag" == "$new_tag" ]]; then
-            echo "⚠️ No previous release tag found — will show recent commits."
-            prev_tag=""
+          git fetch --tags
+
+          echo "🔍 Determining previous tag for changelog..."
+
+          if [[ "$branch" == "main" ]]; then
+            # 🧱 Stable release: only compare to last stable
+            prev_tag=$(git tag --sort=-v:refname | grep -v -- '-pre' | head -n 2 | tail -n 1 || true)
+          else
+            # 🧪 Pre-release: try to find previous pre-release first
+            prev_tag=$(git tag --sort=-v:refname | grep -- '-pre' | head -n 2 | tail -n 1 || true)
+
+            # If no previous pre-release exists, fall back to last stable release
+            if [[ -z "$prev_tag" ]]; then
+              prev_tag=$(git tag --sort=-v:refname | grep -v -- '-pre' | head -n 1 || true)
+            fi
           fi
+
+          echo "Previous tag: ${prev_tag:-<none>}"
+          echo "Current tag:  ${new_tag}"
 
           # Build changelog link
           if [[ -n "$prev_tag" ]]; then
