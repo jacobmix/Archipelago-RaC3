@@ -293,28 +293,23 @@ jobs:
 
           echo "🔍 Determining previous tag for changelog..."
 
+          # Find the most recent relevant tag depending on branch type
           if [[ "$branch" == "main" ]]; then
-            # 🧱 Stable release: only compare to last stable
-            prev_tag=$(git tag --sort=-v:refname | grep -v -- '-pre' | head -n 2 | tail -n 1 || true)
+            prev_tag=$(git tag --sort=-v:refname | grep -v -- '-pre' | head -n 1 || true)
           else
-            # 🧪 Pre-release: try to find previous pre-release first
-            prev_tag=$(git tag --sort=-v:refname | grep -- '-pre' | head -n 2 | tail -n 1 || true)
-
-            # If no previous pre-release exists, fall back to last stable release
-            if [[ -z "$prev_tag" ]]; then
-              prev_tag=$(git tag --sort=-v:refname | grep -v -- '-pre' | head -n 1 || true)
-            fi
+            prev_tag=$(git tag --sort=-v:refname | grep -- '-pre' | head -n 1 || true)
+          fi
+          
+          # Fallback: if none found, show full commit history
+          if [[ -z "$prev_tag" ]]; then
+            echo "⚠️ No previous ${branch} release tag found — showing full history."
+            changelog="${repo_url}/commits/${branch}"
+          else
+            changelog="${repo_url}/compare/${prev_tag}...${new_tag}"
           fi
 
           echo "Previous tag: ${prev_tag:-<none>}"
           echo "Current tag:  ${new_tag}"
-
-          # Build changelog link
-          if [[ -n "$prev_tag" ]]; then
-            changelog="${repo_url}/compare/${prev_tag}...${new_tag}"
-          else
-            changelog="${repo_url}/commits/${branch}"
-          fi
 
           echo "🔍 Using changelog link: $changelog"
 
